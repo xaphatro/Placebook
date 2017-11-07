@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">FirebaseAuthentication</string>
+    <string name="title_activity_list_of_items_view">ListOfItemsView</string>
+</resources>
