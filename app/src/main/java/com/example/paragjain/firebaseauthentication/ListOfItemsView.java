@@ -1,5 +1,6 @@
 package com.example.paragjain.firebaseauthentication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -25,7 +26,6 @@ import java.util.ArrayList;
 
 public class ListOfItemsView extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity";
     private TaskHelper mHelper;
     private ListView mTaskListView;
     private ArrayAdapter<String> mAdapter;
@@ -56,7 +56,7 @@ public class ListOfItemsView extends AppCompatActivity {
                         .setTitle("New Task")
                         .setMessage("Add a new task")
                         .setView(taskEditText)
-                        .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogue, int which) {
                                 String task = String.valueOf(taskEditText.getText());
@@ -66,6 +66,14 @@ public class ListOfItemsView extends AppCompatActivity {
                                 db.insertWithOnConflict(Task.TaskEntry.TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
                                 db.close();
                                 updateUI();
+                            }
+                        })
+                        .setNeutralButton("Add Location", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(getBaseContext(), GeoFenceActivity.class);
+                                startActivity(intent);
+                                finish();
                             }
                         })
                         .setNegativeButton("Cancel", null)
