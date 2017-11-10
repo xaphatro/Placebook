@@ -22,6 +22,5 @@ public class ListOfListsView extends Activity {
     public void goToItems(View v) {
         Intent intent = new Intent(this, ListOfItemsView.class);
         startActivity(intent);
-        finish();
     }
 }

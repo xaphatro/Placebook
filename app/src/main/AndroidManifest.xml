@@ -22,17 +22,29 @@
             android:value="AIzaSyCJbUB4z7F4s1w0b-FJYi6WDx46Rhpw2pM">
         </meta-data>
 
-        <activity android:name=".LoginView">
+        <activity
+            android:name=".LoginView"
+            android:label="Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignUpView" />
-        <activity android:name=".ListOfListsView" />
-        <activity android:name=".ListOfItemsView" />
-        <activity android:name=".GeoFenceActivity" />
+        <activity
+            android:name=".SignUpView"
+            android:label="Sign Up"/>
+        <activity
+            android:name=".ListOfListsView"
+            android:label="Your Lists"/>
+        <activity
+            android:name=".ListOfItemsView"
+            android:label="List Items"
+            android:parentActivityName=".ListOfListsView"/>
+        <activity
+            android:name=".GeofenceActivity"
+            android:label="Select Location"
+            android:parentActivityName=".ListOfItemsView"/>
         <service android:name=".GeofenceTransitionsIntentService"></service>
     </application>
 
