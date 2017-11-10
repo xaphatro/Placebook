@@ -121,7 +121,10 @@ public class GeoFenceActivity extends AppCompatActivity implements OnCompleteLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.main_activity);
+
+
+        setContentView(R.layout.activity_geo_fence);
+
 
         // Get the UI widgets.
         //mAddGeofencesButton = (Button) findViewById(R.id.add_geofences_button);
@@ -130,8 +133,12 @@ public class GeoFenceActivity extends AppCompatActivity implements OnCompleteLis
         // Empty list for storing geofences.
         mGeofenceList = new ArrayList<>();
 
+
         // Initially set the PendingIntent used in addGeofences() and removeGeofences() to null.
         mGeofencePendingIntent = null;
+
+
+
 
         //setButtonsEnabledState();
 
@@ -140,7 +147,14 @@ public class GeoFenceActivity extends AppCompatActivity implements OnCompleteLis
 
         //geoField = (EditText) findViewById(R.id.add_geofence_field);
 
+
+
         mGeofencingClient = LocationServices.getGeofencingClient(this);
+        getPlace();
+    }
+
+    public void getPlace() {
+        Log.w("in get place", "");
         int PLACE_PICKER_REQUEST = 1;
         PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
 
@@ -148,25 +162,16 @@ public class GeoFenceActivity extends AppCompatActivity implements OnCompleteLis
             startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
             //Place place = PlacePicker.getPlace();
         } catch (GooglePlayServicesRepairableException e) {
+            Log.w("GPSRExcepion", "e");
             e.printStackTrace();
         } catch (GooglePlayServicesNotAvailableException e) {
+            Log.w("GPSNExcepion", "e");
+            e.printStackTrace();
+        } catch (Exception e){
+            Log.w("Excepion", "e");
             e.printStackTrace();
         }
     }
-    /*
-    public void getPlace(View view) {
-        int PLACE_PICKER_REQUEST = 1;
-        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-
-        try {
-            startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
-            //Place place = PlacePicker.getPlace();
-        } catch (GooglePlayServicesRepairableException e) {
-            e.printStackTrace();
-        } catch (GooglePlayServicesNotAvailableException e) {
-            e.printStackTrace();
-        }
-    }*/
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         int PLACE_PICKER_REQUEST = 1;
@@ -327,7 +332,7 @@ public class GeoFenceActivity extends AppCompatActivity implements OnCompleteLis
         mPendingGeofenceTask = PendingGeofenceTask.NONE;
         if (task.isSuccessful()) {
             updateGeofencesAdded(!getGeofencesAdded());
-            setButtonsEnabledState();
+            //setButtonsEnabledState();
 
             int messageId = getGeofencesAdded() ? R.string.geofences_added :
                     R.string.geofences_removed;

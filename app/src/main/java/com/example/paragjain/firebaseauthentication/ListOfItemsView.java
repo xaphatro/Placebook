@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.content.ContentValues;
 import android.content.DialogInterface;
@@ -51,7 +53,9 @@ public class ListOfItemsView extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.action_add_task:
+                Log.w("before get place -2", "");
                 final EditText taskEditText = new EditText(this);
+                taskEditText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
                 AlertDialog dialog = new AlertDialog.Builder(this)
                         .setTitle("New Task")
                         .setMessage("Add a new task")
@@ -71,6 +75,7 @@ public class ListOfItemsView extends AppCompatActivity {
                         .setNeutralButton("Add Location", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                Log.w("before get place -1", "");
                                 Intent intent = new Intent(getBaseContext(), GeoFenceActivity.class);
                                 startActivity(intent);
                                 finish();

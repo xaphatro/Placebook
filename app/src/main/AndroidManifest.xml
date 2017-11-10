@@ -16,6 +16,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCJbUB4z7F4s1w0b-FJYi6WDx46Rhpw2pM">
+        </meta-data>
+
         <activity android:name=".LoginView">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,6 +33,7 @@
         <activity android:name=".ListOfListsView" />
         <activity android:name=".ListOfItemsView" />
         <activity android:name=".GeoFenceActivity" />
+        <service android:name=".GeofenceTransitionsIntentService"></service>
     </application>
 
 </manifest>
