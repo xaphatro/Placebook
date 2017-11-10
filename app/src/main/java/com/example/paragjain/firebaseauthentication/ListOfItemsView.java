@@ -123,6 +123,8 @@ public class ListOfItemsView extends AppCompatActivity {
                         db.close();
 
                         updateUI();
+                        GeofenceActivity g = new GeofenceActivity();
+                        g.addFence();
                     }
                 })
                 .setNeutralButton("Add Location", new DialogInterface.OnClickListener() {

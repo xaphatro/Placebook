@@ -146,6 +146,33 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
         }
     }
 
+    public Geofence createGeofence(double latitude , double longitude, String placeName){
+        Geofence geo = new Geofence.Builder()
+                // Set the request ID of the geofence. This is a string to identify this
+                // geofence.
+                .setRequestId((String) placeName)
+                // Set the circular region of this geofence.
+                .setCircularRegion(
+                        latitude,
+                        longitude,
+                        Constants.GEOFENCE_RADIUS_IN_METERS
+                )
+                // Set the expiration duration of the geofence. This geofence gets automatically
+                // removed after this period of time.
+                .setExpirationDuration(Constants.GEOFENCE_EXPIRATION_IN_MILLISECONDS)
+                // Set the transition types of interest. Alerts are only generated for these
+                // transition. We track entry and exit transitions in this sample.
+                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
+                        Geofence.GEOFENCE_TRANSITION_EXIT)
+                // Create the geofence.
+                .build();
+        return geo;
+    }
+
+    public void addFence(Geofence g){
+        addGeofence(g);
+    }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         int PLACE_PICKER_REQUEST = 1;
         if (requestCode == PLACE_PICKER_REQUEST) {
@@ -153,27 +180,10 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
                 Place place = PlacePicker.getPlace(data, this);
                 String toastMsg = String.format("Place: %s %s", place.getName(), place.getLatLng());
                 Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
-                Geofence geo = new Geofence.Builder()
-                        // Set the request ID of the geofence. This is a string to identify this
-                        // geofence.
-                        .setRequestId((String) place.getName())
-                        // Set the circular region of this geofence.
-                        .setCircularRegion(
-                                place.getLatLng().latitude,
-                                place.getLatLng().longitude,
-                                Constants.GEOFENCE_RADIUS_IN_METERS
-                        )
-                        // Set the expiration duration of the geofence. This geofence gets automatically
-                        // removed after this period of time.
-                        .setExpirationDuration(Constants.GEOFENCE_EXPIRATION_IN_MILLISECONDS)
-                        // Set the transition types of interest. Alerts are only generated for these
-                        // transition. We track entry and exit transitions in this sample.
-                        .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
-                                Geofence.GEOFENCE_TRANSITION_EXIT)
-                        // Create the geofence.
-                        .build();
+                geo = createGeofence(place.getLatLng().latitude, place.getLatLng().longitude, (String) place.getName());
 
-                addGeofence(geo);
+
+                //addGeofence(geo);
                 /*
                 Intent returnGeofenceIntent = new Intent();
                 returnGeofenceIntent.putExtra("placeName", place.getName());
