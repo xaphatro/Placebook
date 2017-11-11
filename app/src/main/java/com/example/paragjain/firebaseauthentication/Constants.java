@@ -68,5 +68,9 @@ final class Constants {
     }
 
     public static String GEOFENCE_WRAPPER_STORE = "gwapper.ser";
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 }
 

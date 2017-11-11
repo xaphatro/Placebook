@@ -61,7 +61,8 @@ public class ListOfItemsView extends AppCompatActivity {
         context = this;
         mHelper = new TaskHelper(this);
         mTaskListView = (ListView) findViewById(R.id.list_todo);
-
+        String x= UserInfo.USER_EMAIL;
+        int y = 1;
         updateUI();
     }
 

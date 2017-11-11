@@ -1,12 +1,17 @@
 package com.example.paragjain.firebaseauthentication;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -22,18 +27,20 @@ public class SignUpView extends Activity {
     private EditText phoneNumber;
     private EditText password;
     private Button signUp;
-    private DbHelper db;
+    private StaticDatabaseHelper db;
+    private Session session;
+
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_view);
-
+        /*
         db = new DbHelper(this);
         name = (EditText) findViewById(R.id.etName);
         email = (EditText) findViewById(R.id.etEmail);
         phoneNumber = (EditText) findViewById(R.id.etPhone);
         password = (EditText) findViewById(R.id.etPassword);
-        signUp = (Button) findViewById(R.id.bSignUp);
+        signUp = (Button) findViewById(R.id.bSignUp);*/
     }
 
     public void signUp(View v){
@@ -47,8 +54,7 @@ public class SignUpView extends Activity {
         if(emailContent.isEmpty() && nameContent.isEmpty() && phoneNumberContent.isEmpty() && passwordContent.isEmpty()){
             Toast.makeText(SignUpView.this, "All fields must be filled. Field empty", Toast.LENGTH_SHORT).show();
         }
-        else
-        {
+        else {
             HashMap<String, String> arguments = new HashMap<>();
             arguments.put("name", nameContent);
             arguments.put("email", emailContent);
@@ -59,95 +65,40 @@ public class SignUpView extends Activity {
             queryapi q = new queryapi(arguments);
             q.execute();
 
-            /*
-            boolean added = db.addUser(emailContent, nameContent, passwordContent, phoneNumberContent);
-            if(added){
-                Toast.makeText(SignUp.this, "User registered", Toast.LENGTH_SHORT).show();
-            }
-            else{
-                Toast.makeText(SignUp.this, "User already exists", Toast.LENGTH_SHORT).show();
-            }
-            Intent intent = new Intent(SignUp.this, login.class);
-            finish();
-            startActivity(intent);
-            */
+            try
+            {
+                String res= q.execute().get();
+                Log.w("check: ","val:"+res);
 
-            /*
-            class sendQueryTask extends AsyncTask<URL, Integer, String> {
-                // Do the long-running work in here
-                protected String doInBackground(URL... urls) {
-
-                    String urlString = "http://locationreminder.azurewebsites.net/signup";
-                    String email = emailContent;//"kjasndkjsndkjasndkjasndllknnd";
-                    String  name  = nameContent;//"something";
-                    String phoneno = phoneNumberContent;//"9739862022";
-                    String password = passwordContent;//"something";
-                    //String secret = "dnjsak";
-
-                    URL url = null;
-                    InputStream stream = null;
-                    HttpURLConnection urlConnection = null;
-                    try {
-                        url = new URL(urlString);
-                        urlConnection = (HttpURLConnection) url.openConnection();
-                        urlConnection.setRequestMethod("POST");
-                        urlConnection.setDoOutput(true);
-
-                        String data = URLEncoder.encode("email", "UTF-8")
-                                + "=" + URLEncoder.encode(email, "UTF-8");
-
-                        data += "&" + URLEncoder.encode("name", "UTF-8") + "="
-                                + URLEncoder.encode(name, "UTF-8");
-                        data += "&" + URLEncoder.encode("phoneno", "UTF-8") + "="
-                                + URLEncoder.encode(phoneno, "UTF-8");
-                        data += "&" + URLEncoder.encode("password", "UTF-8") + "="
-                                + URLEncoder.encode(password, "UTF-8");
-                        data += "&" + URLEncoder.encode("secret", "UTF-8") + "="
-                                + URLEncoder.encode(secret, "UTF-8");
-
-                        urlConnection.connect();
-
-                        OutputStreamWriter wr = new OutputStreamWriter(urlConnection.getOutputStream());
-                        wr.write(data);
-                        wr.flush();
-
-                        stream = urlConnection.getInputStream();
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(stream, "UTF-8"), 8);
-                        String result = reader.readLine();
-
-                        return result;
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } finally {
-                        if (urlConnection != null) {
-                            urlConnection.disconnect();
-                        }
+                JSONObject resultJSON = new JSONObject(res);
+                int status = resultJSON.getInt("status");
+                Log.w("status code result : ","val:"+ status);
+                if(status==200)//if(db.getUser(getEmail, getPassword))
+                {
+                    //session.setLoggedIn(true);
+                    Intent it = new Intent(SignUpView.this, ListOfListsView.class);
+                    //UserInfo.USER_EMAIL = emailContent;
+                    if (db.getEmail() == null) {
+                        db.addEmail(emailContent);
                     }
-
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                        Log.i("Result", "SLEEP ERROR");
-                    }
-                    return null;
+                    startActivity(it);
+                    finish();
                 }
-
-                // This is called each time you call publishProgress()
-       //*protected void onProgressUpdate(Integer... progress) {
-           setProgressPercent(progress[0]);
-       //}//
-
-                // This is called when doInBackground() is finished
-                protected void onPostExecute(String result) {
-                    //Toast.makeText(this,result,Toast.LENGTH_SHORT).show();
-                    Log.w("query msg rc:",result);
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Wrong email/password", Toast.LENGTH_SHORT).show();
                 }
             }
-
-            */
-            //new sendQueryTask().execute();
+            catch(JSONException e)
+            {
+                Log.w("catch block: ","");
+                e.printStackTrace();
+            }
+            catch(Exception e)
+            {
+                Log.w("catch exception block: ","");
+                e.printStackTrace();
+            }
 
         }
 
@@ -157,7 +108,5 @@ public class SignUpView extends Activity {
         editor.commit();
 
     }
-
-
 
 }

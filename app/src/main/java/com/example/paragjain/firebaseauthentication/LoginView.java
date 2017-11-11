@@ -16,7 +16,7 @@ public class LoginView extends Activity {
     public static final String TAG = LoginView.class.getSimpleName();
     private EditText email, password, name;
     private Button login, signup;
-    private DbHelper db;
+    private StaticDatabaseHelper db = new StaticDatabaseHelper(this);
     private Session session;
 
     @Override
@@ -24,7 +24,7 @@ public class LoginView extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_view);
         Log.d(TAG, "login activity.");
-        session = new Session(this);
+        /*session = new Session(this);
         db = new DbHelper(this);
         email = (EditText) findViewById(R.id.etEmail);
         password = (EditText) findViewById(R.id.etPassword);
@@ -33,6 +33,12 @@ public class LoginView extends Activity {
         signup = (Button) findViewById(R.id.bSignUp);
 
         if(session.loggedin()){
+            Intent intent = new Intent(this, ListOfListsView.class);
+            startActivity(intent);
+            finish();
+        }*/
+
+        if(db.getEmail() != null) {
             Intent intent = new Intent(this, ListOfListsView.class);
             startActivity(intent);
             finish();
@@ -64,9 +70,37 @@ public class LoginView extends Activity {
         arguments.put("secret", secret);
 
         queryapi q = new queryapi(arguments);
+<<<<<<< Updated upstream
         q.execute();
 
         if(1==1)//if(db.getUser(getEmail, getPassword))
+=======
+        try
+        {
+            String res= q.execute().get();
+            Log.w("check: ","val:"+res);
+
+            JSONObject resultJSON = new JSONObject(res);
+            int status = resultJSON.getInt("status");
+            Log.w("status code result : ","val:"+ status);
+            if(status==200)//if(db.getUser(getEmail, getPassword))
+            {
+                //session.setLoggedIn(true);
+                Intent it = new Intent(LoginView.this, ListOfListsView.class);
+                //UserInfo.USER_EMAIL = emailContent;
+                if (db.getEmail() == null) {
+                    db.addEmail(emailContent);
+                }
+                startActivity(it);
+                finish();
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(), "Wrong email/password", Toast.LENGTH_SHORT).show();
+            }
+        }
+        catch(JSONException e)
+>>>>>>> Stashed changes
         {
             session.setLoggedIn(true);
             startActivity(new Intent(LoginView.this, ListOfListsView.class));
