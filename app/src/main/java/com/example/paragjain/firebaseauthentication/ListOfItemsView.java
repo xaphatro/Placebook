@@ -97,6 +97,7 @@ public class ListOfItemsView extends AppCompatActivity {
         }
     }
 
+    /*
     public Geofence createGeofence(double latitude , double longitude, String placeName){
         Geofence geo = new Geofence.Builder()
                 // Set the request ID of the geofence. This is a string to identify this
@@ -119,6 +120,7 @@ public class ListOfItemsView extends AppCompatActivity {
                 .build();
         return geo;
     }
+    */
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -146,7 +148,7 @@ public class ListOfItemsView extends AppCompatActivity {
                 }
                 x=1;
                 */
-                geofence = createGeofence(latitude, longitude, placeName);
+                geofence = GeofenceController.createGeofence(latitude, longitude, placeName);
             }
         }
     }

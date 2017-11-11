@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 public class LoginView extends Activity {
@@ -64,19 +67,39 @@ public class LoginView extends Activity {
         arguments.put("secret", secret);
 
         queryapi q = new queryapi(arguments);
-        q.execute();
+        try
+        {
+            String res= q.execute().get();
+            Log.w("check: ","val:"+res);
 
-        if(1==1)//if(db.getUser(getEmail, getPassword))
-        {
-            session.setLoggedIn(true);
-            startActivity(new Intent(LoginView.this, ListOfListsView.class));
-            finish();
-        }
-        else
-        {
+            JSONObject resultJSON = new JSONObject(res);
+            int status = resultJSON.getInt("status");
+            Log.w("status code result : ","val:"+ status);
+            if(status==200)//if(db.getUser(getEmail, getPassword))
+            {
+                session.setLoggedIn(true);
+                Intent it = new Intent(LoginView.this, ListOfListsView.class);
+
+                startActivity(it);
+
+                finish();
+            }
+            else
+            {
                 Toast.makeText(getApplicationContext(), "Wrong email/password", Toast.LENGTH_SHORT).show();
+            }
         }
-        // SEND QUERY TO THE DATABASE ( CLOUD ) and check if the user already exists or not
+        catch(JSONException e)
+        {
+            Log.w("catch block: ","");
+            e.printStackTrace();
+        }
+        catch(Exception e)
+        {
+            Log.w("catch exception block: ","");
+            e.printStackTrace();
+        }
+
     }
 
 

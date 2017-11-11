@@ -157,6 +157,7 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
         }
     }
 
+    /*
     public Geofence createGeofence(double latitude , double longitude, String placeName){
         Geofence geo = new Geofence.Builder()
                 // Set the request ID of the geofence. This is a string to identify this
@@ -179,7 +180,7 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
                 .build();
         return geo;
     }
-
+    */
     public void addFence(Geofence g){
         addGeofence(g);
     }

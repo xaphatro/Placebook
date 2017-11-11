@@ -28,4 +28,27 @@ import java.io.ObjectOutputStream;
 
 public class GeofenceController {
 
+    public static Geofence createGeofence(double latitude , double longitude, String placeName){
+        Geofence geo = new Geofence.Builder()
+                // Set the request ID of the geofence. This is a string to identify this
+                // geofence.
+                .setRequestId((String) placeName)
+                // Set the circular region of this geofence.
+                .setCircularRegion(
+                        latitude,
+                        longitude,
+                        Constants.GEOFENCE_RADIUS_IN_METERS
+                )
+                // Set the expiration duration of the geofence. This geofence gets automatically
+                // removed after this period of time.
+                .setExpirationDuration(Constants.GEOFENCE_EXPIRATION_IN_MILLISECONDS)
+                // Set the transition types of interest. Alerts are only generated for these
+                // transition. We track entry and exit transitions in this sample.
+                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
+                        Geofence.GEOFENCE_TRANSITION_EXIT)
+                // Create the geofence.
+                .build();
+        return geo;
+    }
+
 }

@@ -68,5 +68,7 @@ final class Constants {
     }
 
     public static String GEOFENCE_WRAPPER_STORE = "gwapper.ser";
+
+    public String email = "";
 }
 
