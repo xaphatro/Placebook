@@ -56,7 +56,7 @@ public class StaticDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean deleteEmail(String email) {
+    public boolean deleteEmail() {
         SQLiteDatabase db = this.getWritableDatabase();
         int err = db.delete("static", "key = \"email\"", null);
         if (err > 0) {

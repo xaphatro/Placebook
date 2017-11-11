@@ -63,7 +63,7 @@ public class SignUpView extends Activity {
             arguments.put("secret", Constants.SERVER_SECRET_KEY);
             arguments.put("url", "http://locationreminder.azurewebsites.net/signup");
             queryapi q = new queryapi(arguments);
-            q.execute();
+            //q.execute();
 
             try
             {

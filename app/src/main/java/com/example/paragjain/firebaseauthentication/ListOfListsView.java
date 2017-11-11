@@ -34,11 +34,12 @@ public class ListOfListsView extends Activity {
     private ListView listOfListsObject;
     private ArrayAdapter<List> listOfListsAdapter;
     private EditText listEditText;
+    private StaticDatabaseHelper db;
 
     protected void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_list_of_lists_view);
-
+        db= new StaticDatabaseHelper(this);
         mHelper = new TaskHelper(this);
         listOfListsObject = (ListView) findViewById(R.id.list_list);
 
@@ -48,6 +49,13 @@ public class ListOfListsView extends Activity {
     public void goToItems(View v) {
         Intent intent = new Intent(this, ListOfItemsView.class);
         startActivity(intent);
+    }
+
+    public void logOut(View v) {
+        db.deleteEmail();
+        Intent intent = new Intent(this, LoginView.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
