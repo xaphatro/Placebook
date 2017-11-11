@@ -69,9 +69,12 @@ import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Map;
+
+import static com.example.paragjain.firebaseauthentication.Constants.GEOFENCE_WRAPPER_STORE;
 
 //import static com.example.paragjain.firebaseauthentication.GeofenceController.getGeofencePendingIntent;
 
@@ -85,6 +88,8 @@ import java.util.Map;
  * <p>
  */
 public class GeofenceActivity extends AppCompatActivity implements OnCompleteListener<Void> {
+
+    static GeofenceActivity geoActivity;
 
     private static final String TAG = GeofenceActivity.class.getSimpleName();
 
@@ -116,12 +121,14 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
 
     private EditText geoField;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_geo_fence);
 
+        geoActivity = this;
         // Initially set the PendingIntent used in addGeofences() and removeGeofences() to null.
 
         mGeofencePendingIntent = null;
@@ -129,6 +136,10 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
         mGeofencingClient = LocationServices.getGeofencingClient(this);
 
         getPlace();
+    }
+
+    public static GeofenceActivity getInstance(){
+        return geoActivity;
     }
 
     public void getPlace() {
@@ -180,17 +191,24 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
                 Place place = PlacePicker.getPlace(data, this);
                 String toastMsg = String.format("Place: %s %s", place.getName(), place.getLatLng());
                 Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
-                geo = createGeofence(place.getLatLng().latitude, place.getLatLng().longitude, (String) place.getName());
+                //geo = createGeofence(place.getLatLng().latitude, place.getLatLng().longitude, (String) place.getName());
 
-
+                //GeofenceWrapper geoWrapper = new GeofenceWrapper(geo);
+                //GeofenceController.serialize(this, geoWrapper, GEOFENCE_WRAPPER_STORE);
                 //addGeofence(geo);
-                /*
                 Intent returnGeofenceIntent = new Intent();
+                Double longval = place.getLatLng().longitude;
+                String longString = longval.toString();
+                Double latval = place.getLatLng().latitude;
+                String latString = latval.toString();
                 returnGeofenceIntent.putExtra("placeName", place.getName());
-                returnGeofenceIntent.putExtra("latitude", place.getLatLng().latitude);
-                returnGeofenceIntent.putExtra("longitude", place.getLatLng().longitude);
+                returnGeofenceIntent.putExtra("latitude", latString);
+                returnGeofenceIntent.putExtra("longitude", longString);
 
-                setResult(RESULT_OK, returnGeofenceIntent);*/
+                //Gson gson = new Gson();
+                //String geoString = gson.toJson(geo);
+                //returnGeofenceIntent.putExtra("geofence", geoString);
+                setResult(RESULT_OK, returnGeofenceIntent);
             }
         }
         finish();
@@ -205,10 +223,15 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            System.out.println("geofence exited early");
+            Log.w("geofence exited early", "");
             return;
         }
-        mGeofencingClient.addGeofences(getGeofencingRequest(geo), getGeofencePendingIntent())
-                .addOnCompleteListener(this);
+        mGeofencingClient.addGeofences(getGeofencingRequest(geo), getGeofencePendingIntent()).addOnCompleteListener(this);
+        String toastMsg = String.format("Geofence added");
+        Log.w("Geofence added", "");
+        Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+
     }
 
     @Override

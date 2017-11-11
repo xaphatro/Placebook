@@ -1,6 +1,7 @@
 package com.example.paragjain.firebaseauthentication;
 
 import android.*;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -32,13 +33,17 @@ import com.example.paragjain.firebaseauthentication.TaskHelper;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.gson.Gson;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 
-import static com.example.paragjain.firebaseauthentication.GeofenceController.mGeofencingClient;
+import static com.example.paragjain.firebaseauthentication.Constants.GEOFENCE_WRAPPER_STORE;
 
 public class ListOfItemsView extends AppCompatActivity {
 
+    private String geoJSON;
+    private Geofence geofence;
     private TaskHelper mHelper;
     private ListView mTaskListView;
     private ArrayAdapter<String> mAdapter;
@@ -47,12 +52,13 @@ public class ListOfItemsView extends AppCompatActivity {
     private Double longitude;
     private Double latitude;
     private String placeName;
-
+    private GeofenceWrapper geofenceWrapper;
+    private Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_of_items_view);
-
+        context = this;
         mHelper = new TaskHelper(this);
         mTaskListView = (ListView) findViewById(R.id.list_todo);
 
@@ -90,19 +96,60 @@ public class ListOfItemsView extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-    /*
+
+    public Geofence createGeofence(double latitude , double longitude, String placeName){
+        Geofence geo = new Geofence.Builder()
+                // Set the request ID of the geofence. This is a string to identify this
+                // geofence.
+                .setRequestId((String) placeName)
+                // Set the circular region of this geofence.
+                .setCircularRegion(
+                        latitude,
+                        longitude,
+                        Constants.GEOFENCE_RADIUS_IN_METERS
+                )
+                // Set the expiration duration of the geofence. This geofence gets automatically
+                // removed after this period of time.
+                .setExpirationDuration(Constants.GEOFENCE_EXPIRATION_IN_MILLISECONDS)
+                // Set the transition types of interest. Alerts are only generated for these
+                // transition. We track entry and exit transitions in this sample.
+                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
+                        Geofence.GEOFENCE_TRANSITION_EXIT)
+                // Create the geofence.
+                .build();
+        return geo;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
-                placeName = data.getStringExtra("placeName");
-                latitude = Double.parseDouble(data.getStringExtra("latitude"));
-                longitude = Double.parseDouble(data.getStringExtra("longitude"));
-
+                int x=1;
+                try {
+                    placeName = data.getStringExtra("placeName");
+                    latitude = Double.parseDouble(data.getStringExtra("latitude"));
+                    longitude = Double.parseDouble(data.getStringExtra("longitude"));
+                } catch (Exception e){
+                    System.out.println("Exception actresult");
+                    Log.w("Exception actresult", "");
+                    e.printStackTrace();
+                }
+                x=1;
+                /*
+                Gson gson = new Gson();
+                geoJSON = data.getStringExtra("geofence");
+                try {
+                    geofence = gson.fromJson(geoJSON, Geofence.class);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+                x=1;
+                */
+                geofence = createGeofence(latitude, longitude, placeName);
             }
         }
-    }*/
+    }
 
     private void createDialog() {
         Log.w("before get place -2", "");
@@ -115,16 +162,26 @@ public class ListOfItemsView extends AppCompatActivity {
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogue, int which) {
-                        String task = String.valueOf(taskEditText.getText());
-                        SQLiteDatabase db = mHelper.getWritableDatabase();
-                        ContentValues values = new ContentValues();
-                        values.put(Task.TaskEntry.COL_TASK_TITLE, task);
-                        db.insertWithOnConflict(Task.TaskEntry.TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-                        db.close();
-
-                        updateUI();
-                        GeofenceActivity g = new GeofenceActivity();
-                        g.addFence();
+                        try {
+                            String task = String.valueOf(taskEditText.getText());
+                            SQLiteDatabase db = mHelper.getWritableDatabase();
+                            ContentValues values = new ContentValues();
+                            values.put(Task.TaskEntry.COL_TASK_TITLE, task);
+                            db.insertWithOnConflict(Task.TaskEntry.TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+                            db.close();
+                            //String jsonstringval = geoJSON;
+                            Log.w("adding geofence", "");
+                            if (geofence != null) {
+                                GeofenceActivity.getInstance().addFence(geofence);
+                            }
+                            else{
+                                Log.w("gefoence not found", "");
+                            }
+                            updateUI();
+                        }catch (Exception e){
+                            Log.w("exception", "e");
+                            e.printStackTrace();
+                        }
                     }
                 })
                 .setNeutralButton("Add Location", new DialogInterface.OnClickListener() {
@@ -132,7 +189,7 @@ public class ListOfItemsView extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         Log.w("before get place -1", "");
                         Intent intent = new Intent(getBaseContext(), GeofenceActivity.class);
-                        startActivity(intent);
+                        startActivityForResult(intent, 1);
                     }
                 })
                 .setNegativeButton("Cancel", null)

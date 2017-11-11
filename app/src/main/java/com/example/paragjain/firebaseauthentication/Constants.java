@@ -66,5 +66,7 @@ final class Constants {
         // Googleplex.
         BAY_AREA_LANDMARKS.put("GOOGLE", new LatLng(37.422611,-122.0840577));
     }
+
+    public static String GEOFENCE_WRAPPER_STORE = "gwapper.ser";
 }
 
