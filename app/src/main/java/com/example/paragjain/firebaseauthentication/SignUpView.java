@@ -41,7 +41,7 @@ public class SignUpView extends Activity {
         final String emailContent = email.getText().toString().trim();
         final String phoneNumberContent = phoneNumber.getText().toString().trim();
         final String passwordContent = password.getText().toString().trim();
-        final String secret = "fb943a2432995dc8114f15f868bbec305fac35b82e610286a2155e807cb577d4";
+        //final String secret = "fb943a2432995dc8114f15f868bbec305fac35b82e610286a2155e807cb577d4";
 
         //UPDATE THE DATABASE ( CLOUD ) HERE THROUGH API CALL. ADD HIM TO THE USERS TABLE
         if(emailContent.isEmpty() && nameContent.isEmpty() && phoneNumberContent.isEmpty() && passwordContent.isEmpty()){
@@ -54,7 +54,7 @@ public class SignUpView extends Activity {
             arguments.put("email", emailContent);
             arguments.put("phoneno", phoneNumberContent);
             arguments.put("password", passwordContent);
-            arguments.put("secret", secret);
+            arguments.put("secret", Constants.SERVER_SECRET_KEY);
             arguments.put("url", "http://locationreminder.azurewebsites.net/signup");
             queryapi q = new queryapi(arguments);
             q.execute();

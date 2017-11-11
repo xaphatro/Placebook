@@ -15,4 +15,10 @@
         android:layout_height="40dp"
         android:onClick="goToItems"
         android:text="List of Items"/>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_todo" />
+
 </LinearLayout>

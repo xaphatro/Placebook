@@ -58,13 +58,13 @@ public class LoginView extends Activity {
     public void login(View v){
         String emailContent = email.getText().toString().trim();
         String passwordContent = password.getText().toString().trim();
-        String secret = "fb943a2432995dc8114f15f868bbec305fac35b82e610286a2155e807cb577d4";
+        //String secret = "fb943a2432995dc8114f15f868bbec305fac35b82e610286a2155e807cb577d4";
 
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("email", emailContent);
         arguments.put("password", passwordContent);
         arguments.put("url", "http://locationreminder.azurewebsites.net/login");
-        arguments.put("secret", secret);
+        arguments.put("secret", Constants.SERVER_SECRET_KEY);
 
         queryapi q = new queryapi(arguments);
         try

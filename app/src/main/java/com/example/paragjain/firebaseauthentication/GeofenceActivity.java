@@ -74,8 +74,6 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Map;
 
-import static com.example.paragjain.firebaseauthentication.Constants.GEOFENCE_WRAPPER_STORE;
-
 //import static com.example.paragjain.firebaseauthentication.GeofenceController.getGeofencePendingIntent;
 
 /**

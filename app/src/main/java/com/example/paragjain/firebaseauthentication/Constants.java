@@ -67,8 +67,7 @@ final class Constants {
         BAY_AREA_LANDMARKS.put("GOOGLE", new LatLng(37.422611,-122.0840577));
     }
 
-    public static String GEOFENCE_WRAPPER_STORE = "gwapper.ser";
+    static final String SERVER_SECRET_KEY = "fb943a2432995dc8114f15f868bbec305fac35b82e610286a2155e807cb577d4";
 
-    public String email = "";
 }
 
