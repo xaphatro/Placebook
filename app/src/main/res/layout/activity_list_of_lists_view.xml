@@ -15,4 +15,12 @@
         android:layout_height="40dp"
         android:onClick="goToItems"
         android:text="List of Items"/>
+
+    <Button
+        android:id="@+id/logout_button"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:onClick="logOut"
+        android:text="Log Out"/>
+
 </LinearLayout>

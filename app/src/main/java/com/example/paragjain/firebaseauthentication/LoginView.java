@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 public class LoginView extends Activity {
@@ -16,7 +19,7 @@ public class LoginView extends Activity {
     public static final String TAG = LoginView.class.getSimpleName();
     private EditText email, password, name;
     private Button login, signup;
-    private StaticDatabaseHelper db = new StaticDatabaseHelper(this);
+    private StaticDatabaseHelper db;
     private Session session;
 
     @Override
@@ -24,21 +27,23 @@ public class LoginView extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_view);
         Log.d(TAG, "login activity.");
-        /*session = new Session(this);
-        db = new DbHelper(this);
+        session = new Session(this);
+        db = new StaticDatabaseHelper(this);
+        //db = new DbHelper();
         email = (EditText) findViewById(R.id.etEmail);
         password = (EditText) findViewById(R.id.etPassword);
         name = (EditText) findViewById(R.id.etName);
         login = (Button) findViewById(R.id.bLogin);
         signup = (Button) findViewById(R.id.bSignUp);
 
+        /*
         if(session.loggedin()){
             Intent intent = new Intent(this, ListOfListsView.class);
             startActivity(intent);
             finish();
-        }*/
-
-        if(db.getEmail() != null) {
+        }
+        */
+        if (db.getEmail() != null){
             Intent intent = new Intent(this, ListOfListsView.class);
             startActivity(intent);
             finish();
@@ -61,20 +66,15 @@ public class LoginView extends Activity {
     public void login(View v){
         String emailContent = email.getText().toString().trim();
         String passwordContent = password.getText().toString().trim();
-        String secret = "fb943a2432995dc8114f15f868bbec305fac35b82e610286a2155e807cb577d4";
+        //String secret = "fb943a2432995dc8114f15f868bbec305fac35b82e610286a2155e807cb577d4";
 
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("email", emailContent);
         arguments.put("password", passwordContent);
         arguments.put("url", "http://locationreminder.azurewebsites.net/login");
-        arguments.put("secret", secret);
+        arguments.put("secret", Constants.SERVER_SECRET_KEY);
 
         queryapi q = new queryapi(arguments);
-<<<<<<< Updated upstream
-        q.execute();
-
-        if(1==1)//if(db.getUser(getEmail, getPassword))
-=======
         try
         {
             String res= q.execute().get();
@@ -87,11 +87,11 @@ public class LoginView extends Activity {
             {
                 //session.setLoggedIn(true);
                 Intent it = new Intent(LoginView.this, ListOfListsView.class);
-                //UserInfo.USER_EMAIL = emailContent;
                 if (db.getEmail() == null) {
                     db.addEmail(emailContent);
                 }
                 startActivity(it);
+
                 finish();
             }
             else
@@ -100,18 +100,15 @@ public class LoginView extends Activity {
             }
         }
         catch(JSONException e)
->>>>>>> Stashed changes
         {
-            session.setLoggedIn(true);
-            startActivity(new Intent(LoginView.this, ListOfListsView.class));
-            finish();
+            Log.w("catch block: ","");
+            e.printStackTrace();
         }
-        else
+        catch(Exception e)
         {
-                Toast.makeText(getApplicationContext(), "Wrong email/password", Toast.LENGTH_SHORT).show();
+            Log.w("catch exception block: ","");
+            e.printStackTrace();
         }
-        // SEND QUERY TO THE DATABASE ( CLOUD ) and check if the user already exists or not
+
     }
-
-
 }

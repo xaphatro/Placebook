@@ -38,7 +38,6 @@ import com.google.gson.Gson;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 
-import static com.example.paragjain.firebaseauthentication.Constants.GEOFENCE_WRAPPER_STORE;
 
 public class ListOfItemsView extends AppCompatActivity {
 

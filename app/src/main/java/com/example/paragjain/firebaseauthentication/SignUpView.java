@@ -34,13 +34,13 @@ public class SignUpView extends Activity {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_view);
-        /*
-        db = new DbHelper(this);
+        db = new StaticDatabaseHelper(this);
+
         name = (EditText) findViewById(R.id.etName);
         email = (EditText) findViewById(R.id.etEmail);
         phoneNumber = (EditText) findViewById(R.id.etPhone);
         password = (EditText) findViewById(R.id.etPassword);
-        signUp = (Button) findViewById(R.id.bSignUp);*/
+        signUp = (Button) findViewById(R.id.bSignUp);
     }
 
     public void signUp(View v){
@@ -48,7 +48,7 @@ public class SignUpView extends Activity {
         final String emailContent = email.getText().toString().trim();
         final String phoneNumberContent = phoneNumber.getText().toString().trim();
         final String passwordContent = password.getText().toString().trim();
-        final String secret = "fb943a2432995dc8114f15f868bbec305fac35b82e610286a2155e807cb577d4";
+        //final String secret = "fb943a2432995dc8114f15f868bbec305fac35b82e610286a2155e807cb577d4";
 
         //UPDATE THE DATABASE ( CLOUD ) HERE THROUGH API CALL. ADD HIM TO THE USERS TABLE
         if(emailContent.isEmpty() && nameContent.isEmpty() && phoneNumberContent.isEmpty() && passwordContent.isEmpty()){
@@ -60,10 +60,9 @@ public class SignUpView extends Activity {
             arguments.put("email", emailContent);
             arguments.put("phoneno", phoneNumberContent);
             arguments.put("password", passwordContent);
-            arguments.put("secret", secret);
+            arguments.put("secret", Constants.SERVER_SECRET_KEY);
             arguments.put("url", "http://locationreminder.azurewebsites.net/signup");
             queryapi q = new queryapi(arguments);
-            q.execute();
 
             try
             {
@@ -81,7 +80,7 @@ public class SignUpView extends Activity {
                     if (db.getEmail() == null) {
                         db.addEmail(emailContent);
                     }
-                    startActivity(it);
+                    startActivityForResult(it, 1);
                     finish();
                 }
                 else

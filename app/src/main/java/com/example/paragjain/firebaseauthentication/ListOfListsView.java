@@ -13,14 +13,23 @@ import android.widget.Button;
 
 public class ListOfListsView extends Activity {
 
+    StaticDatabaseHelper db;
+
     protected void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_list_of_lists_view);
-
+        db = new StaticDatabaseHelper(this);
     }
 
     public void goToItems(View v) {
         Intent intent = new Intent(this, ListOfItemsView.class);
         startActivity(intent);
+    }
+
+    public void logOut(View v) {
+        db.deleteEmail();
+        Intent intent = new Intent(this, LoginView.class);
+        startActivity(intent);
+        finish();
     }
 }
