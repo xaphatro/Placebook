@@ -19,7 +19,7 @@ public class LoginView extends Activity {
     public static final String TAG = LoginView.class.getSimpleName();
     private EditText email, password, name;
     private Button login, signup;
-    private DbHelper db;
+    private StaticDatabaseHelper db;
     private Session session;
 
     @Override
@@ -28,14 +28,22 @@ public class LoginView extends Activity {
         setContentView(R.layout.activity_login_view);
         Log.d(TAG, "login activity.");
         session = new Session(this);
-        db = new DbHelper(this);
+        db = new StaticDatabaseHelper(this);
+        //db = new DbHelper();
         email = (EditText) findViewById(R.id.etEmail);
         password = (EditText) findViewById(R.id.etPassword);
         name = (EditText) findViewById(R.id.etName);
         login = (Button) findViewById(R.id.bLogin);
         signup = (Button) findViewById(R.id.bSignUp);
 
+        /*
         if(session.loggedin()){
+            Intent intent = new Intent(this, ListOfListsView.class);
+            startActivity(intent);
+            finish();
+        }
+        */
+        if (db.getEmail() != null){
             Intent intent = new Intent(this, ListOfListsView.class);
             startActivity(intent);
             finish();
@@ -77,9 +85,11 @@ public class LoginView extends Activity {
             Log.w("status code result : ","val:"+ status);
             if(status==200)//if(db.getUser(getEmail, getPassword))
             {
-                session.setLoggedIn(true);
+                //session.setLoggedIn(true);
                 Intent it = new Intent(LoginView.this, ListOfListsView.class);
-
+                if (db.getEmail() == null) {
+                    db.addEmail(emailContent);
+                }
                 startActivity(it);
 
                 finish();
@@ -101,6 +111,4 @@ public class LoginView extends Activity {
         }
 
     }
-
-
 }

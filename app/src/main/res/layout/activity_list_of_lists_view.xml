@@ -3,12 +3,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tvLoggedIn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="List of Lists" />
-
     <Button
         android:id="@+id/item_list_button"
         android:layout_width="150dp"
@@ -19,6 +13,6 @@
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/list_todo" />
+        android:id="@+id/list_list" />
 
 </LinearLayout>
