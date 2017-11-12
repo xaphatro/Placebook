@@ -80,7 +80,7 @@ public class ListController {
                 for (int i = 0; i < lists.length(); i++) {
                     JSONObject currList = lists.getJSONObject(i);
                     String listID = currList.getString("list_id");
-                    String listName = currList.getString(("title"));
+                    String listName = currList.getString("title");
                     List li = new List(listID, listName);
                     listArray.add(li);
                 }
@@ -103,11 +103,10 @@ public class ListController {
         return listArray;
     }
 
-    public static void deleteList(String email, String listID){
+    public static void deleteList(String listID){
         List li = null;
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("list_id", listID);
-        arguments.put("email", email);
         arguments.put("secret", Constants.SERVER_SECRET_KEY);
         arguments.put("url", "http://locationreminder.azurewebsites.net/deletelist");
 
@@ -141,15 +140,67 @@ public class ListController {
         }
     }
 
-    public static void addListItem(String email, int listID, String itemName, double latitude, double longitude){
-        List li = null;
+    public static ArrayList<Item> getListItems(String email, String listID) {
         HashMap<String, String> arguments = new HashMap<>();
-        arguments.put("itemName", itemName);
         arguments.put("email", email);
+        arguments.put("list_id", listID);
         arguments.put("secret", Constants.SERVER_SECRET_KEY);
-        arguments.put("listID", String.valueOf(listID));
-        arguments.put("latitude", String.valueOf(latitude));
-        arguments.put("longitude", String.valueOf(longitude));
+        arguments.put("url", "http://locationreminder.azurewebsites.net/getlistcontents");
+
+        ArrayList<Item> itemArray = null;
+
+        queryapi q = new queryapi(arguments);
+        try
+        {
+            String res= q.execute().get();
+            Log.w("itelists check: ","val:"+res);
+
+            JSONObject resultJSON = new JSONObject(res);
+            int status = resultJSON.getInt("status");
+            Log.w("itelists status code : ","val:"+ status);
+            if(status==200)//if(db.getUser(getEmail, getPassword))
+            {
+                itemArray = new ArrayList<Item>();
+                JSONArray items = resultJSON.getJSONArray("rows");
+                for (int i = 0; i < items.length(); i++) {
+                    JSONObject currList = items.getJSONObject(i);
+                    String itemID = currList.getString("item_id");
+                    String itemName = currList.getString("item_name");
+                    String locationName = currList.getString("location_name");
+                    String longitude = currList.getString("longitude");
+                    String latitude = currList.getString("latitude");
+                    Item it = new Item(itemID, itemName, locationName, longitude, latitude);
+                    itemArray.add(it);
+                }
+            }
+            else
+            {
+
+            }
+        }
+        catch(JSONException e)
+        {
+            Log.w("catch block: ","");
+            e.printStackTrace();
+        }
+        catch(Exception e)
+        {
+            Log.w("catch exception block: ","");
+            e.printStackTrace();
+        }
+        return itemArray;
+    }
+
+    public static Item addListItem(String email, String listID, String itemName, String location, String latitude, String longitude){
+        Item it = null;
+        HashMap<String, String> arguments = new HashMap<>();
+        arguments.put("item_name", itemName);
+        arguments.put("email", email);
+        arguments.put("list_id", listID);
+        arguments.put("location_name", location);
+        arguments.put("latitude", latitude);
+        arguments.put("longitude", longitude);
+        arguments.put("secret", Constants.SERVER_SECRET_KEY);
         arguments.put("url", "http://locationreminder.azurewebsites.net/addItem");
 
         queryapi q = new queryapi(arguments);
@@ -163,7 +214,8 @@ public class ListController {
             Log.w("status code result : ","val:"+ status);
             if(status==200)//if(db.getUser(getEmail, getPassword))
             {
-                int itemID = resultJSON.getInt("itemID");
+                String itemID = resultJSON.getString("itemID");
+                it = new Item(itemID, itemName, location, longitude, latitude);
             }
             else
             {
@@ -181,6 +233,90 @@ public class ListController {
             e.printStackTrace();
         }
 
+        return it;
+    }
+
+    public static Item addListItem(String email, String listID, String itemName){
+        Item it = null;
+        HashMap<String, String> arguments = new HashMap<>();
+        arguments.put("item_name", itemName);
+        arguments.put("email", email);
+        arguments.put("list_id", listID);
+        arguments.put("location_name", "null");
+        arguments.put("latitude", "null");
+        arguments.put("longitude", "null");
+        arguments.put("secret", Constants.SERVER_SECRET_KEY);
+        arguments.put("url", "http://locationreminder.azurewebsites.net/addItem");
+
+        queryapi q = new queryapi(arguments);
+        try
+        {
+            String res= q.execute().get();
+            Log.w("check: ","val:"+res);
+
+            JSONObject resultJSON = new JSONObject(res);
+            int status = resultJSON.getInt("status");
+            Log.w("status code result : ","val:"+ status);
+            if(status==200)//if(db.getUser(getEmail, getPassword))
+            {
+                String itemID = resultJSON.getString("itemID");
+                it = new Item(itemID, itemName);
+            }
+            else
+            {
+
+            }
+        }
+        catch(JSONException e)
+        {
+            Log.w("catch block: ","");
+            e.printStackTrace();
+        }
+        catch(Exception e)
+        {
+            Log.w("catch exception block: ","");
+            e.printStackTrace();
+        }
+        return it;
+
+    }
+
+    public static void deleteItem(String listID, String itemID){
+        List li = null;
+        HashMap<String, String> arguments = new HashMap<>();
+        arguments.put("list_id", listID);
+        arguments.put("item_id", itemID);
+        arguments.put("secret", Constants.SERVER_SECRET_KEY);
+        arguments.put("url", "http://locationreminder.azurewebsites.net/deleteitem");
+
+        queryapi q = new queryapi(arguments);
+        try
+        {
+            String res= q.execute().get();
+            Log.w("check: ","val:"+res);
+
+            JSONObject resultJSON = new JSONObject(res);
+            int status = resultJSON.getInt("status");
+            Log.w("status code result : ","val:"+ status);
+            if(status==200)//if(db.getUser(getEmail, getPassword))
+            {
+
+            }
+            else
+            {
+
+            }
+        }
+        catch(JSONException e)
+        {
+            Log.w("catch block: ","");
+            e.printStackTrace();
+        }
+        catch(Exception e)
+        {
+            Log.w("catch exception block: ","");
+            e.printStackTrace();
+        }
     }
 
 }

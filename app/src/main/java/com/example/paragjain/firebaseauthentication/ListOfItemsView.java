@@ -42,11 +42,13 @@ public class ListOfItemsView extends AppCompatActivity {
 
     private String geoJSON;
     private Geofence geofence;
-    private TaskHelper mHelper;
-    private ListView mTaskListView;
-    private ArrayAdapter<String> mAdapter;
-    private String taskName;
-    private EditText taskEditText;
+    private StaticDatabaseHelper db;
+    private String listID;
+    //private TaskHelper mHelper;
+    private ListView itemListView;
+    private ItemAdapter itemAdapter;
+    private String itemName;
+    private EditText itemEditText;
     private Double longitude;
     private Double latitude;
     private String placeName;
@@ -57,8 +59,10 @@ public class ListOfItemsView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_of_items_view);
         context = this;
-        mHelper = new TaskHelper(this);
-        mTaskListView = (ListView) findViewById(R.id.list_todo);
+        db = new StaticDatabaseHelper(this);
+        //mHelper = new TaskHelper(this);
+        itemListView = (ListView) findViewById(R.id.list_todo);
+        listID = getIntent().getStringExtra("listID");
 
         updateUI();
     }
@@ -72,17 +76,17 @@ public class ListOfItemsView extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-        if (taskEditText != null) {
-            taskName = taskEditText.getText().toString();
+        if (itemEditText != null) {
+            itemName = itemEditText.getText().toString();
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (taskName != null) {
+        if (itemName != null) {
             createDialog();
-            taskEditText.setText(taskName);
+            itemEditText.setText(itemName);
         }
     }
 
@@ -155,29 +159,31 @@ public class ListOfItemsView extends AppCompatActivity {
 
     private void createDialog() {
         Log.w("before get place -2", "");
-        taskEditText = new EditText(this);
-        taskEditText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        itemEditText = new EditText(this);
+        itemEditText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("New Task")
                 .setMessage("Add a new task")
-                .setView(taskEditText)
+                .setView(itemEditText)
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogue, int which) {
                         try {
-                            String task = String.valueOf(taskEditText.getText());
-                            SQLiteDatabase db = mHelper.getWritableDatabase();
+                            String itemName = String.valueOf(itemEditText.getText());
+                            /*SQLiteDatabase db = mHelper.getWritableDatabase();
                             ContentValues values = new ContentValues();
                             values.put(Task.TaskEntry.COL_TASK_TITLE, task);
                             db.insertWithOnConflict(Task.TaskEntry.TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-                            db.close();
+                            db.close();*/
                             //String jsonstringval = geoJSON;
+                            ListController.addListItem(db.getEmail(), listID, itemName);
                             Log.w("adding geofence", "");
                             if (geofence != null) {
                                 GeofenceActivity.getInstance().addFence(geofence);
                             }
                             else{
                                 Log.w("gefoence not found", "");
+
                             }
                             updateUI();
                         }catch (Exception e){
@@ -248,8 +254,8 @@ public class ListOfItemsView extends AppCompatActivity {
     */
 
     private void updateUI() {
-        ArrayList<String> taskList = new ArrayList<>();
-        SQLiteDatabase db = mHelper.getReadableDatabase();
+        ArrayList<Item> taskList = ListController.getListItems(db.getEmail(), listID);
+        /*SQLiteDatabase db = mHelper.getReadableDatabase();
         Cursor cursor = db.query(Task.TaskEntry.TABLE,
                 new String[] {Task.TaskEntry.COL_TASK_TITLE}, null, null, null, null, null);
 
@@ -257,30 +263,32 @@ public class ListOfItemsView extends AppCompatActivity {
             int index = cursor.getColumnIndex(Task.TaskEntry.COL_TASK_TITLE);
             taskList.add(cursor.getString(index));
         }
+        */
 
-        if (mAdapter == null) {
-            mAdapter = new ArrayAdapter<String>(this, R.layout.item_todo, R.id.task_title, taskList);
-            mTaskListView.setAdapter(mAdapter);
+        if (itemAdapter == null) {
+            itemAdapter = new ItemAdapter(this, taskList);
+            itemListView.setAdapter(itemAdapter);
 
         } else {
-            mAdapter.clear();
-            mAdapter.addAll(taskList);
-            mAdapter.notifyDataSetChanged();
+            itemAdapter.clear();
+            itemAdapter.addAll(taskList);
+            itemAdapter.notifyDataSetChanged();
         }
-
+        /*
         cursor.close();
-        db.close();
+        db.close();*/
     }
 
-    public void deleteTask(View view) {
+    public void deleteList(View view) {
         View parent = (View) view.getParent();
-        TextView taskTextView = (TextView) parent.findViewById(R.id.task_title);
-        String task = String.valueOf(taskTextView.getText());
-        SQLiteDatabase db = mHelper.getWritableDatabase();
+        //TextView taskTextView = (TextView) parent.findViewById(R.id.task_title);
+        TextView itemIDView = (TextView) parent.findViewById(R.id.item_id);
+        String itemID = String.valueOf(itemIDView.getText());
+        /*SQLiteDatabase db = mHelper.getWritableDatabase();
         db.delete(Task.TaskEntry.TABLE, Task.TaskEntry.COL_TASK_TITLE + " = ?", new String[] {task});
-        db.close();
+        db.close();*/
+        ListController.deleteItem(listID, itemID);
         updateUI();
-
     }
 }
 

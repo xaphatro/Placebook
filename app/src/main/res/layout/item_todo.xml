@@ -6,20 +6,60 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/task_title"
+        android:id="@+id/item_name"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:text="Hi"
+        android:text=""
         android:textSize = "20sp"
+        />
+
+    <TextView
+        android:layout_width="0px"
+        android:layout_height="0px"
+        android:id="@+id/item_id"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text=""
+        android:textSize = "0sp"
+        />
+
+    <TextView
+        android:layout_width="0px"
+        android:layout_height="0px"
+        android:id="@+id/item_location"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text=""
+        android:textSize = "0sp"
+        />
+
+    <TextView
+        android:layout_width="0px"
+        android:layout_height="0px"
+        android:id="@+id/item_longitude"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text=""
+        android:textSize = "0sp"
+        />
+
+    <TextView
+        android:layout_width="0px"
+        android:layout_height="0px"
+        android:id="@+id/item_latitude"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text=""
+        android:textSize = "0sp"
         />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/task_delete"
+        android:id="@+id/list_delete"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:onClick="deleteTask"
+        android:onClick="deleteList"
         android:text="Done"
         />
 

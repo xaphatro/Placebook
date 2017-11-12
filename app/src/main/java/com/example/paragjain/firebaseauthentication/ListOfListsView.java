@@ -124,6 +124,15 @@ public class ListOfListsView extends AppCompatActivity {
         //db.close();
     }
 
+    public void goToItem(View view) {
+        View parent =(View) view.getParent();
+        TextView listIDView = (TextView) parent.findViewById(R.id.list_id);
+        String listID = String.valueOf(listIDView.getText());
+        Intent it = new Intent(this, ListOfItemsView.class);
+        it.putExtra("listID", listID);
+        startActivity(it);
+    }
+
     public void deleteList(View view) {
         View parent = (View) view.getParent();
         //TextView taskTextView = (TextView) parent.findViewById(R.id.task_title);
@@ -132,7 +141,7 @@ public class ListOfListsView extends AppCompatActivity {
         /*SQLiteDatabase db = mHelper.getWritableDatabase();
         db.delete(Task.TaskEntry.TABLE, Task.TaskEntry.COL_TASK_TITLE + " = ?", new String[] {task});
         db.close();*/
-        ListController.deleteList(db.getEmail(), listID);
+        ListController.deleteList(listID);
         updateUI();
     }
 }
