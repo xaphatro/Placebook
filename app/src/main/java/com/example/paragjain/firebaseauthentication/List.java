@@ -5,10 +5,10 @@ package com.example.paragjain.firebaseauthentication;
  */
 
 public class List {
-    int listID;
+    String listID;
     String listName;
 
-    public List(int listID, String listName)
+    public List(String listID, String listName)
     {
         this.listID = listID;
         this.listName = listName;

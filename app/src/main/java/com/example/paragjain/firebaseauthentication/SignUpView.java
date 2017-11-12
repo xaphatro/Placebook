@@ -81,6 +81,10 @@ public class SignUpView extends Activity {
                     if (db.getEmail() == null) {
                         db.addEmail(emailContent);
                     }
+                    else {
+                        db.deleteEmail();
+                        db.addEmail(emailContent);
+                    }
                     startActivity(it);
                     finish();
                 }

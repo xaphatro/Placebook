@@ -51,6 +51,13 @@ public class LoginView extends Activity {
     }
 
     public void goToLists(View v) {
+        if (db.getEmail() == null) {
+            db.addEmail("nishantb21@gmail.com");
+        }
+        else {
+            db.deleteEmail();
+            db.addEmail("nishantb21@gmail.com");
+        }
         Intent intent = new Intent(this, ListOfListsView.class);
         startActivity(intent);
         finish();
@@ -88,6 +95,10 @@ public class LoginView extends Activity {
                 //session.setLoggedIn(true);
                 Intent it = new Intent(LoginView.this, ListOfListsView.class);
                 if (db.getEmail() == null) {
+                    db.addEmail(emailContent);
+                }
+                else {
+                    db.deleteEmail();
                     db.addEmail(emailContent);
                 }
                 startActivity(it);

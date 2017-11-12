@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
@@ -28,22 +29,20 @@ import com.example.paragjain.firebaseauthentication.ListController;
  * Created by paragjain on 11/10/17.
  */
 
-public class ListOfListsView extends Activity {
+public class ListOfListsView extends AppCompatActivity {
 
-    private TaskHelper mHelper;
-    private ListView listOfListsObject;
-    private ArrayAdapter<List> listOfListsAdapter;
+    private ListView listOfListsViewObject;
+    private ListAdapter listOfListsAdapter;
     private EditText listEditText;
     private StaticDatabaseHelper db;
 
     protected void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_list_of_lists_view);
-        db= new StaticDatabaseHelper(this);
-        mHelper = new TaskHelper(this);
-        listOfListsObject = (ListView) findViewById(R.id.list_list);
+        db = new StaticDatabaseHelper(this);
+        listOfListsViewObject = (ListView) findViewById(R.id.list_list);
 
-
+        updateUI();
     }
 
     public void goToItems(View v) {
@@ -91,7 +90,7 @@ public class ListOfListsView extends Activity {
                         values.put(Task.TaskEntry.COL_TASK_TITLE, task);
                         db.insertWithOnConflict(Task.TaskEntry.TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
                         db.close();*/
-                        List newList = ListController.createList(listName, "nishantb21@gmail.com");
+                        List newList = ListController.createList(db.getEmail(), listName);
                         updateUI();
                     }
                 })
@@ -101,7 +100,7 @@ public class ListOfListsView extends Activity {
     }
 
     private void updateUI() {
-        ArrayList<List> listHolder = new ArrayList<>();
+        ArrayList<List> listHolder = ListController.getAllLists(db.getEmail());
         /*SQLiteDatabase db = mHelper.getReadableDatabase();
         Cursor cursor = db.query(Task.TaskEntry.TABLE,
                 new String[] {Task.TaskEntry.COL_TASK_TITLE}, null, null, null, null, null);
@@ -112,8 +111,8 @@ public class ListOfListsView extends Activity {
         }
         */
         if (listOfListsAdapter == null) {
-            listOfListsAdapter = new ArrayAdapter<List>(this, R.layout.item_todo, R.id.task_title, listHolder);
-            listOfListsObject.setAdapter(listOfListsAdapter);
+            listOfListsAdapter = new ListAdapter(this, listHolder);
+            listOfListsViewObject.setAdapter(listOfListsAdapter);
 
         } else {
             listOfListsAdapter.clear();
@@ -125,14 +124,15 @@ public class ListOfListsView extends Activity {
         //db.close();
     }
 
-    public void deleteTask(View view) {
+    public void deleteList(View view) {
         View parent = (View) view.getParent();
-        TextView taskTextView = (TextView) parent.findViewById(R.id.task_title);
-        String task = String.valueOf(taskTextView.getText());
-        SQLiteDatabase db = mHelper.getWritableDatabase();
+        //TextView taskTextView = (TextView) parent.findViewById(R.id.task_title);
+        TextView listIDView = (TextView) parent.findViewById(R.id.list_id);
+        String listID = String.valueOf(listIDView.getText());
+        /*SQLiteDatabase db = mHelper.getWritableDatabase();
         db.delete(Task.TaskEntry.TABLE, Task.TaskEntry.COL_TASK_TITLE + " = ?", new String[] {task});
-        db.close();
+        db.close();*/
+        ListController.deleteList(db.getEmail(), listID);
         updateUI();
-
     }
 }

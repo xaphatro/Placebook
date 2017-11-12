@@ -72,7 +72,9 @@ public class ListOfItemsView extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-        taskName = taskEditText.getText().toString();
+        if (taskEditText != null) {
+            taskName = taskEditText.getText().toString();
+        }
     }
 
     @Override
