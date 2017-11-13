@@ -44,6 +44,7 @@ public class ListOfItemsView extends AppCompatActivity {
     private Geofence geofence;
     private StaticDatabaseHelper db;
     private String listID;
+    private boolean geofenceAdded = false;
     //private TaskHelper mHelper;
     private ListView itemListView;
     private ItemAdapter itemAdapter;
@@ -63,6 +64,7 @@ public class ListOfItemsView extends AppCompatActivity {
         //mHelper = new TaskHelper(this);
         itemListView = (ListView) findViewById(R.id.list_todo);
         listID = getIntent().getStringExtra("listID");
+        Log.w("ListID:", listID);
 
         updateUI();
     }
@@ -84,6 +86,8 @@ public class ListOfItemsView extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        listID = getIntent().getStringExtra("listID");
+        updateUI();
         if (itemName != null) {
             createDialog();
             itemEditText.setText(itemName);
@@ -101,30 +105,6 @@ public class ListOfItemsView extends AppCompatActivity {
         }
     }
 
-    /*
-    public Geofence createGeofence(double latitude , double longitude, String placeName){
-        Geofence geo = new Geofence.Builder()
-                // Set the request ID of the geofence. This is a string to identify this
-                // geofence.
-                .setRequestId((String) placeName)
-                // Set the circular region of this geofence.
-                .setCircularRegion(
-                        latitude,
-                        longitude,
-                        Constants.GEOFENCE_RADIUS_IN_METERS
-                )
-                // Set the expiration duration of the geofence. This geofence gets automatically
-                // removed after this period of time.
-                .setExpirationDuration(Constants.GEOFENCE_EXPIRATION_IN_MILLISECONDS)
-                // Set the transition types of interest. Alerts are only generated for these
-                // transition. We track entry and exit transitions in this sample.
-                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
-                        Geofence.GEOFENCE_TRANSITION_EXIT)
-                // Create the geofence.
-                .build();
-        return geo;
-    }
-    */
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -152,7 +132,8 @@ public class ListOfItemsView extends AppCompatActivity {
                 }
                 x=1;
                 */
-                geofence = GeofenceController.createGeofence(latitude, longitude, placeName);
+                geofenceAdded = true;
+
             }
         }
     }
@@ -170,20 +151,18 @@ public class ListOfItemsView extends AppCompatActivity {
                     public void onClick(DialogInterface dialogue, int which) {
                         try {
                             String itemName = String.valueOf(itemEditText.getText());
-                            /*SQLiteDatabase db = mHelper.getWritableDatabase();
-                            ContentValues values = new ContentValues();
-                            values.put(Task.TaskEntry.COL_TASK_TITLE, task);
-                            db.insertWithOnConflict(Task.TaskEntry.TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-                            db.close();*/
-                            //String jsonstringval = geoJSON;
-                            ListController.addListItem(db.getEmail(), listID, itemName);
+
                             Log.w("adding geofence", "");
-                            if (geofence != null) {
+                            if (geofenceAdded) {
+                                //String x = item
+                                String itemID = ListController.addListItem(db.getEmail(), listID, itemName, placeName, latitude.toString(), longitude.toString());
+                                geofence = GeofenceController.createGeofence(latitude, longitude, placeName, itemID);
+                                //geofence.setRequestId(itemID);
                                 GeofenceActivity.getInstance().addFence(geofence);
                             }
                             else{
                                 Log.w("gefoence not found", "");
-
+                                ListController.addListItem(db.getEmail(), listID, itemName);
                             }
                             updateUI();
                         }catch (Exception e){
@@ -264,22 +243,25 @@ public class ListOfItemsView extends AppCompatActivity {
             taskList.add(cursor.getString(index));
         }
         */
+        if (taskList != null) {
+            if (itemAdapter == null) {
+                itemAdapter = new ItemAdapter(this, taskList);
+                itemListView.setAdapter(itemAdapter);
 
-        if (itemAdapter == null) {
-            itemAdapter = new ItemAdapter(this, taskList);
-            itemListView.setAdapter(itemAdapter);
-
-        } else {
+            } else {
+                itemAdapter.clear();
+                itemAdapter.addAll(taskList);
+                itemAdapter.notifyDataSetChanged();
+            }
+        } else if (itemAdapter != null) {
             itemAdapter.clear();
-            itemAdapter.addAll(taskList);
-            itemAdapter.notifyDataSetChanged();
         }
         /*
         cursor.close();
         db.close();*/
     }
 
-    public void deleteList(View view) {
+    public void deleteItem(View view) {
         View parent = (View) view.getParent();
         //TextView taskTextView = (TextView) parent.findViewById(R.id.task_title);
         TextView itemIDView = (TextView) parent.findViewById(R.id.item_id);

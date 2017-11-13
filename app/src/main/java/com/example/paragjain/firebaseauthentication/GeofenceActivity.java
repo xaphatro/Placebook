@@ -37,6 +37,7 @@ import android.widget.Toast;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -106,6 +107,8 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
     private GeofencingClient mGeofencingClient;
 
     private Geofence geo;
+
+    private String itemID;
     /**
      * Used when requesting to add or remove geofences.
      */
@@ -155,30 +158,6 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
         }
     }
 
-    /*
-    public Geofence createGeofence(double latitude , double longitude, String placeName){
-        Geofence geo = new Geofence.Builder()
-                // Set the request ID of the geofence. This is a string to identify this
-                // geofence.
-                .setRequestId((String) placeName)
-                // Set the circular region of this geofence.
-                .setCircularRegion(
-                        latitude,
-                        longitude,
-                        Constants.GEOFENCE_RADIUS_IN_METERS
-                )
-                // Set the expiration duration of the geofence. This geofence gets automatically
-                // removed after this period of time.
-                .setExpirationDuration(Constants.GEOFENCE_EXPIRATION_IN_MILLISECONDS)
-                // Set the transition types of interest. Alerts are only generated for these
-                // transition. We track entry and exit transitions in this sample.
-                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
-                        Geofence.GEOFENCE_TRANSITION_EXIT)
-                // Create the geofence.
-                .build();
-        return geo;
-    }
-    */
     public void addFence(Geofence g){
         addGeofence(g);
     }
@@ -190,11 +169,7 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
                 Place place = PlacePicker.getPlace(data, this);
                 String toastMsg = String.format("Place: %s %s", place.getName(), place.getLatLng());
                 Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
-                //geo = createGeofence(place.getLatLng().latitude, place.getLatLng().longitude, (String) place.getName());
 
-                //GeofenceWrapper geoWrapper = new GeofenceWrapper(geo);
-                //GeofenceController.serialize(this, geoWrapper, GEOFENCE_WRAPPER_STORE);
-                //addGeofence(geo);
                 Intent returnGeofenceIntent = new Intent();
                 Double longval = place.getLatLng().longitude;
                 String longString = longval.toString();
@@ -204,9 +179,6 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
                 returnGeofenceIntent.putExtra("latitude", latString);
                 returnGeofenceIntent.putExtra("longitude", longString);
 
-                //Gson gson = new Gson();
-                //String geoString = gson.toJson(geo);
-                //returnGeofenceIntent.putExtra("geofence", geoString);
                 setResult(RESULT_OK, returnGeofenceIntent);
             }
         }
@@ -214,6 +186,7 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
     }
 
     private void addGeofence(Geofence geo){
+        this.geo = geo;
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -276,13 +249,14 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
             requestPermissions();
             return;
         }
-        removeGeofences();
+        //removeGeofences();
     }
 
     /**
      * Removes geofences. This method should be called after the user has granted the location
      * permission.
      */
+    /*
     @SuppressWarnings("MissingPermission")
     private void removeGeofences() {
         if (!checkPermissions()) {
@@ -292,9 +266,19 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
 
         mGeofencingClient.removeGeofences(getGeofencePendingIntent()).addOnCompleteListener(this);
     }
+    */
 
+    public void removeGeofences(String itemID) {
+        this.itemID = itemID;
+        if (!checkPermissions()) {
+            showSnackbar(getString(R.string.insufficient_permissions));
+            return;
+        }
+
+        mGeofencingClient.removeGeofences(new ArrayList<String>(Arrays.asList(itemID)));
+    }
     /**
-     * Runs when the result of calling {@link //addGeofences()} and/or {@link #removeGeofences()}
+     * Runs when the result of calling {@link //addGeofences()} and/or {@link #//removeGeofences()}
      * is available.
      * @param task the resulting Task, containing either a result or error.
      */
@@ -305,9 +289,11 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
             updateGeofencesAdded(!getGeofencesAdded());
             //setButtonsEnabledState();
 
-            int messageId = getGeofencesAdded() ? R.string.geofences_added :
-                    R.string.geofences_removed;
-            Toast.makeText(this, getString(messageId), Toast.LENGTH_SHORT).show();
+            /*
+            //int messageId = getGeofencesAdded() //? //R.string.geofences_added :
+            //        R.string.geofences_removed;
+            //Toast.makeText(this, getString(messageId), Toast.LENGTH_SHORT).show();
+            */
         } else {
             // Get the status code for the error and log it using a user-friendly message.
             String errorMessage = GeofenceErrorMessages.getErrorString(this, task.getException());
@@ -416,7 +402,7 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
         if (mPendingGeofenceTask == PendingGeofenceTask.ADD) {
             addGeofence(geo);
         } else if (mPendingGeofenceTask == PendingGeofenceTask.REMOVE) {
-            removeGeofences();
+            removeGeofences(itemID);
         }
     }
 

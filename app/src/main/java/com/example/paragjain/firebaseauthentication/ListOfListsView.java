@@ -45,11 +45,6 @@ public class ListOfListsView extends AppCompatActivity {
         updateUI();
     }
 
-    public void goToItems(View v) {
-        Intent intent = new Intent(this, ListOfItemsView.class);
-        startActivity(intent);
-    }
-
     public void logOut(View v) {
         db.deleteEmail();
         Intent intent = new Intent(this, LoginView.class);
@@ -110,24 +105,28 @@ public class ListOfListsView extends AppCompatActivity {
             taskList.add(cursor.getString(index));
         }
         */
-        if (listOfListsAdapter == null) {
-            listOfListsAdapter = new ListAdapter(this, listHolder);
-            listOfListsViewObject.setAdapter(listOfListsAdapter);
+        if (listHolder != null) {
+            if (listOfListsAdapter == null) {
+                listOfListsAdapter = new ListAdapter(this, listHolder);
+                listOfListsViewObject.setAdapter(listOfListsAdapter);
 
-        } else {
+            } else {
+                listOfListsAdapter.clear();
+                listOfListsAdapter.addAll(listHolder);
+                listOfListsAdapter.notifyDataSetChanged();
+            }
+        } else if(listOfListsAdapter != null){
             listOfListsAdapter.clear();
-            listOfListsAdapter.addAll(listHolder);
-            listOfListsAdapter.notifyDataSetChanged();
         }
-
         //cursor.close();
         //db.close();
     }
 
     public void goToItem(View view) {
-        View parent =(View) view.getParent();
-        TextView listIDView = (TextView) parent.findViewById(R.id.list_id);
+        //View parent =(View) view.getParent();
+        TextView listIDView = (TextView) view.findViewById(R.id.list_id);
         String listID = String.valueOf(listIDView.getText());
+        Log.w("itemlist id: ", listID);
         Intent it = new Intent(this, ListOfItemsView.class);
         it.putExtra("listID", listID);
         startActivity(it);
@@ -141,7 +140,8 @@ public class ListOfListsView extends AppCompatActivity {
         /*SQLiteDatabase db = mHelper.getWritableDatabase();
         db.delete(Task.TaskEntry.TABLE, Task.TaskEntry.COL_TASK_TITLE + " = ?", new String[] {task});
         db.close();*/
-        ListController.deleteList(listID);
+        Log.w("dellist id: ", listID);
+        ListController.deleteList(listID, db);
         updateUI();
     }
 }

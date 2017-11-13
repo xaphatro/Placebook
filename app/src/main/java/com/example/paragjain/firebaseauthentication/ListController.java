@@ -103,7 +103,7 @@ public class ListController {
         return listArray;
     }
 
-    public static void deleteList(String listID){
+    public static void deleteList(String listID, StaticDatabaseHelper db){
         List li = null;
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("list_id", listID);
@@ -121,7 +121,10 @@ public class ListController {
             Log.w("status code result : ","val:"+ status);
             if(status==200)//if(db.getUser(getEmail, getPassword))
             {
-
+                ArrayList<Item> itemList = getListItems(db.getEmail(), listID);
+                for (Item item: itemList) {
+                    deleteItem(listID, item.itemID);
+                }
             }
             else
             {
@@ -191,8 +194,9 @@ public class ListController {
         return itemArray;
     }
 
-    public static Item addListItem(String email, String listID, String itemName, String location, String latitude, String longitude){
+    public static String addListItem(String email, String listID, String itemName, String location, String latitude, String longitude){
         Item it = null;
+        String itemID = null;
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("item_name", itemName);
         arguments.put("email", email);
@@ -214,7 +218,7 @@ public class ListController {
             Log.w("status code result : ","val:"+ status);
             if(status==200)//if(db.getUser(getEmail, getPassword))
             {
-                String itemID = resultJSON.getString("itemID");
+                itemID = resultJSON.getString("item_id");
                 it = new Item(itemID, itemName, location, longitude, latitude);
             }
             else
@@ -233,7 +237,7 @@ public class ListController {
             e.printStackTrace();
         }
 
-        return it;
+        return itemID;
     }
 
     public static Item addListItem(String email, String listID, String itemName){
@@ -300,11 +304,11 @@ public class ListController {
             Log.w("status code result : ","val:"+ status);
             if(status==200)//if(db.getUser(getEmail, getPassword))
             {
-
+                GeofenceActivity.getInstance().removeGeofences(itemID);
             }
             else
             {
-
+                Log.w("status code result : ","val:"+ status);
             }
         }
         catch(JSONException e)

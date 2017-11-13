@@ -21,6 +21,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.HashMap;
 
 /**
  * Created by rahul on 10/11/17.
@@ -28,11 +29,13 @@ import java.io.ObjectOutputStream;
 
 public class GeofenceController {
 
-    public static Geofence createGeofence(double latitude , double longitude, String placeName){
+    //HashMap<String, String> placeNames;
+
+    public static Geofence createGeofence(double latitude , double longitude, String placeName, String requestID){
         Geofence geo = new Geofence.Builder()
                 // Set the request ID of the geofence. This is a string to identify this
                 // geofence.
-                .setRequestId((String) placeName)
+                .setRequestId(requestID)
                 // Set the circular region of this geofence.
                 .setCircularRegion(
                         latitude,
@@ -51,4 +54,11 @@ public class GeofenceController {
         return geo;
     }
 
+    /*public void addName(String itemID, String place){
+        placeNames.put(itemID, place);
+    }
+
+    public String getPlace(String itemID){
+        return placeNames.get(itemID);
+    }*/
 }
