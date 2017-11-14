@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FirebaseAuthentication</string>
+    <string name="app_name">Placebook</string>
     <string name="title_activity_list_of_items_view">ListOfItemsView</string>
 
     <!-- Buttons strings -->
@@ -37,4 +37,13 @@
     <string name="permission_denied_explanation">Permission was denied, but is needed for core
         functionality.</string>
     <string name="settings">Settings</string>
+
+    <!--navigation bar string -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello</string>
 </resources>

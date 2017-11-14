@@ -5,6 +5,8 @@
       <module fileurl="file://$PROJECT_DIR$/FirebaseAuthentication.iml" filepath="$PROJECT_DIR$/FirebaseAuthentication.iml" />
       <module fileurl="file://G:\LocationApp\Location_based_reminder\FirebaseAuthentication\Placebook.iml" filepath="G:\LocationApp\Location_based_reminder\FirebaseAuthentication\Placebook.iml" />
       <module fileurl="file://$PROJECT_DIR$/Placebook.iml" filepath="$PROJECT_DIR$/Placebook.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Placebook.iml" filepath="$PROJECT_DIR$/Placebook.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

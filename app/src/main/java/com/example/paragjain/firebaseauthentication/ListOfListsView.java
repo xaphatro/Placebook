@@ -2,6 +2,7 @@ package com.example.paragjain.firebaseauthentication;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -11,6 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,7 +31,7 @@ import com.example.paragjain.firebaseauthentication.ListController;
  * Created by paragjain on 11/10/17.
  */
 
-public class ListOfListsView extends AppCompatActivity {
+public class ListOfListsView extends NavBar {
 
     private ListView listOfListsViewObject;
     private ListAdapter listOfListsAdapter;
@@ -37,8 +39,17 @@ public class ListOfListsView extends AppCompatActivity {
     private StaticDatabaseHelper db;
 
     protected void onCreate(Bundle savedInstance){
+        //super.onCreate(savedInstance);
+        //setContentView(R.layout.activity_list_of_lists_view);
+
         super.onCreate(savedInstance);
-        setContentView(R.layout.activity_list_of_lists_view);
+        LayoutInflater inflater = (LayoutInflater) this
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View contentView = inflater.inflate(R.layout.activity_list_of_lists_view, null, false);
+        drawer.addView(contentView, 0);
+
+
+
         db = new StaticDatabaseHelper(this);
         listOfListsViewObject = (ListView) findViewById(R.id.list_list);
 

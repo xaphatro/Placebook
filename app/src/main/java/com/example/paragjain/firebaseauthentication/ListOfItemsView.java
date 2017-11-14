@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.content.ContentValues;
 import android.content.DialogInterface;
@@ -38,7 +39,7 @@ import com.google.gson.Gson;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 
-public class ListOfItemsView extends AppCompatActivity {
+public class ListOfItemsView extends NavBar {
 
     private String geoJSON;
     private Geofence geofence;
@@ -57,8 +58,14 @@ public class ListOfItemsView extends AppCompatActivity {
     private Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+       // super.onCreate(savedInstanceState);
+        //setContentView(R.layout.activity_list_of_items_view);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_of_items_view);
+        LayoutInflater inflater = (LayoutInflater) this
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View contentView = inflater.inflate(R.layout.activity_list_of_items_view, null, false);
+        drawer.addView(contentView, 0);
+
         context = this;
         db = new StaticDatabaseHelper(this);
         //mHelper = new TaskHelper(this);
