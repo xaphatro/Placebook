@@ -23,6 +23,7 @@ import android.widget.Toast;
 public class NavBar extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
     protected DrawerLayout drawer;
+    private StaticDatabaseHelper db;
 
 
 
@@ -32,7 +33,7 @@ public class NavBar extends AppCompatActivity
         setContentView(R.layout.nav_activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        db = new StaticDatabaseHelper(this);
         /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +97,10 @@ public class NavBar extends AppCompatActivity
             Toast.makeText(this, "View a friend", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.logout) {
-            Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
+            db.deleteEmail();
+            Intent intent = new Intent(this, LoginView.class);
+            startActivity(intent);
+            finish();
         }
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

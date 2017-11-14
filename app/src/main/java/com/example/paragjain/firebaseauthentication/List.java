@@ -7,10 +7,16 @@ package com.example.paragjain.firebaseauthentication;
 public class List {
     String listID;
     String listName;
+    public String taskOne;
+    public String taskTwo;
+    public String taskThree;
 
     public List(String listID, String listName)
     {
         this.listID = listID;
         this.listName = listName;
+        taskOne = "";
+        taskTwo = "";
+        taskThree = "";
     }
 }
