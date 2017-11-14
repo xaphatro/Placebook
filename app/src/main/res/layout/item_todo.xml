@@ -53,14 +53,15 @@
         android:textSize = "0sp"
         />
 
-    <Button
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/item_delete"
+        android:src="@android:drawable/ic_delete"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:onClick="deleteItem"
-        android:text="Done"
+        android:onClick="deleteList"
+        android:background="#0fff"
         />
 
 </RelativeLayout>

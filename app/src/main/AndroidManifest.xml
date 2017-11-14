@@ -33,7 +33,8 @@
         </activity>
         <activity
             android:name=".SignUpView"
-            android:label="Sign Up"/>
+            android:label="Sign Up"
+            android:parentActivityName=".LoginView"/>
         <activity
             android:name=".ListOfListsView"
             android:label="Your Lists"/>
