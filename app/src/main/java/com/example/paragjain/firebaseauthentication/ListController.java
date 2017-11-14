@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 
 public class ListController {
-    public static List createList(String email, String listName){
+    public static List createList(String email, String listName) {
         List li = null;
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("list_name", listName);
@@ -25,38 +25,31 @@ public class ListController {
         arguments.put("url", "http://locationreminder.azurewebsites.net/createlist");
 
         queryapi q = new queryapi(arguments);
-        try
-        {
-            String res= q.execute().get();
-            Log.w("create lists check: ","val:"+res);
+        try {
+            String res = q.execute().get();
+            Log.w("create lists check: ", "val:" + res);
 
             JSONObject resultJSON = new JSONObject(res);
             int status = resultJSON.getInt("status");
-            Log.w("crelists status code: ","val:"+ status);
-            if(status==200)//if(db.getUser(getEmail, getPassword))
+            Log.w("crelists status code: ", "val:" + status);
+            if (status == 200)//if(db.getUser(getEmail, getPassword))
             {
                 String listID = resultJSON.getString("list_id");
                 li = new List(listID, listName);
-            }
-            else
-            {
+            } else {
 
             }
-        }
-        catch(JSONException e)
-        {
-            Log.w("catch block: ","");
+        } catch (JSONException e) {
+            Log.w("catch block: ", "");
             e.printStackTrace();
-        }
-        catch(Exception e)
-        {
-            Log.w("catch exception block: ","");
+        } catch (Exception e) {
+            Log.w("catch exception block: ", "");
             e.printStackTrace();
         }
         return li;
     }
 
-    public static ArrayList<List> getAllLists(String email){
+    public static ArrayList<List> getAllLists(String email) {
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("email", email);
         arguments.put("secret", Constants.SERVER_SECRET_KEY);
@@ -65,15 +58,14 @@ public class ListController {
         ArrayList<List> listArray = null;
 
         queryapi q = new queryapi(arguments);
-        try
-        {
-            String res= q.execute().get();
-            Log.w("alllists check: ","val:"+res);
+        try {
+            String res = q.execute().get();
+            Log.w("alllists check: ", "val:" + res);
 
             JSONObject resultJSON = new JSONObject(res);
             int status = resultJSON.getInt("status");
-            Log.w("alllists status code : ","val:"+ status);
-            if(status==200)//if(db.getUser(getEmail, getPassword))
+            Log.w("alllists status code : ", "val:" + status);
+            if (status == 200)//if(db.getUser(getEmail, getPassword))
             {
                 listArray = new ArrayList<List>();
                 JSONArray lists = resultJSON.getJSONArray("lists");
@@ -84,26 +76,20 @@ public class ListController {
                     List li = new List(listID, listName);
                     listArray.add(li);
                 }
-            }
-            else
-            {
+            } else {
 
             }
-        }
-        catch(JSONException e)
-        {
-            Log.w("catch block: ","");
+        } catch (JSONException e) {
+            Log.w("catch block: ", "");
             e.printStackTrace();
-        }
-        catch(Exception e)
-        {
-            Log.w("catch exception block: ","");
+        } catch (Exception e) {
+            Log.w("catch exception block: ", "");
             e.printStackTrace();
         }
         return listArray;
     }
 
-    public static void deleteList(String listID, StaticDatabaseHelper db){
+    public static void deleteList(String listID, StaticDatabaseHelper db) {
         List li = null;
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("list_id", listID);
@@ -111,34 +97,27 @@ public class ListController {
         arguments.put("url", "http://locationreminder.azurewebsites.net/deletelist");
 
         queryapi q = new queryapi(arguments);
-        try
-        {
-            String res= q.execute().get();
-            Log.w("check: ","val:"+res);
+        try {
+            String res = q.execute().get();
+            Log.w("check: ", "val:" + res);
 
             JSONObject resultJSON = new JSONObject(res);
             int status = resultJSON.getInt("status");
-            Log.w("status code result : ","val:"+ status);
-            if(status==200)//if(db.getUser(getEmail, getPassword))
+            Log.w("status code result : ", "val:" + status);
+            if (status == 200)//if(db.getUser(getEmail, getPassword))
             {
                 ArrayList<Item> itemList = getListItems(db.getEmail(), listID);
-                for (Item item: itemList) {
+                for (Item item : itemList) {
                     deleteItem(listID, item.itemID);
                 }
-            }
-            else
-            {
+            } else {
 
             }
-        }
-        catch(JSONException e)
-        {
-            Log.w("catch block: ","");
+        } catch (JSONException e) {
+            Log.w("catch block: ", "");
             e.printStackTrace();
-        }
-        catch(Exception e)
-        {
-            Log.w("catch exception block: ","");
+        } catch (Exception e) {
+            Log.w("catch exception block: ", "");
             e.printStackTrace();
         }
     }
@@ -153,15 +132,14 @@ public class ListController {
         ArrayList<Item> itemArray = null;
 
         queryapi q = new queryapi(arguments);
-        try
-        {
-            String res= q.execute().get();
-            Log.w("itelists check: ","val:"+res);
+        try {
+            String res = q.execute().get();
+            Log.w("itelists check: ", "val:" + res);
 
             JSONObject resultJSON = new JSONObject(res);
             int status = resultJSON.getInt("status");
-            Log.w("itelists status code : ","val:"+ status);
-            if(status==200)//if(db.getUser(getEmail, getPassword))
+            Log.w("itelists status code : ", "val:" + status);
+            if (status == 200)//if(db.getUser(getEmail, getPassword))
             {
                 itemArray = new ArrayList<Item>();
                 JSONArray items = resultJSON.getJSONArray("rows");
@@ -175,26 +153,20 @@ public class ListController {
                     Item it = new Item(itemID, itemName, locationName, longitude, latitude);
                     itemArray.add(it);
                 }
-            }
-            else
-            {
+            } else {
 
             }
-        }
-        catch(JSONException e)
-        {
-            Log.w("catch block: ","");
+        } catch (JSONException e) {
+            Log.w("catch block: ", "");
             e.printStackTrace();
-        }
-        catch(Exception e)
-        {
-            Log.w("catch exception block: ","");
+        } catch (Exception e) {
+            Log.w("catch exception block: ", "");
             e.printStackTrace();
         }
         return itemArray;
     }
 
-    public static String addListItem(String email, String listID, String itemName, String location, String latitude, String longitude){
+    public static String addListItem(String email, String listID, String itemName, String location, String latitude, String longitude) {
         Item it = null;
         String itemID = null;
         HashMap<String, String> arguments = new HashMap<>();
@@ -208,39 +180,32 @@ public class ListController {
         arguments.put("url", "http://locationreminder.azurewebsites.net/addItem");
 
         queryapi q = new queryapi(arguments);
-        try
-        {
-            String res= q.execute().get();
-            Log.w("check: ","val:"+res);
+        try {
+            String res = q.execute().get();
+            Log.w("check: ", "val:" + res);
 
             JSONObject resultJSON = new JSONObject(res);
             int status = resultJSON.getInt("status");
-            Log.w("status code result : ","val:"+ status);
-            if(status==200)//if(db.getUser(getEmail, getPassword))
+            Log.w("status code result : ", "val:" + status);
+            if (status == 200)//if(db.getUser(getEmail, getPassword))
             {
                 itemID = resultJSON.getString("item_id");
                 it = new Item(itemID, itemName, location, longitude, latitude);
-            }
-            else
-            {
+            } else {
 
             }
-        }
-        catch(JSONException e)
-        {
-            Log.w("catch block: ","");
+        } catch (JSONException e) {
+            Log.w("catch block: ", "");
             e.printStackTrace();
-        }
-        catch(Exception e)
-        {
-            Log.w("catch exception block: ","");
+        } catch (Exception e) {
+            Log.w("catch exception block: ", "");
             e.printStackTrace();
         }
 
         return itemID;
     }
 
-    public static Item addListItem(String email, String listID, String itemName){
+    public static Item addListItem(String email, String listID, String itemName) {
         Item it = null;
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("item_name", itemName);
@@ -253,39 +218,32 @@ public class ListController {
         arguments.put("url", "http://locationreminder.azurewebsites.net/addItem");
 
         queryapi q = new queryapi(arguments);
-        try
-        {
-            String res= q.execute().get();
-            Log.w("check: ","val:"+res);
+        try {
+            String res = q.execute().get();
+            Log.w("check: ", "val:" + res);
 
             JSONObject resultJSON = new JSONObject(res);
             int status = resultJSON.getInt("status");
-            Log.w("status code result : ","val:"+ status);
-            if(status==200)//if(db.getUser(getEmail, getPassword))
+            Log.w("status code result : ", "val:" + status);
+            if (status == 200)//if(db.getUser(getEmail, getPassword))
             {
                 String itemID = resultJSON.getString("itemID");
                 it = new Item(itemID, itemName);
-            }
-            else
-            {
+            } else {
 
             }
-        }
-        catch(JSONException e)
-        {
-            Log.w("catch block: ","");
+        } catch (JSONException e) {
+            Log.w("catch block: ", "");
             e.printStackTrace();
-        }
-        catch(Exception e)
-        {
-            Log.w("catch exception block: ","");
+        } catch (Exception e) {
+            Log.w("catch exception block: ", "");
             e.printStackTrace();
         }
         return it;
 
     }
 
-    public static void deleteItem(String listID, String itemID){
+    public static void deleteItem(String listID, String itemID) {
         List li = null;
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("list_id", listID);
@@ -294,33 +252,105 @@ public class ListController {
         arguments.put("url", "http://locationreminder.azurewebsites.net/deleteitem");
 
         queryapi q = new queryapi(arguments);
-        try
-        {
-            String res= q.execute().get();
-            Log.w("check: ","val:"+res);
+        try {
+            String res = q.execute().get();
+            Log.w("check: ", "val:" + res);
 
             JSONObject resultJSON = new JSONObject(res);
             int status = resultJSON.getInt("status");
-            Log.w("status code result : ","val:"+ status);
-            if(status==200)//if(db.getUser(getEmail, getPassword))
+            Log.w("status code result : ", "val:" + status);
+            if (status == 200)//if(db.getUser(getEmail, getPassword))
             {
                 GeofenceActivity.getInstance().removeGeofences(itemID);
+            } else {
+                Log.w("status code result : ", "val:" + status);
             }
-            else
-            {
-                Log.w("status code result : ","val:"+ status);
-            }
-        }
-        catch(JSONException e)
-        {
-            Log.w("catch block: ","");
+        } catch (JSONException e) {
+            Log.w("catch block: ", "");
             e.printStackTrace();
-        }
-        catch(Exception e)
-        {
-            Log.w("catch exception block: ","");
+        } catch (Exception e) {
+            Log.w("catch exception block: ", "");
             e.printStackTrace();
         }
     }
 
+    public static ArrayList<Friend> getFriends(String email) {
+        HashMap<String, String> arguments = new HashMap<>();
+        arguments.put("email", email);
+        arguments.put("secret", Constants.SERVER_SECRET_KEY);
+        arguments.put("url", "http://locationreminder.azurewebsites.net/getFriends");
+
+        ArrayList<Friend> friendArray = null;
+
+        queryapi q = new queryapi(arguments);
+        try {
+            String res = q.execute().get();
+            //Log.w("alllists check: ","val:"+res);
+
+            JSONObject resultJSON = new JSONObject(res);
+            int status = resultJSON.getInt("status");
+            Log.w("Friends status code : ", "val:" + status);
+            if (status == 200)//if(db.getUser(getEmail, getPassword))
+            {
+                friendArray = new ArrayList<Friend>();
+                JSONArray lists = resultJSON.getJSONArray("friends");
+                for (int i = 0; i < lists.length(); i++) {
+                    JSONObject currList = lists.getJSONObject(i);
+                    String friendName = currList.getString("fname");
+                    String friendEmail = currList.getString("femail");
+                    Friend f = new Friend(friendName, friendEmail);
+                    friendArray.add(f);
+                }
+            } else {
+
+            }
+        } catch (JSONException e) {
+            Log.w("catch block: ", "");
+            e.printStackTrace();
+        } catch (Exception e) {
+            Log.w("catch exception block: ", "");
+            e.printStackTrace();
+        }
+        return friendArray;
+    }
+
+    public static ArrayList<List> getPeerLists(String email) {
+        HashMap<String, String> arguments = new HashMap<>();
+        arguments.put("email", email);
+        arguments.put("secret", Constants.SERVER_SECRET_KEY);
+        arguments.put("url", "http://locationreminder.azurewebsites.net/getpeerlists");
+
+        ArrayList<List> listArray = null;
+
+        queryapi q = new queryapi(arguments);
+        try {
+            String res = q.execute().get();
+            Log.w("peerlists check: ", "val:" + res);
+
+            JSONObject resultJSON = new JSONObject(res);
+            int status = resultJSON.getInt("status");
+            Log.w("peerlists status code :", "val:" + status);
+            if (status == 200)//if(db.getUser(getEmail, getPassword))
+            {
+                listArray = new ArrayList<List>();
+                JSONArray lists = resultJSON.getJSONArray("lists");
+                for (int i = 0; i < lists.length(); i++) {
+                    JSONObject currList = lists.getJSONObject(i);
+                    String listID = currList.getString("list_id");
+                    String listName = currList.getString("title");
+                    List li = new List(listID, listName);
+                    listArray.add(li);
+                }
+            } else {
+
+            }
+        } catch (JSONException e) {
+            Log.w("catch block: ", "");
+            e.printStackTrace();
+        } catch (Exception e) {
+            Log.w("catch exception block: ", "");
+            e.printStackTrace();
+        }
+        return listArray;
+    }
 }

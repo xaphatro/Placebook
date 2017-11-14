@@ -1,5 +1,6 @@
 package com.example.paragjain.firebaseauthentication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -85,7 +86,9 @@ public class NavBar extends AppCompatActivity
 
         if (id == R.id.add_friend) {
             // Handle the camera action
-            Toast.makeText(this, "Add a friend", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Add a friend", Toast.LENGTH_SHORT).show();
+            Intent it = new Intent(this,AddFriend.class);
+            startActivity(it);
             /*CameraFragment cameraFragment = new CameraFragment();
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.relativelayout_for_fragment, cameraFragment, cameraFragment.getTag()).commit();*/
