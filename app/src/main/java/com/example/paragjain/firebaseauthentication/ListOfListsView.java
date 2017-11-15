@@ -26,6 +26,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import com.example.paragjain.firebaseauthentication.ListController;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 /**
  * Created by paragjain on 11/10/17.
@@ -48,12 +49,15 @@ public class ListOfListsView extends NavBar {
         View contentView = inflater.inflate(R.layout.activity_list_of_lists_view, null, false);
         drawer.addView(contentView, 0);
 
+        startService(new Intent(this, KeepRunning.class));
 
 
         db = new StaticDatabaseHelper(this);
         listOfListsViewObject = (ListView) findViewById(R.id.list_list);
 
         updateUI();
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        Log.d("", "Refreshed token: " + refreshedToken);
     }
 
     public void logOut(View v) {
