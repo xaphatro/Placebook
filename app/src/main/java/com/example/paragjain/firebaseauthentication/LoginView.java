@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -22,7 +23,8 @@ public class LoginView extends AppCompatActivity {
 
     public static final String TAG = LoginView.class.getSimpleName();
     private EditText email, password, name;
-    private Button login, signup;
+    private Button login;
+    private TextView signup;
     private StaticDatabaseHelper db;
     private Session session;
 
@@ -38,7 +40,7 @@ public class LoginView extends AppCompatActivity {
         password = (EditText) findViewById(R.id.etPassword);
         name = (EditText) findViewById(R.id.etName);
         login = (Button) findViewById(R.id.bLogin);
-        signup = (Button) findViewById(R.id.bSignUp);
+        signup = (TextView) findViewById(R.id.bSignUp);
 
         /*
         if(session.loggedin()){

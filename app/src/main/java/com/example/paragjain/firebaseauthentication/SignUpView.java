@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -26,7 +27,7 @@ public class SignUpView extends Activity {
     private EditText email;
     private EditText phoneNumber;
     private EditText password;
-    private Button signUp;
+    private TextView signUp;
     private StaticDatabaseHelper db;
     private Session session;
 
@@ -40,7 +41,13 @@ public class SignUpView extends Activity {
         email = (EditText) findViewById(R.id.etEmail);
         phoneNumber = (EditText) findViewById(R.id.etPhone);
         password = (EditText) findViewById(R.id.etPassword);
-        signUp = (Button) findViewById(R.id.bSignUp);
+        signUp = (TextView) findViewById(R.id.bSignUp);
+    }
+
+    public void logIn(View v) {
+        Intent intent = new Intent(SignUpView.this, LoginView.class);
+        finish();
+        startActivity(intent);
     }
 
     public void signUp(View v){
