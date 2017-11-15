@@ -61,7 +61,7 @@
         android:src="@drawable/ic_close_black"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:onClick="deleteList"
+        android:onClick="deleteItem"
         android:background="#0fff"
         />
 
