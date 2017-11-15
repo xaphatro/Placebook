@@ -96,7 +96,7 @@ public class FriendListView extends NavBar{
         }
 
         private void updateUI() {
-            ArrayList<List> listHolder = ListController.getFriends(db.getEmail());
+            ArrayList<Friend> listHolder = ListController.getFriends(db.getEmail());
         /*SQLiteDatabase db = mHelper.getReadableDatabase();
         Cursor cursor = db.query(Task.TaskEntry.TABLE,
                 new String[] {Task.TaskEntry.COL_TASK_TITLE}, null, null, null, null, null);
@@ -106,7 +106,7 @@ public class FriendListView extends NavBar{
             taskList.add(cursor.getString(index));
         }
         */
-            if (listHolder != null) {
+           /* if (listHolder != null) {
                 if (listOfListsAdapter == null) {
                     listOfListsAdapter = new ListAdapter(this, listHolder);
                     listOfListsViewObject.setAdapter(listOfListsAdapter);
@@ -118,7 +118,7 @@ public class FriendListView extends NavBar{
                 }
             } else if(listOfListsAdapter != null){
                 listOfListsAdapter.clear();
-            }
+            }*/
             //cursor.close();
             //db.close();
         }

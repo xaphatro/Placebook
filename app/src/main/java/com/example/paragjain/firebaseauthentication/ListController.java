@@ -278,7 +278,7 @@ public class ListController {
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("email", email);
         arguments.put("secret", Constants.SERVER_SECRET_KEY);
-        arguments.put("url", "http://locationreminder.azurewebsites.net/getFriends");
+        arguments.put("url", "http://locationreminder.azurewebsites.net/viewfriends");
 
         ArrayList<Friend> friendArray = null;
 
@@ -318,7 +318,7 @@ public class ListController {
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("email", email);
         arguments.put("secret", Constants.SERVER_SECRET_KEY);
-        arguments.put("url", "http://locationreminder.azurewebsites.net/getpeerlists");
+        arguments.put("url", "http://locationreminder.azurewebsites.net/viewpeerlists");
 
         ArrayList<List> listArray = null;
 
