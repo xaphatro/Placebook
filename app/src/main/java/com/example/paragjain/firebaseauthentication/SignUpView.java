@@ -35,12 +35,12 @@ public class SignUpView extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_view);
         db = new StaticDatabaseHelper(this);
-        /*
-        /name = (EditText) findViewById(R.id.etName);
+
+        name = (EditText) findViewById(R.id.etName);
         email = (EditText) findViewById(R.id.etEmail);
         phoneNumber = (EditText) findViewById(R.id.etPhone);
         password = (EditText) findViewById(R.id.etPassword);
-        signUp = (Button) findViewById(R.id.bSignUp);*/
+        signUp = (Button) findViewById(R.id.bSignUp);
     }
 
     public void signUp(View v){

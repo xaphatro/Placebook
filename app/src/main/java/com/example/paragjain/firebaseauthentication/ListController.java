@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by rahul on 11/11/17.
@@ -291,11 +292,12 @@ public class ListController {
         }
     }
 
+
     public static ArrayList<Friend> getFriends(String email) {
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("email", email);
         arguments.put("secret", Constants.SERVER_SECRET_KEY);
-        arguments.put("url", "http://locationreminder.azurewebsites.net/getFriends");
+        arguments.put("url", "http://locationreminder.azurewebsites.net/viewfriends");
 
         ArrayList<Friend> friendArray = null;
 
@@ -331,11 +333,41 @@ public class ListController {
         return friendArray;
     }
 
+    public static HashMap<String, String> getNotificationDetails(String itemID){
+        HashMap<String, String> arguments = new HashMap<>();
+        HashMap<String, String> notificationDetails = null;
+        arguments.put("item_id", itemID);
+        arguments.put("secret", Constants.SERVER_SECRET_KEY);
+        arguments.put("url", "http://locationreminder.azurewebsites.net/getnotificationdetails");
+        queryapi q = new queryapi(arguments);
+        try {
+            String res = q.execute().get();
+            Log.w("notfication", itemID);
+
+            JSONObject resultJSON = new JSONObject(res);
+            int status = resultJSON.getInt("status");
+            if(status == 200){
+                notificationDetails = new HashMap<>();
+                notificationDetails.put("location_name", resultJSON.getString("location_name"));
+                notificationDetails.put("item_name", resultJSON.getString("item_name"));
+            } else {
+
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return notificationDetails;
+    }
+
     public static ArrayList<List> getPeerLists(String email) {
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("email", email);
         arguments.put("secret", Constants.SERVER_SECRET_KEY);
-        arguments.put("url", "http://locationreminder.azurewebsites.net/getpeerlists");
+        arguments.put("url", "http://locationreminder.azurewebsites.net/viewpeerlists");
 
         ArrayList<List> listArray = null;
 
@@ -370,4 +402,33 @@ public class ListController {
         }
         return listArray;
     }
+    /*
+    public static void sendToken(String refreshedToken) {
+        HashMap<String, String> arguments = new HashMap<>();
+        HashMap<String, String> notificationDetails = null;
+        arguments.put("new_token", refreshedToken);
+        StaticDatabaseHelper db = new StaticDatabaseHelper(LoginView.getInstance());//
+        arguments.put("email", db.getEmail());
+        arguments.put("secret", Constants.SERVER_SECRET_KEY);
+        arguments.put("url", "http://locationreminder.azurewebsites.net/tokenregistration");
+        queryapi q = new queryapi(arguments);
+        try {
+            String res = q.execute().get();
+            Log.w("notfication", refreshedToken);
+
+            JSONObject resultJSON = new JSONObject(res);
+            int status = resultJSON.getInt("status");
+            if(status == 200){
+                Log.w("success", "");
+            } else {
+                Log.w("failure", "");
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }*/
 }

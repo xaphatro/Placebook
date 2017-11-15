@@ -16,7 +16,7 @@
         >
 
         <TextView
-            android:layout_width="155dp"
+            android:layout_width="160dp"
             android:layout_height="30dp"
             android:id="@+id/list_title"
             android:layout_alignParentLeft="true"
@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/list_delete"
-            android:src="@android:drawable/ic_delete"
+            android:src="@drawable/ic_close_black"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:onClick="deleteList"
