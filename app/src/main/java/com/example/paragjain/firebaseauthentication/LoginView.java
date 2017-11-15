@@ -20,6 +20,8 @@ import java.util.HashMap;
 
 public class LoginView extends AppCompatActivity {
 
+    static LoginView loginContext;
+
     public static final String TAG = LoginView.class.getSimpleName();
     private EditText email, password, name;
     private Button login, signup;
@@ -30,7 +32,10 @@ public class LoginView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_view);
-      Log.d(TAG, "login activity.");
+
+        loginContext = this;
+
+        Log.d(TAG, "login activity.");
         session = new Session(this);
         db = new StaticDatabaseHelper(this);
         //db = new DbHelper();
@@ -39,7 +44,6 @@ public class LoginView extends AppCompatActivity {
         name = (EditText) findViewById(R.id.etName);
         login = (Button) findViewById(R.id.bLogin);
         signup = (Button) findViewById(R.id.bSignUp);
-
         /*
         if(session.loggedin()){
             Intent intent = new Intent(this, ListOfListsView.class);
@@ -52,6 +56,9 @@ public class LoginView extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+    }
+    public static LoginView getInstance(){
+        return loginContext;
     }
 
     public void goToLists(View v) {

@@ -36,6 +36,7 @@ import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import android.app.IntentService;
@@ -95,8 +96,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
         int geofenceTransition = geofencingEvent.getGeofenceTransition();
 
         // Test that the reported transition was of interest.
-        if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER ||
-                geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
+        if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER ) {
 
             // Get the geofences that were triggered. A single event can trigger multiple geofences.
             List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
@@ -130,11 +130,17 @@ public class GeofenceTransitionsIntentService extends IntentService {
         // Get the Ids of each geofence that was triggered.
         ArrayList<String> triggeringGeofencesIdsList = new ArrayList<>();
         for (Geofence geofence : triggeringGeofences) {
-            triggeringGeofencesIdsList.add(geofence.getRequestId());
+            try {
+                HashMap<String, String> details = ListController.getNotificationDetails(geofence.getRequestId());
+                triggeringGeofencesIdsList.add(details.get("location_name") + "\nReminder for " + details.get("item_name"));
+                //triggeringGeofencesIdsList.add(geofence.getRequestId());
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         }
         String triggeringGeofencesIdsString = TextUtils.join(", ",  triggeringGeofencesIdsList);
 
-        return geofenceTransitionString + ": " + triggeringGeofencesIdsString;
+        return geofenceTransitionString + " " + triggeringGeofencesIdsString;
     }
 
     /**
@@ -168,13 +174,18 @@ public class GeofenceTransitionsIntentService extends IntentService {
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(),
                         R.drawable.ic_launcher))
                 .setColor(Color.RED)
-                .setContentTitle(notificationDetails)
+                .setContentTitle("REMINDER")
                 .setContentText(getString(R.string.geofence_transition_notification_text))
                 .setContentIntent(notificationPendingIntent);
 
         // Dismiss notification once the user touches it.
         builder.setAutoCancel(true);
 
+        NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle();
+        bigTextStyle.setBigContentTitle("REMINDER");
+        bigTextStyle.bigText(notificationDetails);
+
+        builder.setStyle(bigTextStyle);
         // Get an instance of the Notification manager
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

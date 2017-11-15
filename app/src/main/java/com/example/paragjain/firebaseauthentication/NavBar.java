@@ -1,5 +1,6 @@
 package com.example.paragjain.firebaseauthentication;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -94,9 +95,19 @@ public class NavBar extends AppCompatActivity
             manager.beginTransaction().replace(R.id.relativelayout_for_fragment, cameraFragment, cameraFragment.getTag()).commit();*/
         } else if (id == R.id.view_friend) {
             Toast.makeText(this, "View a friend", Toast.LENGTH_SHORT).show();
+            Intent it = new Intent(this, FriendListView.class);
+            startActivity(it);
 
         } else if (id == R.id.logout) {
-            Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
+            int x=1;
+            Context c = LoginView.getInstance();
+            StaticDatabaseHelper db = new StaticDatabaseHelper(c);
+            db.deleteEmail();
+            Intent intent = new Intent(this, LoginView.class);
+            startActivity(intent);
+            finish();
+
         }
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -18,6 +18,7 @@ public class FcmBackgroundManager extends FirebaseInstanceIdService {
             String refreshedToken = FirebaseInstanceId.getInstance().getToken();
             Log.w("", "Refreshed token: " + refreshedToken);
             //System.out.println("Refreshed token: " + refreshedToken);
+            ListController.sendToken(refreshedToken);
         }
         catch (Exception e)
         {
@@ -27,5 +28,6 @@ public class FcmBackgroundManager extends FirebaseInstanceIdService {
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
         //sendRegistrationToServer(refreshedToken);
+
     }
 }

@@ -49,8 +49,6 @@ public class ListOfListsView extends NavBar {
         View contentView = inflater.inflate(R.layout.activity_list_of_lists_view, null, false);
         drawer.addView(contentView, 0);
 
-        startService(new Intent(this, KeepRunning.class));
-
 
         db = new StaticDatabaseHelper(this);
         listOfListsViewObject = (ListView) findViewById(R.id.list_list);
