@@ -11,10 +11,4 @@
         app:showAsAction="always"
         />
 
-    <item
-        android:id="@+id/action_notification"
-        android:icon="@drawable/ic_notifications"
-        android:orderInCategory="0"
-        android:title="Notification"
-        app:showAsAction="always" />
 </menu>

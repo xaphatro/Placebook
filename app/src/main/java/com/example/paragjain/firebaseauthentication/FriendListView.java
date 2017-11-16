@@ -63,7 +63,7 @@ public class FriendListView extends NavBar{
         public boolean onOptionsItemSelected(MenuItem item) {
             switch(item.getItemId()) {
                 case R.id.action_add:
-                    createDialog();
+                    Intent intent = new Intent(this, AddFriend.class);
                     return true;
                 default:
                     return super.onOptionsItemSelected(item);
@@ -123,28 +123,16 @@ public class FriendListView extends NavBar{
             //db.close();
         }
 
-        public void goToItem(View view) {
+        public void goToFriendList(View view) {
             //View parent =(View) view.getParent();
-            TextView listIDView = (TextView) view.findViewById(R.id.list_id);
-            String listID = String.valueOf(listIDView.getText());
-            Log.w("itemlist id: ", listID);
-            Intent it = new Intent(this, ListOfItemsView.class);
-            it.putExtra("listID", listID);
+            TextView friendEmailView = (TextView) view.findViewById(R.id.friend_email);
+            String friendEmail = String.valueOf(friendEmailView.getText());
+            Log.w("friend email id: ", friendEmail);
+            Intent it = new Intent(this, FriendListOfLists.class);
+            it.putExtra("friendEmail", friendEmail);
             startActivity(it);
         }
 
-        public void deleteList(View view) {
-            View parent = (View) view.getParent();
-            //TextView taskTextView = (TextView) parent.findViewById(R.id.task_title);
-            TextView listIDView = (TextView) parent.findViewById(R.id.list_id);
-            String listID = String.valueOf(listIDView.getText());
-        /*SQLiteDatabase db = mHelper.getWritableDatabase();
-        db.delete(Task.TaskEntry.TABLE, Task.TaskEntry.COL_TASK_TITLE + " = ?", new String[] {task});
-        db.close();*/
-            Log.w("dellist id: ", listID);
-            ListController.deleteList(listID, db);
-            updateUI();
-        }
     }
 
 

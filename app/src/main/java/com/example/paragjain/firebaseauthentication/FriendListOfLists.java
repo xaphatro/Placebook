@@ -30,16 +30,14 @@ import java.util.ArrayList;
 import com.example.paragjain.firebaseauthentication.ListController;
 import com.google.firebase.iid.FirebaseInstanceId;
 
-import static com.example.paragjain.firebaseauthentication.R.id.action_notification;
-
 /**
  * Created by paragjain on 11/10/17.
  */
 
-public class ListOfListsView extends NavBar {
+public class FriendListOfLists extends NavBar {
 
     private GridView listOfListsGridView;
-    private ListAdapter listOfListsAdapter;
+    private FriendListAdapter listOfListsAdapter;
     private EditText listEditText;
     private StaticDatabaseHelper db;
 
@@ -82,8 +80,6 @@ public class ListOfListsView extends NavBar {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.add_item, menu);
-        getMenuInflater().inflate(R.menu.nav_main, menu);
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -124,7 +120,7 @@ public class ListOfListsView extends NavBar {
     }
 
     private void updateUI() {
-        ArrayList<List> listHolder = ListController.getAllLists(db.getEmail());
+        ArrayList<FriendList> listHolder = ListController.getPeerLists(getIntent().getStringExtra("friendEmail"));
         /*SQLiteDatabase db = mHelper.getReadableDatabase();
         Cursor cursor = db.query(Task.TaskEntry.TABLE,
                 new String[] {Task.TaskEntry.COL_TASK_TITLE}, null, null, null, null, null);
@@ -136,7 +132,7 @@ public class ListOfListsView extends NavBar {
         */
         if (listHolder != null) {
             if (listOfListsAdapter == null) {
-                listOfListsAdapter = new ListAdapter(this, listHolder);
+                listOfListsAdapter = new FriendListAdapter(this, listHolder);
                 listOfListsGridView.setAdapter(listOfListsAdapter);
 
             } else {
@@ -176,8 +172,4 @@ public class ListOfListsView extends NavBar {
         updateUI();
     }
 
-    public void changePermission(View view) {
-        CheckBox checkBox = (CheckBox) view;
-        checkBox.setChecked(true);
-    }
 }
