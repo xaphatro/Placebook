@@ -75,6 +75,23 @@ public class ListController {
                     String listID = currList.getString("list_id");
                     String listName = currList.getString("title");
                     List li = new List(listID, listName);
+                    JSONArray items = currList.getJSONArray("items");
+                    switch (items.length()) {
+                        case 0:
+                            break;
+                        case 1:
+                            li.taskOne = items.getJSONObject(0).getString("item_name");
+                            break;
+                        case 2:
+                            li.taskOne = items.getJSONObject(0).getString("item_name");
+                            li.taskTwo = items.getJSONObject(1).getString("item_name");
+                            break;
+                        default:
+                            li.taskOne = items.getJSONObject(0).getString("item_name");
+                            li.taskTwo = items.getJSONObject(1).getString("item_name");
+                            li.taskThree = items.getJSONObject(2).getString("item_name");
+                            break;
+                    }
                     listArray.add(li);
                 }
             } else {
@@ -275,6 +292,7 @@ public class ListController {
         }
     }
 
+
     public static ArrayList<Friend> getFriends(String email) {
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("email", email);
@@ -344,6 +362,7 @@ public class ListController {
         }
         return notificationDetails;
     }
+
     public static ArrayList<List> getPeerLists(String email) {
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("email", email);
@@ -383,7 +402,7 @@ public class ListController {
         }
         return listArray;
     }
-
+    /*
     public static void sendToken(String refreshedToken) {
         HashMap<String, String> arguments = new HashMap<>();
         HashMap<String, String> notificationDetails = null;
@@ -411,5 +430,5 @@ public class ListController {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }

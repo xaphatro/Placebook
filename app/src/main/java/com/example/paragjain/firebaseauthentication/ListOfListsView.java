@@ -20,6 +20,7 @@ import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -34,7 +35,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 public class ListOfListsView extends NavBar {
 
-    private ListView listOfListsViewObject;
+    private GridView listOfListsGridView;
     private ListAdapter listOfListsAdapter;
     private EditText listEditText;
     private StaticDatabaseHelper db;
@@ -49,9 +50,8 @@ public class ListOfListsView extends NavBar {
         View contentView = inflater.inflate(R.layout.activity_list_of_lists_view, null, false);
         drawer.addView(contentView, 0);
 
-
         db = new StaticDatabaseHelper(this);
-        listOfListsViewObject = (ListView) findViewById(R.id.list_list);
+        listOfListsGridView = (GridView) findViewById(R.id.grid_list);
 
         updateUI();
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
@@ -63,6 +63,17 @@ public class ListOfListsView extends NavBar {
         Intent intent = new Intent(this, LoginView.class);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (db.getEmail() == null) {
+            Intent it = new Intent(this, LoginView.class);
+            startActivity(it);
+            finish();
+        };
+        updateUI();
     }
 
     @Override
@@ -121,7 +132,7 @@ public class ListOfListsView extends NavBar {
         if (listHolder != null) {
             if (listOfListsAdapter == null) {
                 listOfListsAdapter = new ListAdapter(this, listHolder);
-                listOfListsViewObject.setAdapter(listOfListsAdapter);
+                listOfListsGridView.setAdapter(listOfListsAdapter);
 
             } else {
                 listOfListsAdapter.clear();
@@ -138,10 +149,12 @@ public class ListOfListsView extends NavBar {
     public void goToItem(View view) {
         //View parent =(View) view.getParent();
         TextView listIDView = (TextView) view.findViewById(R.id.list_id);
+        TextView listNameView = (TextView) view.findViewById(R.id.list_title);
         String listID = String.valueOf(listIDView.getText());
-        Log.w("itemlist id: ", listID);
+        String listName = String.valueOf(listNameView.getText());
         Intent it = new Intent(this, ListOfItemsView.class);
         it.putExtra("listID", listID);
+        it.putExtra("listName", listName);
         startActivity(it);
     }
 

@@ -5,9 +5,16 @@
     android:layout_height="600px">
     <item
         android:id="@+id/action_add"
-        android:icon="@android:drawable/ic_menu_add"
+        android:icon="@drawable/ic_add_white"
+        android:orderInCategory="1"
         android:title="Add Task"
         app:showAsAction="always"
         />
 
+    <item
+        android:id="@+id/action_notification"
+        android:icon="@drawable/ic_notifications"
+        android:orderInCategory="0"
+        android:title="Notification"
+        app:showAsAction="always" />
 </menu>

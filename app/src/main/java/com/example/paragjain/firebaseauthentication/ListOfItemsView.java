@@ -95,7 +95,7 @@ public class ListOfItemsView extends NavBar {
         super.onResume();
         listID = getIntent().getStringExtra("listID");
         updateUI();
-        if (itemName != null) {
+        if (itemName != null && getIntent().getStringExtra("activity").equals("geofenceactivity")) {
             createDialog();
             itemEditText.setText(itemName);
         }
@@ -250,6 +250,7 @@ public class ListOfItemsView extends NavBar {
             taskList.add(cursor.getString(index));
         }
         */
+        setTitle(getIntent().getStringExtra("listName"));
         if (taskList != null) {
             if (itemAdapter == null) {
                 itemAdapter = new ItemAdapter(this, taskList);

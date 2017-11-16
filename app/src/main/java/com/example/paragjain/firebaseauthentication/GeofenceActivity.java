@@ -178,6 +178,7 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
                 returnGeofenceIntent.putExtra("placeName", place.getName());
                 returnGeofenceIntent.putExtra("latitude", latString);
                 returnGeofenceIntent.putExtra("longitude", longString);
+                returnGeofenceIntent.putExtra("activity", "geofenceactivity");
 
                 setResult(RESULT_OK, returnGeofenceIntent);
             }

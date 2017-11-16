@@ -4,76 +4,84 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.paragjain.firebaseauthentication.login">
-
-    <TextView
-        android:layout_width="100dp"
-        android:layout_height="24dp"
-        android:text="Sign Up"
-        tools:layout_editor_absoluteX="152dp"
-        tools:layout_editor_absoluteY="16dp"
-        android:id="@+id/textView"
-        android:layout_marginTop="24dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+    android:background="@color/colorPrimary"
+    tools:context="com.example.paragjain.firebaseauthentication.SignUpView">
 
 
     <EditText
         android:id="@+id/etName"
-        android:layout_width="183dp"
-        android:layout_height="45dp"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
         android:hint="Name"
         tools:layout_editor_absoluteX="113dp"
         tools:layout_editor_absoluteY="99dp"
-        android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="26dp" />
+        android:background="#fff"
+        android:paddingLeft="5dp"
+        android:layout_marginTop="70dp" />
 
     <EditText
         android:id="@+id/etEmail"
-        android:layout_width="183dp"
-        android:layout_height="45dp"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
         android:hint="Email"
         tools:layout_editor_absoluteX="113dp"
         tools:layout_editor_absoluteY="99dp"
-        android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="66dp" />
+        android:background="#fff"
+        android:paddingLeft="5dp"
+        android:layout_marginTop="125dp" />
 
     <EditText
         android:id="@+id/etPhone"
-        android:layout_width="183dp"
-        android:layout_height="45dp"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
         android:hint="Phone"
         tools:layout_editor_absoluteX="113dp"
         tools:layout_editor_absoluteY="99dp"
-        android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="106dp" />
+        android:background="#fff"
+        android:paddingLeft="5dp"
+        android:layout_marginTop="180dp" />
 
     <EditText
         android:id="@+id/etPassword"
-        android:layout_width="183dp"
-        android:layout_height="45dp"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
         android:hint="Password"
         tools:layout_editor_absoluteX="113dp"
         tools:layout_editor_absoluteY="99dp"
-        android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="146dp" />
+        android:background="#fff"
+        android:paddingLeft="5dp"
+        android:layout_marginTop="235dp" />
 
 
     <Button
         android:id="@+id/bSignUp"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="SIGN UP"
         android:onClick="signUp"
         tools:layout_editor_absoluteX="235dp"
         tools:layout_editor_absoluteY="341dp"
-        android:layout_marginTop="91dp"
+        android:layout_marginTop="50dp"
         android:layout_below="@+id/etPassword"
+        android:background="#eff1f4"
+        android:textColor="@color/colorPrimaryDark"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/bLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Already a member? Log In here."
+        android:onClick="logIn"
+        android:layout_below="@+id/bSignUp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:textColor="#fff"
+        />
 
 
 </RelativeLayout>

@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -24,6 +25,7 @@ import android.widget.Toast;
 public class NavBar extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
     protected DrawerLayout drawer;
+    private StaticDatabaseHelper db;
 
 
 
@@ -33,7 +35,7 @@ public class NavBar extends AppCompatActivity
         setContentView(R.layout.nav_activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        db = new StaticDatabaseHelper(this);
         /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,6 +44,7 @@ public class NavBar extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });*/
+
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -61,12 +64,14 @@ public class NavBar extends AppCompatActivity
             super.onBackPressed();
         }
     }
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.nav_main, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -75,12 +80,13 @@ public class NavBar extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_notification) {
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+    */
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();

@@ -29,8 +29,14 @@ public class ListAdapter extends ArrayAdapter<List> {
         }
         TextView listNameView = (TextView) convertView.findViewById(R.id.list_title);
         TextView listIDView = (TextView) convertView.findViewById(R.id.list_id);
+        TextView taskOne = (TextView) convertView.findViewById(R.id.item_1);
+        TextView taskTwo = (TextView) convertView.findViewById(R.id.item_2);
+        TextView taskThree = (TextView) convertView.findViewById(R.id.item_3);
         listNameView.setText(li.listName);
         listIDView.setText(li.listID);
+        taskOne.setText(li.taskOne);
+        taskTwo.setText(li.taskTwo);
+        taskThree.setText(li.taskThree);
         return convertView;
     }
 }
