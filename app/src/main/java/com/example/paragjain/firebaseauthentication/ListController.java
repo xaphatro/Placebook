@@ -402,7 +402,7 @@ public class ListController {
         }
         return listArray;
     }
-    /*
+
     public static void sendToken(String refreshedToken) {
         HashMap<String, String> arguments = new HashMap<>();
         HashMap<String, String> notificationDetails = null;
@@ -430,5 +430,5 @@ public class ListController {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }*/
+    }
 }

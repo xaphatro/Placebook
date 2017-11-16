@@ -21,6 +21,8 @@ import java.util.HashMap;
 
 public class LoginView extends AppCompatActivity {
 
+    static Context loginContext;
+
     public static final String TAG = LoginView.class.getSimpleName();
     private EditText email, password, name;
     private Button login;
@@ -58,7 +60,7 @@ public class LoginView extends AppCompatActivity {
             finish();
         }
     }
-    public static LoginView getInstance(){
+    public static Context getInstance(){
         return loginContext;
     }
 

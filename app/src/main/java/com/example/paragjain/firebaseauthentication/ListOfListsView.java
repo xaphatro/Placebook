@@ -53,7 +53,7 @@ public class ListOfListsView extends NavBar {
         db = new StaticDatabaseHelper(this);
         listOfListsGridView = (GridView) findViewById(R.id.grid_list);
 
-        updateUI();
+        //updateUI();
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d("", "Refreshed token: " + refreshedToken);
     }
