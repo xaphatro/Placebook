@@ -112,6 +112,7 @@ public class LoginView extends AppCompatActivity {
                     db.deleteEmail();
                     db.addEmail(emailContent);
                 }
+                it.putExtra("prevActivity", "login");
                 startActivity(it);
 
                 finish();

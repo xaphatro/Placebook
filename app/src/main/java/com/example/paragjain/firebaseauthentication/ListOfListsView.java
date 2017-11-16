@@ -2,7 +2,6 @@ package com.example.paragjain.firebaseauthentication;
 
 import android.app.Activity;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -12,7 +11,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,13 +24,13 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import com.example.paragjain.firebaseauthentication.ListController;
-import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.android.gms.location.Geofence;
 
 /**
  * Created by paragjain on 11/10/17.
  */
 
-public class ListOfListsView extends NavBar {
+public class ListOfListsView extends AppCompatActivity {
 
     private ListView listOfListsViewObject;
     private ListAdapter listOfListsAdapter;
@@ -40,28 +38,29 @@ public class ListOfListsView extends NavBar {
     private StaticDatabaseHelper db;
 
     protected void onCreate(Bundle savedInstance){
-        //super.onCreate(savedInstance);
-        //setContentView(R.layout.activity_list_of_lists_view);
-
         super.onCreate(savedInstance);
-        LayoutInflater inflater = (LayoutInflater) this
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View contentView = inflater.inflate(R.layout.activity_list_of_lists_view, null, false);
-        drawer.addView(contentView, 0);
-
-
+        setContentView(R.layout.activity_list_of_lists_view);
         db = new StaticDatabaseHelper(this);
         listOfListsViewObject = (ListView) findViewById(R.id.list_list);
 
+        if (getIntent().getStringExtra("prevActivity").equals("login")) {
+            ArrayList<List> listHolder = ListController.getAllLists(db.getEmail());
+            for (List list: listHolder){
+                for (Item item: list.items){
+                    Geofence geofence = GeofenceController.createGeofence(Double.valueOf(item.latitude), Double.valueOf(item.longitude), item.itemID);
+                    GeofenceActivity.getInstance().addFence(geofence);
+                }
+            }
+        }
+
         updateUI();
-        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-        Log.d("", "Refreshed token: " + refreshedToken);
     }
 
     public void logOut(View v) {
         db.deleteEmail();
         Intent intent = new Intent(this, LoginView.class);
         startActivity(intent);
+        GeofenceActivity.getInstance().removeGeofences();
         finish();
     }
 
@@ -81,6 +80,8 @@ public class ListOfListsView extends NavBar {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
 
     private void createDialog() {
         listEditText = new EditText(this);
@@ -130,6 +131,9 @@ public class ListOfListsView extends NavBar {
             }
         } else if(listOfListsAdapter != null){
             listOfListsAdapter.clear();
+        } else {
+            int x=1;
+            //error;
         }
         //cursor.close();
         //db.close();

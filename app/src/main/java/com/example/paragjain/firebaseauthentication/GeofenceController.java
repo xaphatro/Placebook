@@ -31,7 +31,7 @@ public class GeofenceController {
 
     //HashMap<String, String> placeNames;
 
-    public static Geofence createGeofence(double latitude , double longitude, String placeName, String requestID){
+    public static Geofence createGeofence(double latitude , double longitude, String requestID){
         Geofence geo = new Geofence.Builder()
                 // Set the request ID of the geofence. This is a string to identify this
                 // geofence.
