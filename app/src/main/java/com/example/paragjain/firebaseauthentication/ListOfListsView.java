@@ -19,13 +19,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import com.example.paragjain.firebaseauthentication.ListController;
+import com.google.android.gms.location.Geofence;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 /**
@@ -50,9 +53,9 @@ public class ListOfListsView extends NavBar {
         drawer.addView(contentView, 0);
 
         db = new StaticDatabaseHelper(this);
-        listOfListsViewObject = (ListView) findViewById(R.id.list_list);
+        listOfListsGridView = (GridView) findViewById(R.id.grid_list);
 
-        if (getIntent().getStringExtra("prevActivity").equals("login")) {
+        if (getIntent().getStringExtra("prevActivity") != null && getIntent().getStringExtra("prevActivity").equals("login")) {
             ArrayList<List> listHolder = ListController.getAllLists(db.getEmail());
             for (List list: listHolder){
                 for (Item item: list.items){

@@ -93,16 +93,16 @@ public class ListController {
                         case 0:
                             break;
                         case 1:
-                            li.taskOne = itemsList.get(0).itemName;
+                            li.taskOne = itemList.get(0).itemName;
                             break;
                         case 2:
-                            li.taskOne = itemsList.get(0).itemName;
-                            li.taskTwo = itemsList.get(1).itemName;
+                            li.taskOne = itemList.get(0).itemName;
+                            li.taskTwo = itemList.get(1).itemName;
                             break;
                         default:
-                            li.taskOne = itemsList.get(0).itemName;
-                            li.taskTwo = itemsList.get(1).itemName;
-                            li.taskThree = itemsList.get(2).itemName;
+                            li.taskOne = itemList.get(0).itemName;
+                            li.taskTwo = itemList.get(1).itemName;
+                            li.taskThree = itemList.get(2).itemName;
                             break;
                     }
                     listArray.add(li);
