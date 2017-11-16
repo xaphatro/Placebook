@@ -81,7 +81,20 @@ public class ListController {
                     JSONObject currList = lists.getJSONObject(i);
                     String listID = currList.getString("list_id");
                     String listName = currList.getString("title");
-                    List li = new List(listID, listName);
+                    JSONArray items = currList.getJSONArray("items");
+                    ArrayList<Item> itemList = new ArrayList<>();
+                    for (int j = 0; j < items.length(); j++){
+                        JSONObject currItem = items.getJSONObject(j);
+                        String itemID = currItem.getString("item_id");
+                        String itemEmail = currItem.getString("email");
+                        String itemName = currItem.getString("item_name");
+                        String locationName = currItem.getString("location_name");
+                        String longitude = currItem.getString("longitude");
+                        String latitude = currItem.getString("done");
+                        Item item = new Item(itemID, itemName, locationName, longitude, latitude);
+                        itemList.add(item);
+                    }
+                    List li = new List(listID, listName, itemList);
                     listArray.add(li);
                 }
             }

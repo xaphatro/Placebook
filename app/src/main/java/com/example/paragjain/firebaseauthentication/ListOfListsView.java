@@ -24,6 +24,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import com.example.paragjain.firebaseauthentication.ListController;
+import com.google.android.gms.location.Geofence;
 
 /**
  * Created by paragjain on 11/10/17.
@@ -42,6 +43,16 @@ public class ListOfListsView extends AppCompatActivity {
         db = new StaticDatabaseHelper(this);
         listOfListsViewObject = (ListView) findViewById(R.id.list_list);
 
+        if (getIntent().getStringExtra("prevActivity").equals("login")) {
+            ArrayList<List> listHolder = ListController.getAllLists(db.getEmail());
+            for (List list: listHolder){
+                for (Item item: list.items){
+                    Geofence geofence = GeofenceController.createGeofence(Double.valueOf(item.latitude), Double.valueOf(item.longitude), item.itemID);
+                    GeofenceActivity.getInstance().addFence(geofence);
+                }
+            }
+        }
+
         updateUI();
     }
 
@@ -49,6 +60,7 @@ public class ListOfListsView extends AppCompatActivity {
         db.deleteEmail();
         Intent intent = new Intent(this, LoginView.class);
         startActivity(intent);
+        GeofenceActivity.getInstance().removeGeofences();
         finish();
     }
 
@@ -68,6 +80,8 @@ public class ListOfListsView extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
 
     private void createDialog() {
         listEditText = new EditText(this);
@@ -117,6 +131,9 @@ public class ListOfListsView extends AppCompatActivity {
             }
         } else if(listOfListsAdapter != null){
             listOfListsAdapter.clear();
+        } else {
+            int x=1;
+            //error;
         }
         //cursor.close();
         //db.close();

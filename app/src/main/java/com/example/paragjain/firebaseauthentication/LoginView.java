@@ -101,6 +101,7 @@ public class LoginView extends Activity {
                     db.deleteEmail();
                     db.addEmail(emailContent);
                 }
+                it.putExtra("prevActivity", "login");
                 startActivity(it);
 
                 finish();

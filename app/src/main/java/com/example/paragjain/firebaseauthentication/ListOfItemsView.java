@@ -156,7 +156,7 @@ public class ListOfItemsView extends AppCompatActivity {
                             if (geofenceAdded) {
                                 //String x = item
                                 String itemID = ListController.addListItem(db.getEmail(), listID, itemName, placeName, latitude.toString(), longitude.toString());
-                                geofence = GeofenceController.createGeofence(latitude, longitude, placeName, itemID);
+                                geofence = GeofenceController.createGeofence(latitude, longitude, itemID);
                                 //geofence.setRequestId(itemID);
                                 GeofenceActivity.getInstance().addFence(geofence);
                             }

@@ -256,9 +256,9 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
      * Removes geofences. This method should be called after the user has granted the location
      * permission.
      */
-    /*
+
     @SuppressWarnings("MissingPermission")
-    private void removeGeofences() {
+    public void removeGeofences() {
         if (!checkPermissions()) {
             showSnackbar(getString(R.string.insufficient_permissions));
             return;
@@ -266,7 +266,6 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
 
         mGeofencingClient.removeGeofences(getGeofencePendingIntent()).addOnCompleteListener(this);
     }
-    */
 
     public void removeGeofences(String itemID) {
         this.itemID = itemID;
