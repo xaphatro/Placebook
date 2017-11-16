@@ -26,6 +26,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.example.paragjain.firebaseauthentication.ListController;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -42,6 +44,7 @@ public class ListOfListsView extends NavBar {
     private ListAdapter listOfListsAdapter;
     private EditText listEditText;
     private StaticDatabaseHelper db;
+    private Menu menu;
 
     protected void onCreate(Bundle savedInstance){
         //super.onCreate(savedInstance);
@@ -55,6 +58,13 @@ public class ListOfListsView extends NavBar {
 
         db = new StaticDatabaseHelper(this);
         listOfListsGridView = (GridView) findViewById(R.id.grid_list);
+
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                invalidateOptionsMenu();
+            }
+        }, 0, 30000);
 
         //updateUI();
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
@@ -82,7 +92,11 @@ public class ListOfListsView extends NavBar {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.add_item, menu);
-        getMenuInflater().inflate(R.menu.nav_main, menu);
+        if (db.getNotification()) {
+            getMenuInflater().inflate(R.menu.notification_on, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.notification_off, menu);
+        }
 
         return super.onCreateOptionsMenu(menu);
     }

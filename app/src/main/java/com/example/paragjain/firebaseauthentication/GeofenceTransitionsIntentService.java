@@ -21,6 +21,7 @@ package com.example.paragjain.firebaseauthentication;
  */
 
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -176,6 +177,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
                 .setColor(Color.RED)
                 .setContentTitle("REMINDER")
                 .setContentText(getString(R.string.geofence_transition_notification_text))
+                .setDefaults(Notification.DEFAULT_SOUND)
                 .setContentIntent(notificationPendingIntent);
 
         // Dismiss notification once the user touches it.

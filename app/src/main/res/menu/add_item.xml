@@ -10,5 +10,4 @@
         android:title="Add Task"
         app:showAsAction="always"
         />
-
 </menu>
