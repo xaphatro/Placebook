@@ -52,7 +52,8 @@
         <service android:name=".GeofenceTransitionsIntentService" />
         <service
             android:name=".FcmBackgroundManager"
-            android:exported="false">
+            android:exported="false"
+            android:stopWithTask="false">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
@@ -66,7 +67,8 @@
         </service>
         -->
 
-        <service android:name=".FcmForegroundService">
+        <service android:name=".FcmForegroundService"
+            android:stopWithTask="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -74,7 +76,8 @@
         <service
             android:name=".KeepRunning"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false"
+            android:stopWithTask="false"></service>
     </application>
 
 </manifest>

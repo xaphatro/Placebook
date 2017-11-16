@@ -38,6 +38,8 @@ public class ListController {
                 li = new List(listID, listName);
             } else {
 
+                Log.d("ListController", "statusNot200");
+
             }
         } catch (JSONException e) {
             Log.w("catch block: ", "");
@@ -77,7 +79,7 @@ public class ListController {
                     listArray.add(li);
                 }
             } else {
-
+                Log.d("getAllLists", "statusNot200");
             }
         } catch (JSONException e) {
             Log.w("catch block: ", "");
@@ -111,7 +113,7 @@ public class ListController {
                     deleteItem(listID, item.itemID);
                 }
             } else {
-
+                Log.d("deleteList", "statusNot200");
             }
         } catch (JSONException e) {
             Log.w("catch block: ", "");
@@ -154,7 +156,7 @@ public class ListController {
                     itemArray.add(it);
                 }
             } else {
-
+                Log.d("getListItems", "statusNot200");
             }
         } catch (JSONException e) {
             Log.w("catch block: ", "");
@@ -192,7 +194,7 @@ public class ListController {
                 itemID = resultJSON.getString("item_id");
                 it = new Item(itemID, itemName, location, longitude, latitude);
             } else {
-
+                Log.d("addListItem1", "statusNot200");
             }
         } catch (JSONException e) {
             Log.w("catch block: ", "");
@@ -230,7 +232,7 @@ public class ListController {
                 String itemID = resultJSON.getString("itemID");
                 it = new Item(itemID, itemName);
             } else {
-
+                Log.d("addListItem2", "statusNot200");
             }
         } catch (JSONException e) {
             Log.w("catch block: ", "");
@@ -302,7 +304,7 @@ public class ListController {
                     friendArray.add(f);
                 }
             } else {
-
+                Log.d("deleteItem", "statusNot200");
             }
         } catch (JSONException e) {
             Log.w("catch block: ", "");
@@ -342,7 +344,7 @@ public class ListController {
                     listArray.add(li);
                 }
             } else {
-
+                Log.d("getPeerLists", "statusNot200");
             }
         } catch (JSONException e) {
             Log.w("catch block: ", "");

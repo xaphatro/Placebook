@@ -21,12 +21,14 @@ package com.example.paragjain.firebaseauthentication;
  */
 
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
@@ -170,9 +172,13 @@ public class GeofenceTransitionsIntentService extends IntentService {
                 .setColor(Color.RED)
                 .setContentTitle(notificationDetails)
                 .setContentText(getString(R.string.geofence_transition_notification_text))
+                .setDefaults(Notification.DEFAULT_SOUND)
                 .setContentIntent(notificationPendingIntent);
 
         // Dismiss notification once the user touches it.
+
+        //Uri sound = Uri.parse("android:resource://"+getPackageName()+"/"+R.raw.whatsapp_whistle);
+        //builder.setSound(sound);
         builder.setAutoCancel(true);
 
         // Get an instance of the Notification manager
