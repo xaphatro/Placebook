@@ -18,6 +18,7 @@ public class FriendAdapter extends ArrayAdapter<Friend> {
         super(context, 0, friendHolder);
     }
 
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Friend fr = getItem(position);
