@@ -23,8 +23,8 @@ import java.util.ArrayList;
 
 public class FriendListView extends NavBar{
 
-        private ListView listOfListsViewObject;
-        private ListAdapter listOfListsAdapter;
+        private ListView listOfFriendsView;
+        private FriendAdapter listOfFriendsAdapter;
         private EditText listEditText;
         private StaticDatabaseHelper db;
 
@@ -35,13 +35,13 @@ public class FriendListView extends NavBar{
             super.onCreate(savedInstance);
             LayoutInflater inflater = (LayoutInflater) this
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View contentView = inflater.inflate(R.layout.activity_list_of_lists_view, null, false);
+            View contentView = inflater.inflate(R.layout.activity_list_of_friends_view, null, false);
             drawer.addView(contentView, 0);
 
 
 
             db = new StaticDatabaseHelper(this);
-            listOfListsViewObject = (ListView) findViewById(R.id.list_list);
+            listOfFriendsView = (ListView) findViewById(R.id.list_friend);
 
             updateUI();
         }
@@ -96,7 +96,7 @@ public class FriendListView extends NavBar{
         }
 
         private void updateUI() {
-            ArrayList<Friend> listHolder = ListController.getFriends(db.getEmail());
+            ArrayList<Friend> friendHolder = ListController.getFriends(db.getEmail());
         /*SQLiteDatabase db = mHelper.getReadableDatabase();
         Cursor cursor = db.query(Task.TaskEntry.TABLE,
                 new String[] {Task.TaskEntry.COL_TASK_TITLE}, null, null, null, null, null);
@@ -106,19 +106,19 @@ public class FriendListView extends NavBar{
             taskList.add(cursor.getString(index));
         }
         */
-           /* if (listHolder != null) {
-                if (listOfListsAdapter == null) {
-                    listOfListsAdapter = new ListAdapter(this, listHolder);
-                    listOfListsViewObject.setAdapter(listOfListsAdapter);
+            if (friendHolder != null) {
+                if (listOfFriendsAdapter == null) {
+                    listOfFriendsAdapter = new FriendAdapter(this, friendHolder);
+                    listOfFriendsView.setAdapter(listOfFriendsAdapter);
 
                 } else {
-                    listOfListsAdapter.clear();
-                    listOfListsAdapter.addAll(listHolder);
-                    listOfListsAdapter.notifyDataSetChanged();
+                    listOfFriendsAdapter.clear();
+                    listOfFriendsAdapter.addAll(friendHolder);
+                    listOfFriendsAdapter.notifyDataSetChanged();
                 }
-            } else if(listOfListsAdapter != null){
-                listOfListsAdapter.clear();
-            }*/
+            } else if(listOfFriendsAdapter != null){
+                listOfFriendsAdapter.clear();
+            }
             //cursor.close();
             //db.close();
         }

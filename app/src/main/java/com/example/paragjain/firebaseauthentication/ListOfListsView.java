@@ -2,6 +2,7 @@ package com.example.paragjain.firebaseauthentication;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -11,6 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,22 +26,29 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import com.example.paragjain.firebaseauthentication.ListController;
-import com.google.android.gms.location.Geofence;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 /**
  * Created by paragjain on 11/10/17.
  */
 
-public class ListOfListsView extends AppCompatActivity {
+public class ListOfListsView extends NavBar {
 
-    private ListView listOfListsViewObject;
+    private GridView listOfListsGridView;
     private ListAdapter listOfListsAdapter;
     private EditText listEditText;
     private StaticDatabaseHelper db;
 
     protected void onCreate(Bundle savedInstance){
+        //super.onCreate(savedInstance);
+        //setContentView(R.layout.activity_list_of_lists_view);
+
         super.onCreate(savedInstance);
-        setContentView(R.layout.activity_list_of_lists_view);
+        LayoutInflater inflater = (LayoutInflater) this
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View contentView = inflater.inflate(R.layout.activity_list_of_lists_view, null, false);
+        drawer.addView(contentView, 0);
+
         db = new StaticDatabaseHelper(this);
         listOfListsViewObject = (ListView) findViewById(R.id.list_list);
 
@@ -65,6 +74,17 @@ public class ListOfListsView extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (db.getEmail() == null) {
+            Intent it = new Intent(this, LoginView.class);
+            startActivity(it);
+            finish();
+        };
+        updateUI();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.add_item, menu);
         return super.onCreateOptionsMenu(menu);
@@ -80,8 +100,6 @@ public class ListOfListsView extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-
 
     private void createDialog() {
         listEditText = new EditText(this);
@@ -122,7 +140,7 @@ public class ListOfListsView extends AppCompatActivity {
         if (listHolder != null) {
             if (listOfListsAdapter == null) {
                 listOfListsAdapter = new ListAdapter(this, listHolder);
-                listOfListsViewObject.setAdapter(listOfListsAdapter);
+                listOfListsGridView.setAdapter(listOfListsAdapter);
 
             } else {
                 listOfListsAdapter.clear();
@@ -142,10 +160,12 @@ public class ListOfListsView extends AppCompatActivity {
     public void goToItem(View view) {
         //View parent =(View) view.getParent();
         TextView listIDView = (TextView) view.findViewById(R.id.list_id);
+        TextView listNameView = (TextView) view.findViewById(R.id.list_title);
         String listID = String.valueOf(listIDView.getText());
-        Log.w("itemlist id: ", listID);
+        String listName = String.valueOf(listNameView.getText());
         Intent it = new Intent(this, ListOfItemsView.class);
         it.putExtra("listID", listID);
+        it.putExtra("listName", listName);
         startActivity(it);
     }
 
@@ -160,5 +180,10 @@ public class ListOfListsView extends AppCompatActivity {
         Log.w("dellist id: ", listID);
         ListController.deleteList(listID, db);
         updateUI();
+    }
+
+    public void changePermission(View view) {
+        CheckBox checkBox = (CheckBox) view;
+        checkBox.setChecked(true);
     }
 }

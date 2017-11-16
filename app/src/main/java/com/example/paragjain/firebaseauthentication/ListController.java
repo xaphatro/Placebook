@@ -76,6 +76,7 @@ public class ListController {
                     String listName = currList.getString("title");
                     JSONArray items = currList.getJSONArray("items");
                     ArrayList<Item> itemList = new ArrayList<>();
+
                     for (int j = 0; j < items.length(); j++){
                         JSONObject currItem = items.getJSONObject(j);
                         String itemID = currItem.getString("item_id");
@@ -88,6 +89,22 @@ public class ListController {
                         itemList.add(item);
                     }
                     List li = new List(listID, listName, itemList);
+                    switch (items.length()) {
+                        case 0:
+                            break;
+                        case 1:
+                            li.taskOne = itemsList.get(0).itemName;
+                            break;
+                        case 2:
+                            li.taskOne = itemsList.get(0).itemName;
+                            li.taskTwo = itemsList.get(1).itemName;
+                            break;
+                        default:
+                            li.taskOne = itemsList.get(0).itemName;
+                            li.taskTwo = itemsList.get(1).itemName;
+                            li.taskThree = itemsList.get(2).itemName;
+                            break;
+                    }
                     listArray.add(li);
                 }
             } else {
@@ -310,8 +327,8 @@ public class ListController {
                 JSONArray lists = resultJSON.getJSONArray("friends");
                 for (int i = 0; i < lists.length(); i++) {
                     JSONObject currList = lists.getJSONObject(i);
-                    String friendName = currList.getString("fname");
-                    String friendEmail = currList.getString("femail");
+                    String friendName = currList.getString("name");
+                    String friendEmail = currList.getString("email");
                     Friend f = new Friend(friendName, friendEmail);
                     friendArray.add(f);
                 }

@@ -9,7 +9,7 @@ public class Friend {
     String friendEmail;
     public Friend(String friendName,String friendEmail)
     {
-        this.friendName=friendName;
-        this.friendEmail=friendEmail;
+        this.friendName = friendName;
+        this.friendEmail = friendEmail;
     }
 }
