@@ -315,8 +315,8 @@ public class ListController {
                 JSONArray lists = resultJSON.getJSONArray("friends");
                 for (int i = 0; i < lists.length(); i++) {
                     JSONObject currList = lists.getJSONObject(i);
-                    String friendName = currList.getString("fname");
-                    String friendEmail = currList.getString("femail");
+                    String friendName = currList.getString("name");
+                    String friendEmail = currList.getString("email");
                     Friend f = new Friend(friendName, friendEmail);
                     friendArray.add(f);
                 }

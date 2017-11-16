@@ -43,7 +43,8 @@
             android:parentActivityName=".ListOfListsView" />
         <activity
             android:name=".AddFriend"
-            android:label="Add Friend" />
+            android:label="Add Friend"
+            android:parentActivityName=".ListOfListsView" />
         <activity
             android:name=".FriendListView"
             android:label="List of Friends"

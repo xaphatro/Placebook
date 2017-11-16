@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
@@ -169,5 +170,10 @@ public class ListOfListsView extends NavBar {
         Log.w("dellist id: ", listID);
         ListController.deleteList(listID, db);
         updateUI();
+    }
+
+    public void changePermission(View view) {
+        CheckBox checkBox = (CheckBox) view;
+        checkBox.setChecked(true);
     }
 }
