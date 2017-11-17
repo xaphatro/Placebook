@@ -56,6 +56,7 @@ public class ListOfItemsView extends NavBar {
     private Double longitude;
     private Double latitude;
     private String placeName;
+    private String activity;
     private GeofenceWrapper geofenceWrapper;
     private Context context;
     @Override
@@ -94,7 +95,6 @@ public class ListOfItemsView extends NavBar {
         } else {
             getMenuInflater().inflate(R.menu.notification_off, menu);
         }
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -111,7 +111,7 @@ public class ListOfItemsView extends NavBar {
         super.onResume();
         listID = getIntent().getStringExtra("listID");
         updateUI();
-        if (itemName != null && getIntent().getStringExtra("activity").equals("geofenceactivity")) {
+        if (itemName != null && activity != null && activity.equals("geofenceactivity")) {
             createDialog();
             itemEditText.setText(itemName);
         }
@@ -139,6 +139,7 @@ public class ListOfItemsView extends NavBar {
                     placeName = data.getStringExtra("placeName");
                     latitude = Double.parseDouble(data.getStringExtra("latitude"));
                     longitude = Double.parseDouble(data.getStringExtra("longitude"));
+                    activity = data.getStringExtra("activity");
                 } catch (Exception e){
                     System.out.println("Exception actresult");
                     Log.w("Exception actresult", "");

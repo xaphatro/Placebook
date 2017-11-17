@@ -14,9 +14,6 @@
             android:id="@+id/logout"
             android:icon="@drawable/logout"
             android:title="Logout" />
-        <item
-            android:id="@+id/switchBell"
-            android:title="Notification toggle" />
           </group>
 
 
