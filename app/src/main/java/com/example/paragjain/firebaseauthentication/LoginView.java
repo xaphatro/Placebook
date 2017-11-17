@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -29,6 +30,10 @@ public class LoginView extends AppCompatActivity {
     private TextView signup;
     private StaticDatabaseHelper db;
     private Session session;
+    final int interval = 7000; //7 second
+    private Handler handler = new Handler();
+    private Runnable runnable;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +100,7 @@ public class LoginView extends AppCompatActivity {
         arguments.put("url", "http://locationreminder.azurewebsites.net/login");
         arguments.put("secret", Constants.SERVER_SECRET_KEY);
 
+        myTimer();
         queryapi q = new queryapi(arguments);
         try
         {
@@ -107,6 +113,7 @@ public class LoginView extends AppCompatActivity {
             if(status==200)//if(db.getUser(getEmail, getPassword))
             {
                 //session.setLoggedIn(true);
+                handler.removeCallbacks(runnable);
                 Intent it = new Intent(LoginView.this, ListOfListsView.class);
                 if (db.getEmail() == null) {
                     db.addEmail(emailContent);
@@ -137,4 +144,18 @@ public class LoginView extends AppCompatActivity {
         }
 
     }
+
+    private void myTimer()
+    {
+
+        runnable = new Runnable(){
+            public void run(){
+                Toast.makeText(LoginView.this, "App could not connect to the server.Retry.", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        handler.postAtTime(runnable, System.currentTimeMillis()+interval);
+        handler.postDelayed(runnable, interval);
+    }
+
 }
