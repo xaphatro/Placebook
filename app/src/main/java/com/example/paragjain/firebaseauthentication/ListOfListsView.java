@@ -60,7 +60,13 @@ public class ListOfListsView extends NavBar {
             for (List list: listHolder){
                 for (Item item: list.items){
                     if (!item.locationName.equals("null")) {
+                        int x=1;
                         Geofence geofence = GeofenceController.createGeofence(Double.valueOf(item.latitude), Double.valueOf(item.longitude), item.itemID);
+                        if (GeofenceActivity.getInstance() == null){
+                            Intent it = new Intent(this, GeofenceActivity.class);
+                            it.putExtra("end", true);
+                            startActivity(it);
+                        }
                         GeofenceActivity.getInstance().addFence(geofence);
                     }
                 }
@@ -74,6 +80,11 @@ public class ListOfListsView extends NavBar {
         db.deleteEmail();
         Intent intent = new Intent(this, LoginView.class);
         startActivity(intent);
+        if (GeofenceActivity.getInstance() == null){
+            Intent it = new Intent(this, GeofenceActivity.class);
+            it.putExtra("end", true);
+            startActivity(it);
+        }
         GeofenceActivity.getInstance().removeGeofences();
         finish();
     }

@@ -84,7 +84,7 @@ public class ListController {
                         String itemName = currItem.getString("item_name");
                         String locationName = currItem.getString("location_name");
                         String longitude = currItem.getString("longitude");
-                        String latitude = currItem.getString("done");
+                        String latitude = currItem.getString("latitude");
                         Item item = new Item(itemID, itemName, locationName, longitude, latitude);
                         itemList.add(item);
                     }
@@ -258,7 +258,7 @@ public class ListController {
             Log.w("status code result : ", "val:" + status);
             if (status == 200)//if(db.getUser(getEmail, getPassword))
             {
-                String itemID = resultJSON.getString("itemID");
+                String itemID = resultJSON.getString("item_id");
                 it = new Item(itemID, itemName);
             } else {
 

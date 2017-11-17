@@ -127,9 +127,13 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        geoActivity = this;
+
+        if(getIntent().getBooleanExtra("end", false)){
+            finish();
+        }
         setContentView(R.layout.activity_geo_fence);
 
-        geoActivity = this;
         // Initially set the PendingIntent used in addGeofences() and removeGeofences() to null.
 
         mGeofencePendingIntent = null;
