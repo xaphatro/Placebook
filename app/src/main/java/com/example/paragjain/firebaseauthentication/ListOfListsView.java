@@ -196,7 +196,16 @@ public class ListOfListsView extends NavBar {
 
     public void changePermission(View view) {
         CheckBox checkBox = (CheckBox) view;
-        checkBox.setChecked(true);
+        View parent = (View) view.getParent();
+        TextView listIDView = (TextView) parent.findViewById(R.id.list_id);
+        String listID = String.valueOf(listIDView.getText());
+        if (checkBox.isChecked()) {
+            //ListController.makeListPrivate(listID);
+            ListController.makeListPublic(listID);
+        } else {
+            ListController.makeListPrivate(listID);
+            //ListController.makeListPublic(listID);
+        }
     }
 
     public void toggleBell(View view) {

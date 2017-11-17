@@ -91,7 +91,7 @@
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/list_permit"
+            android:id="@+id/list_shareable"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/list_delete"
