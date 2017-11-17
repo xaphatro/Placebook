@@ -59,8 +59,10 @@ public class ListOfListsView extends NavBar {
             ArrayList<List> listHolder = ListController.getAllLists(db.getEmail());
             for (List list: listHolder){
                 for (Item item: list.items){
-                    Geofence geofence = GeofenceController.createGeofence(Double.valueOf(item.latitude), Double.valueOf(item.longitude), item.itemID);
-                    GeofenceActivity.getInstance().addFence(geofence);
+                    if (!item.locationName.equals("null")) {
+                        Geofence geofence = GeofenceController.createGeofence(Double.valueOf(item.latitude), Double.valueOf(item.longitude), item.itemID);
+                        GeofenceActivity.getInstance().addFence(geofence);
+                    }
                 }
             }
         }

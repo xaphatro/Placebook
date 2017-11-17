@@ -23,13 +23,23 @@
             android:value="AIzaSyCJbUB4z7F4s1w0b-FJYi6WDx46Rhpw2pM" />
 
         <activity
-            android:name=".LoginView"
-            android:label="Login">
+            android:name=".Placebook"
+            android:label="Placebook">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".LoginView"
+            android:label="Login">
+            <!--intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter-->
         </activity>
         <activity
             android:name=".SignUpView"

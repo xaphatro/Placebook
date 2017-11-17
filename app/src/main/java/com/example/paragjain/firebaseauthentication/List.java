@@ -30,5 +30,4 @@ public class List {
         this.listName = listName;
         this.items = items;
     }
-
 }

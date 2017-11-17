@@ -66,4 +66,78 @@ public class StaticDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean setToken(String token){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("key", "token");
+        values.put("value", token);
+        long err = db.insert("static", null, values);
+        if (err == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public String getToken() {
+        String token = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM static WHERE key = ?", new String[] {"token"});
+        if (cursor != null && cursor.moveToFirst()) {
+            token = cursor.getString(1);
+        }
+        return token;
+    }
+
+    public String getTokenSet() {
+        String tokenSet = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM static WHERE key = ?", new String[] {"token_set"});
+        if (cursor != null && cursor.moveToFirst()) {
+            tokenSet = cursor.getString(1);
+        }
+        return tokenSet;
+    }
+
+    public boolean setTokenSetTrue() {
+        if (getTokenSet() != null) {
+            deleteTokenSet();
+        }
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("key", "token_set");
+        values.put("value", "true");
+        long err = db.insert("static", null, values);
+        if (err == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean setTokenSetFalse() {
+        if (getTokenSet() != null) {
+            deleteTokenSet();
+        }
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("key", "token_set");
+        values.put("value", "false");
+        long err = db.insert("static", null, values);
+        if (err == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean deleteTokenSet() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int err = db.delete("static", "key = \"token_set\"", null);
+        if (err > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

@@ -59,6 +59,7 @@ public class LoginView extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+
     }
     public static Context getInstance(){
         return loginContext;
@@ -114,6 +115,10 @@ public class LoginView extends AppCompatActivity {
                 else {
                     db.deleteEmail();
                     db.addEmail(emailContent);
+                }
+                if(db.getTokenSet().equals("true")) {
+                    ListController.sendToken(db.getToken());
+                    db.setTokenSetFalse();
                 }
                 it.putExtra("prevActivity", "login");
                 startActivity(it);

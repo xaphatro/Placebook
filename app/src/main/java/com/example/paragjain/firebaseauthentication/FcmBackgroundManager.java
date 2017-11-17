@@ -18,6 +18,11 @@ public class FcmBackgroundManager extends FirebaseInstanceIdService {
             String refreshedToken = FirebaseInstanceId.getInstance().getToken();
             Log.w("", "Refreshed token: " + refreshedToken);
             //System.out.println("Refreshed token: " + refreshedToken);
+
+            StaticDatabaseHelper db = new StaticDatabaseHelper(Placebook.getInstance());
+            db.setToken(refreshedToken);
+            db.setTokenSetTrue();
+
             //ListController.sendToken(refreshedToken);
         }
         catch (Exception e)

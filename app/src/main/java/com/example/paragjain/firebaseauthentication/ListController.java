@@ -374,6 +374,7 @@ public class ListController {
         }
         return notificationDetails;
     }
+
     public static ArrayList<List> getPeerLists(String email) {
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("email", email);
@@ -416,29 +417,25 @@ public class ListController {
 
     public static void sendToken(String refreshedToken) {
         HashMap<String, String> arguments = new HashMap<>();
-        HashMap<String, String> notificationDetails = null;
-        arguments.put("new_token", refreshedToken);
+        arguments.put("token", refreshedToken);
         StaticDatabaseHelper db = new StaticDatabaseHelper(LoginView.getInstance());//
         arguments.put("email", db.getEmail());
         arguments.put("secret", Constants.SERVER_SECRET_KEY);
         arguments.put("url", "http://locationreminder.azurewebsites.net/tokenregistration");
         queryapi q = new queryapi(arguments);
         try {
-            String res = q.execute().get();
+            q.execute();
+            //String res = q.execute().get();
             Log.w("notfication", refreshedToken);
 
-            JSONObject resultJSON = new JSONObject(res);
-            int status = resultJSON.getInt("status");
-            if(status == 200){
+            //JSONObject resultJSON = new JSONObject(res);
+            //int status = resultJSON.getInt("status");
+            /*/if(status == 200){
                 Log.w("success", "");
             } else {
                 Log.w("failure", "");
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+            }*/
+        } catch (Exception e){
             e.printStackTrace();
         }
     }
