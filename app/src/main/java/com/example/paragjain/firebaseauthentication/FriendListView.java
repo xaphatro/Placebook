@@ -78,6 +78,7 @@ public class FriendListView extends NavBar{
             switch(item.getItemId()) {
                 case R.id.action_add:
                     Intent intent = new Intent(this, AddFriend.class);
+                    startActivity(intent);
                     return true;
                 default:
                     return super.onOptionsItemSelected(item);
@@ -141,9 +142,12 @@ public class FriendListView extends NavBar{
             //View parent =(View) view.getParent();
             TextView friendEmailView = (TextView) view.findViewById(R.id.friend_email);
             String friendEmail = String.valueOf(friendEmailView.getText());
+            TextView friendNameView = (TextView) view.findViewById(R.id.friend_name);
+            String friendName = String.valueOf(friendNameView.getText());
             Log.w("friend email id: ", friendEmail);
             Intent it = new Intent(this, FriendListOfLists.class);
             it.putExtra("friendEmail", friendEmail);
+            it.putExtra("friendName", friendName);
             startActivity(it);
         }
 

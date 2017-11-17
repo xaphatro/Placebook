@@ -74,20 +74,6 @@
             android:textSize = "15sp"
             />
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/list_delete"
-            android:src="@drawable/ic_close_black"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="0dp"
-            android:layout_marginRight="0dp"
-            android:padding="3dp"
-            android:onClick="deleteList"
-            android:background="#0fff"
-            />
-
     </RelativeLayout>
 
 </LinearLayout>

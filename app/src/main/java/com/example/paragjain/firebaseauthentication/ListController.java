@@ -449,6 +449,23 @@ public class ListController {
                     String listID = currList.getString("list_id");
                     String listName = currList.getString("title");
                     FriendList li = new FriendList(listID, listName);
+                    JSONArray items = currList.getJSONArray("items");
+                    switch (items.length()) {
+                        case 0:
+                            break;
+                        case 1:
+                            li.taskOne = items.getJSONObject(0).getString("item_name");
+                            break;
+                        case 2:
+                            li.taskOne = items.getJSONObject(0).getString("item_name");
+                            li.taskTwo = items.getJSONObject(1).getString("item_name");
+                            break;
+                        default:
+                            li.taskOne = items.getJSONObject(0).getString("item_name");
+                            li.taskTwo = items.getJSONObject(1).getString("item_name");
+                            li.taskThree = items.getJSONObject(2).getString("item_name");
+                            break;
+                    }
                     listArray.add(li);
                 }
             } else {
