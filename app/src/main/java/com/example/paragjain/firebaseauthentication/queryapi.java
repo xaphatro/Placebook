@@ -73,6 +73,7 @@ public class queryapi extends AsyncTask<URL, Integer, String> {
             e.printStackTrace();
         } finally {
             if (urlConnection != null) {
+                Log.d("ConnectionDisconnected.", "queryapi");
                 urlConnection.disconnect();
             }
         }
@@ -96,6 +97,7 @@ public class queryapi extends AsyncTask<URL, Integer, String> {
         //Toast.makeText(this,result,Toast.LENGTH_SHORT).show();
         if(result!=null)
        Log.w("query msg rc:",result);
+
 
 
     }

@@ -258,7 +258,7 @@ public class ListController {
             Log.w("status code result : ", "val:" + status);
             if (status == 200)//if(db.getUser(getEmail, getPassword))
             {
-                String itemID = resultJSON.getString("itemID");
+                String itemID = resultJSON.getString("item_id");
                 it = new Item(itemID, itemName);
             } else {
 

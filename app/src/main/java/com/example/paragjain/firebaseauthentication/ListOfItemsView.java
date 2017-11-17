@@ -95,7 +95,7 @@ public class ListOfItemsView extends NavBar {
         super.onResume();
         listID = getIntent().getStringExtra("listID");
         updateUI();
-        if (itemName != null && getIntent().getStringExtra("activity").equals("geofenceactivity")) {
+        if (itemName != null && getIntent().getStringExtra("activity") != null && getIntent().getStringExtra("activity").equals("geofenceactivity")) {
             createDialog();
             itemEditText.setText(itemName);
         }
