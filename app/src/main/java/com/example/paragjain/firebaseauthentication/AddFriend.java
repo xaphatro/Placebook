@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -14,6 +15,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by rahul on 14/11/17.
@@ -30,7 +33,27 @@ public class AddFriend extends NavBar {
         View contentView = inflater.inflate(R.layout.activity_add_friend_view, null, false);
         drawer.addView(contentView, 0);
 
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                invalidateOptionsMenu();
+            }
+        }, 0, 2000);
 
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.add_item, menu);
+        String notif = db.getNotification();
+        if (notif != null && notif.equals("true")) {
+            getMenuInflater().inflate(R.menu.notification_on, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.notification_off, menu);
+        }
+
+        return super.onCreateOptionsMenu(menu);
     }
     public void addFriend(View v)
     {

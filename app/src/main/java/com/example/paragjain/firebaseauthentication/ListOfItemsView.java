@@ -38,6 +38,8 @@ import com.google.gson.Gson;
 
 import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ListOfItemsView extends NavBar {
 
@@ -66,6 +68,13 @@ public class ListOfItemsView extends NavBar {
         View contentView = inflater.inflate(R.layout.activity_list_of_items_view, null, false);
         drawer.addView(contentView, 0);
 
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                invalidateOptionsMenu();
+            }
+        }, 0, 2000);
+
         context = this;
         db = new StaticDatabaseHelper(this);
         //mHelper = new TaskHelper(this);
@@ -79,6 +88,13 @@ public class ListOfItemsView extends NavBar {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.add_item, menu);
+        String notif = db.getNotification();
+        if (notif != null && notif.equals("true")) {
+            getMenuInflater().inflate(R.menu.notification_on, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.notification_off, menu);
+        }
+
         return super.onCreateOptionsMenu(menu);
     }
 

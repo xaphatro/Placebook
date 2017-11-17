@@ -66,20 +66,20 @@ public class StaticDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean getNotification() {
-        String email = null;
+    public String getNotification() {
+        String notif = null;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM static WHERE key = ?", new String[] {"notification"});
         if (cursor != null && cursor.moveToFirst()) {
-            email = cursor.getString(1);
-            if (email.equals("true")) {
-                return true;
-            }
+            notif = cursor.getString(1);
         }
-        return false;
+        return notif;
     }
 
     public boolean setNotificationTrue() {
+        if (getNotification() != null) {
+            deleteNotification();
+        }
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("key", "notification");
@@ -93,6 +93,9 @@ public class StaticDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean setNotificationFalse() {
+        if (getNotification() != null) {
+            deleteNotification();
+        }
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("key", "notification");
