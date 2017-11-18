@@ -1,10 +1,12 @@
 package com.example.paragjain.firebaseauthentication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -55,6 +57,21 @@ public class AddFriend extends NavBar {
 
         return super.onCreateOptionsMenu(menu);
     }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.action_notification:
+                db.setNotificationFalse();
+                Intent it = new Intent(this, NotificationView.class);
+                startActivity(it);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     public void addFriend(View v)
     {
         String email = db.getEmail();

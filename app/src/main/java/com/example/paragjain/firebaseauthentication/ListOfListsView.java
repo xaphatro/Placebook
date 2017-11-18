@@ -129,7 +129,9 @@ public class ListOfListsView extends NavBar {
                 createDialog();
                 return true;
             case R.id.action_notification:
-
+                db.setNotificationFalse();
+                Intent it = new Intent(this, NotificationView.class);
+                startActivity(it);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

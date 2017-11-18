@@ -522,4 +522,40 @@ public class ListController {
             e.printStackTrace();
         }
     }
+
+    public static ArrayList<String> getNotifications(String email) {
+        HashMap<String, String> arguments = new HashMap<>();
+        arguments.put("email", email);
+        arguments.put("secret", Constants.SERVER_SECRET_KEY);
+        arguments.put("url", "http://locationreminder.azurewebsites.net/getnotifications");
+
+        ArrayList<String> notifArray = null;
+
+        queryapi q = new queryapi(arguments);
+        try {
+            String res = q.execute().get();
+            //Log.w("alllists check: ","val:"+res);
+
+            JSONObject resultJSON = new JSONObject(res);
+            int status = resultJSON.getInt("status");
+            Log.w("Friends status code : ", "val:" + status);
+            if (status == 200)//if(db.getUser(getEmail, getPassword))
+            {
+                notifArray = new ArrayList<String>();
+                JSONArray lists = resultJSON.getJSONArray("messages");
+                for (int i = 0; i < lists.length(); i++) {
+                    notifArray.add(lists.getString(i));
+                }
+            } else {
+                Log.d("deleteItem", "statusNot200");
+            }
+        } catch (JSONException e) {
+            Log.w("catch block: ", "");
+            e.printStackTrace();
+        } catch (Exception e) {
+            Log.w("catch exception block: ", "");
+            e.printStackTrace();
+        }
+        return notifArray;
+    }
 }

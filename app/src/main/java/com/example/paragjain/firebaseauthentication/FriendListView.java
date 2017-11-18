@@ -80,6 +80,11 @@ public class FriendListView extends NavBar{
                     Intent intent = new Intent(this, AddFriend.class);
                     startActivity(intent);
                     return true;
+                case R.id.action_notification:
+                    db.setNotificationFalse();
+                    Intent it = new Intent(this, NotificationView.class);
+                    startActivity(it);
+                    return true;
                 default:
                     return super.onOptionsItemSelected(item);
             }

@@ -90,6 +90,10 @@
             android:name=".SilentGeofenceActivityLogin"
             android:label="Select Location" />
 
+        <activity
+            android:name=".NotificationView"
+            android:label="Notifications" />
+
         <service android:name=".GeofenceTransitionsIntentService" />
         <service
             android:name=".FcmBackgroundManager"
@@ -109,7 +113,7 @@
         -->
 
         <service android:name=".FcmForegroundService"
-            android:stopWithTask="false">
+            android:enabled="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
