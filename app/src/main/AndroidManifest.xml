@@ -28,7 +28,8 @@
 
         <activity
             android:name=".Placebook"
-            android:label="Placebook">
+            android:label="Placebook"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,7 +39,8 @@
 
         <activity
             android:name=".LoginView"
-            android:label="Login">
+            android:label="Login"
+            android:screenOrientation="portrait">
             <!--intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,34 +49,43 @@
         </activity>
         <activity
             android:name=".SignUpView"
-            android:label="Sign Up" />
+            android:label="Sign Up"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ListOfListsView"
-            android:label="Your Lists" />
+            android:label="Your Lists"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ListOfItemsView"
             android:label="List Items"
-            android:parentActivityName=".ListOfListsView" />
+            android:parentActivityName=".ListOfListsView"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".AddFriend"
             android:label="Add Friend"
-            android:parentActivityName=".ListOfListsView" />
+            android:parentActivityName=".ListOfListsView"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".FriendListView"
             android:label="List of Friends"
-            android:parentActivityName=".ListOfListsView" />
+            android:parentActivityName=".ListOfListsView"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".FriendListOfLists"
             android:label="@string/title_activity_friend_list_of_lists"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".FriendListOfItems"
             android:label="Friends List Items"
-            android:parentActivityName=".FriendListOfLists" />
+            android:parentActivityName=".FriendListOfLists"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".GeofenceActivity"
             android:label="Select Location"
-            android:parentActivityName=".ListOfItemsView" />
+            android:parentActivityName=".ListOfItemsView"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".SilentGeofenceActivityLogin"
             android:label="Select Location" />

@@ -278,7 +278,8 @@ public class ListOfItemsView extends NavBar {
             taskList.add(cursor.getString(index));
         }
         */
-        setTitle(getIntent().getStringExtra("listName"));
+        TextView listNameView = ((TextView) findViewById(R.id.list_name));
+        listNameView.setText(getIntent().getStringExtra("listName"));
         if (taskList != null) {
             if (itemAdapter == null) {
                 itemAdapter = new ItemAdapter(this, taskList);

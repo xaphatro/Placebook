@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_gravity="center_vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,15 +9,15 @@
     android:background="@drawable/myrect"
     android:onClick="goToItem">
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
-        android:layout_gravity="center_vertical"
+        android:orientation="vertical"
+        android:layout_weight="0.2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="5dp"
         >
 
         <TextView
-            android:layout_width="160dp"
+            android:layout_width="match_parent"
             android:layout_height="30dp"
             android:id="@+id/list_title"
             android:layout_alignParentLeft="true"
@@ -39,7 +39,7 @@
             />
 
         <TextView
-            android:layout_width="162dp"
+            android:layout_width="match_parent"
             android:layout_height="20dp"
             android:id="@+id/item_1"
             android:layout_alignParentLeft="true"
@@ -51,7 +51,7 @@
             />
 
         <TextView
-            android:layout_width="162dp"
+            android:layout_width="match_parent"
             android:layout_height="20dp"
             android:id="@+id/item_2"
             android:layout_alignParentLeft="true"
@@ -63,7 +63,7 @@
             />
 
         <TextView
-            android:layout_width="162dp"
+            android:layout_width="match_parent"
             android:layout_height="20dp"
             android:id="@+id/item_3"
             android:layout_alignParentLeft="true"
@@ -73,6 +73,13 @@
             android:text=""
             android:textSize = "15sp"
             />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.8">
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -101,8 +108,8 @@
             android:background="#0fff"
             />
 
-
-
     </RelativeLayout>
+
+
 
 </LinearLayout>
