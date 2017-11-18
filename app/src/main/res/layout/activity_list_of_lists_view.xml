@@ -15,7 +15,7 @@
     <GridView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/grid_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="400dp"
         android:columnWidth="90dp"
         android:numColumns="2"
         android:verticalSpacing="10dp"
@@ -23,5 +23,11 @@
         android:stretchMode="columnWidth"
         android:gravity="center"
         />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Toggle Bell"
+        android:onClick="toggleBell"/>
 
 </LinearLayout>

@@ -16,6 +16,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by rahul on 14/11/17.
@@ -38,7 +40,12 @@ public class FriendListView extends NavBar{
             View contentView = inflater.inflate(R.layout.activity_list_of_friends_view, null, false);
             drawer.addView(contentView, 0);
 
-
+            new Timer().scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    invalidateOptionsMenu();
+                }
+            }, 0, 2000);
 
             db = new StaticDatabaseHelper(this);
             listOfFriendsView = (ListView) findViewById(R.id.list_friend);
@@ -56,6 +63,13 @@ public class FriendListView extends NavBar{
         @Override
         public boolean onCreateOptionsMenu(Menu menu) {
             getMenuInflater().inflate(R.menu.add_item, menu);
+            String notif = db.getNotification();
+            if (notif != null && notif.equals("true")) {
+                getMenuInflater().inflate(R.menu.notification_on, menu);
+            } else {
+                getMenuInflater().inflate(R.menu.notification_off, menu);
+            }
+
             return super.onCreateOptionsMenu(menu);
         }
 
@@ -64,6 +78,7 @@ public class FriendListView extends NavBar{
             switch(item.getItemId()) {
                 case R.id.action_add:
                     Intent intent = new Intent(this, AddFriend.class);
+                    startActivity(intent);
                     return true;
                 default:
                     return super.onOptionsItemSelected(item);
@@ -127,9 +142,12 @@ public class FriendListView extends NavBar{
             //View parent =(View) view.getParent();
             TextView friendEmailView = (TextView) view.findViewById(R.id.friend_email);
             String friendEmail = String.valueOf(friendEmailView.getText());
+            TextView friendNameView = (TextView) view.findViewById(R.id.friend_name);
+            String friendName = String.valueOf(friendNameView.getText());
             Log.w("friend email id: ", friendEmail);
             Intent it = new Intent(this, FriendListOfLists.class);
             it.putExtra("friendEmail", friendEmail);
+            it.putExtra("friendName", friendName);
             startActivity(it);
         }
 

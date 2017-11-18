@@ -83,7 +83,7 @@ public class ListOfListsView extends NavBar {
             public void run() {
                 invalidateOptionsMenu();
             }
-        }, 0, 30000);
+        }, 0, 2000);
 
         //updateUI();
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
@@ -117,7 +117,8 @@ public class ListOfListsView extends NavBar {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.add_item, menu);
-        if (db.getNotification()) {
+        String notif = db.getNotification();
+        if (notif != null && notif.equals("true")) {
             getMenuInflater().inflate(R.menu.notification_on, menu);
         } else {
             getMenuInflater().inflate(R.menu.notification_off, menu);
@@ -131,6 +132,9 @@ public class ListOfListsView extends NavBar {
         switch(item.getItemId()) {
             case R.id.action_add:
                 createDialog();
+                return true;
+            case R.id.action_notification:
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -220,6 +224,24 @@ public class ListOfListsView extends NavBar {
 
     public void changePermission(View view) {
         CheckBox checkBox = (CheckBox) view;
-        checkBox.setChecked(true);
+        View parent = (View) view.getParent();
+        TextView listIDView = (TextView) parent.findViewById(R.id.list_id);
+        String listID = String.valueOf(listIDView.getText());
+        if (checkBox.isChecked()) {
+            //ListController.makeListPrivate(listID);
+            ListController.makeListPublic(listID);
+        } else {
+            ListController.makeListPrivate(listID);
+            //ListController.makeListPublic(listID);
+        }
+    }
+
+    public void toggleBell(View view) {
+        String notif = db.getNotification();
+        if (notif != null && notif.equals("true")) {
+            db.setNotificationFalse();
+        } else {
+            db.setNotificationTrue();
+        }
     }
 }

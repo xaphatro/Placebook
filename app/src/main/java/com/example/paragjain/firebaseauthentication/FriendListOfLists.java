@@ -26,6 +26,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.example.paragjain.firebaseauthentication.ListController;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -54,6 +56,15 @@ public class FriendListOfLists extends NavBar {
         db = new StaticDatabaseHelper(this);
         listOfListsGridView = (GridView) findViewById(R.id.grid_list);
 
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                invalidateOptionsMenu();
+            }
+        }, 0, 2000);
+
+
+        setTitle(getIntent().getStringExtra("friendName") + "'s Lists");
         //updateUI();
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d("", "Refreshed token: " + refreshedToken);
@@ -79,16 +90,19 @@ public class FriendListOfLists extends NavBar {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.add_item, menu);
+        String notif = db.getNotification();
+        if (notif != null && notif.equals("true")) {
+            getMenuInflater().inflate(R.menu.notification_on, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.notification_off, menu);
+        }
+
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
-            case R.id.action_add:
-                createDialog();
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -156,20 +170,10 @@ public class FriendListOfLists extends NavBar {
         Intent it = new Intent(this, ListOfItemsView.class);
         it.putExtra("listID", listID);
         it.putExtra("listName", listName);
+        it.putExtra("friendEmail", getIntent().getStringArrayExtra("friendEmail"));
+        it.putExtra("prevActivity", "friendList");
         startActivity(it);
     }
 
-    public void deleteList(View view) {
-        View parent = (View) view.getParent();
-        //TextView taskTextView = (TextView) parent.findViewById(R.id.task_title);
-        TextView listIDView = (TextView) parent.findViewById(R.id.list_id);
-        String listID = String.valueOf(listIDView.getText());
-        /*SQLiteDatabase db = mHelper.getWritableDatabase();
-        db.delete(Task.TaskEntry.TABLE, Task.TaskEntry.COL_TASK_TITLE + " = ?", new String[] {task});
-        db.close();*/
-        Log.w("dellist id: ", listID);
-        ListController.deleteList(listID, db);
-        updateUI();
-    }
 
 }

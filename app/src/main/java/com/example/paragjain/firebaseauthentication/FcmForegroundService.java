@@ -9,6 +9,9 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 public class FcmForegroundService extends FirebaseMessagingService {
+
+    StaticDatabaseHelper db;
+
     public FcmForegroundService() {
     }
     @Override
@@ -28,6 +31,8 @@ public class FcmForegroundService extends FirebaseMessagingService {
         if (remoteMessage.getNotification() != null) {
             Log.d("", "Message Notification Body: " + remoteMessage.getNotification().getBody());
         }
+        //db = new StaticDatabaseHelper(this);
+        //db.setNotificationTrue();
 
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.

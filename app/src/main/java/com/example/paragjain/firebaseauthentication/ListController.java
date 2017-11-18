@@ -74,6 +74,8 @@ public class ListController {
                     JSONObject currList = lists.getJSONObject(i);
                     String listID = currList.getString("list_id");
                     String listName = currList.getString("title");
+                    List li = new List(listID, listName);
+                    li.isPublic = currList.getBoolean("shareable");
                     JSONArray items = currList.getJSONArray("items");
                     ArrayList<Item> itemList = new ArrayList<>();
 
@@ -141,6 +143,66 @@ public class ListController {
                 for (Item item : itemList) {
                     deleteItem(listID, item.itemID);
                 }
+            } else {
+
+            }
+        } catch (JSONException e) {
+            Log.w("catch block: ", "");
+            e.printStackTrace();
+        } catch (Exception e) {
+            Log.w("catch exception block: ", "");
+            e.printStackTrace();
+        }
+    }
+
+    public static void makeListPublic(String listID) {
+        HashMap<String, String> arguments = new HashMap<>();
+        arguments.put("list_id", listID);
+        arguments.put("secret", Constants.SERVER_SECRET_KEY);
+        arguments.put("url", "http://locationreminder.azurewebsites.net/makepublic");
+
+        queryapi q = new queryapi(arguments);
+        try {
+            String res = q.execute().get();
+            Log.w("check: ", "val:" + res);
+
+            JSONObject resultJSON = new JSONObject(res);
+            int status = resultJSON.getInt("status");
+            Log.w("status code result : ", "val:" + status);
+            Log.w("listID: ", listID);
+            if (status == 200)//if(db.getUser(getEmail, getPassword))
+            {
+
+            } else {
+
+            }
+        } catch (JSONException e) {
+            Log.w("catch block: ", "");
+            e.printStackTrace();
+        } catch (Exception e) {
+            Log.w("catch exception block: ", "");
+            e.printStackTrace();
+        }
+    }
+
+    public static void makeListPrivate(String listID) {
+        HashMap<String, String> arguments = new HashMap<>();
+        arguments.put("list_id", listID);
+        arguments.put("secret", Constants.SERVER_SECRET_KEY);
+        arguments.put("url", "http://locationreminder.azurewebsites.net/makeprivate");
+
+        queryapi q = new queryapi(arguments);
+        try {
+            String res = q.execute().get();
+            Log.w("check: ", "val:" + res);
+            Log.w("listID: ", listID);
+
+            JSONObject resultJSON = new JSONObject(res);
+            int status = resultJSON.getInt("status");
+            Log.w("status code result : ", "val:" + status);
+            if (status == 200)//if(db.getUser(getEmail, getPassword))
+            {
+
             } else {
 
             }
@@ -305,6 +367,7 @@ public class ListController {
         }
     }
 
+
     public static ArrayList<Friend> getFriends(String email) {
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("email", email);
@@ -400,6 +463,23 @@ public class ListController {
                     String listID = currList.getString("list_id");
                     String listName = currList.getString("title");
                     FriendList li = new FriendList(listID, listName);
+                    JSONArray items = currList.getJSONArray("items");
+                    switch (items.length()) {
+                        case 0:
+                            break;
+                        case 1:
+                            li.taskOne = items.getJSONObject(0).getString("item_name");
+                            break;
+                        case 2:
+                            li.taskOne = items.getJSONObject(0).getString("item_name");
+                            li.taskTwo = items.getJSONObject(1).getString("item_name");
+                            break;
+                        default:
+                            li.taskOne = items.getJSONObject(0).getString("item_name");
+                            li.taskTwo = items.getJSONObject(1).getString("item_name");
+                            li.taskThree = items.getJSONObject(2).getString("item_name");
+                            break;
+                    }
                     listArray.add(li);
                 }
             } else {
