@@ -51,27 +51,6 @@ public class ListOfListsView extends NavBar {
         it.putExtra("end", true);
         startActivity(it);
 
-        /*
-        if (getIntent().getStringExtra("prevActivity") != null && getIntent().getStringExtra("prevActivity").equals("login")) {
-            ArrayList<List> listHolder = ListController.getAllLists(db.getEmail());
-            for (List list: listHolder){
-                for (Item item: list.items){
-                    if (!item.locationName.equals("null")) {
-                        int x=1;
-                        Geofence geofence = GeofenceController.createGeofence(Double.valueOf(item.latitude), Double.valueOf(item.longitude), item.itemID);
-                        /*
-                        if (SilentGeofenceActivityLogin.getInstance() == null){
-                            Intent it = new Intent(this, SilentGeofenceActivityLogin.class);
-                            it.putExtra("end", true);
-                            startActivity(it);
-                        }
-                        //Context c = SilentGeofenceActivityLogin.getInstance();
-                        //SilentGeofenceActivityLogin.getInstance().addFence(geofence);
-                        //addFence(geofence);
-                    }
-                }
-            }
-        }*/
 
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override

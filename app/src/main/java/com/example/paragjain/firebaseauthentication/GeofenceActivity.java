@@ -92,19 +92,19 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
 
     private static final String TAG = GeofenceActivity.class.getSimpleName();
 
-    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
+    protected static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
 
     /**
      * Tracks whether the user requested to add or remove geofences, or to do neither.
      */
-    private enum PendingGeofenceTask {
+    protected enum PendingGeofenceTask {
         ADD, REMOVE, NONE
     }
 
     /**
      * Provides access to the Geofencing API.
      */
-    private GeofencingClient mGeofencingClient;
+    protected GeofencingClient mGeofencingClient;
 
     private Geofence geo;
 
@@ -112,13 +112,13 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
     /**
      * Used when requesting to add or remove geofences.
      */
-    private PendingIntent mGeofencePendingIntent;
+    protected PendingIntent mGeofencePendingIntent;
 
     // Buttons for kicking off the process of adding or removing geofences.
    // private Button mAddGeofencesButton;
     private Button mRemoveGeofencesButton;
 
-    private PendingGeofenceTask mPendingGeofenceTask = PendingGeofenceTask.NONE;
+    protected PendingGeofenceTask mPendingGeofenceTask = PendingGeofenceTask.NONE;
 
     private EditText geoField;
 
@@ -376,7 +376,7 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
     /**
      * Returns true if geofences were added, otherwise false.
      */
-    private boolean getGeofencesAdded() {
+    protected boolean getGeofencesAdded() {
         return PreferenceManager.getDefaultSharedPreferences(this).getBoolean(
                 Constants.GEOFENCES_ADDED_KEY, false);
     }
@@ -386,7 +386,7 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
      *
      * @param added Whether geofences were added or removed.
      */
-    private void updateGeofencesAdded(boolean added) {
+    protected void updateGeofencesAdded(boolean added) {
         PreferenceManager.getDefaultSharedPreferences(this)
                 .edit()
                 .putBoolean(Constants.GEOFENCES_ADDED_KEY, added)

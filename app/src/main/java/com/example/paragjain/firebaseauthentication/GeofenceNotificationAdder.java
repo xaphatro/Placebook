@@ -45,9 +45,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
  * the ACCESS_FINE_LOCATION permission, as specified in AndroidManifest.xml.
  * <p>
  */
-public class SilentGeofenceActivityLogin extends GeofenceActivity {
 
-    static SilentGeofenceActivityLogin geoActivity;
+public class GeofenceNotificationAdder extends GeofenceActivity {
+
+    static GeofenceNotificationAdder geoActivity;
     /*
 
     private static final String TAG = SilentGeofenceActivityLogin.class.getSimpleName();
@@ -87,11 +88,19 @@ public class SilentGeofenceActivityLogin extends GeofenceActivity {
     private EditText geoField;
     */
 
+    double latitude;
+    double longitude;
+    String itemID;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        addSilentFences();
+        latitude = Double.valueOf(getIntent().getStringExtra("latitude"));
+        longitude = Double.valueOf(getIntent().getStringExtra("longitude"));
+        itemID = getIntent().getStringExtra("itemID");
+        addNotificationFence();
+        //addSilentFences();
         /*if (!checkPermissions()) {
             requestPermissions();
         }*/
@@ -109,12 +118,18 @@ public class SilentGeofenceActivityLogin extends GeofenceActivity {
 
 
         //addSilentFences();
-       // getPlace();
+        // getPlace();
+
     }
 
+    public void addNotificationFence(){
+        Geofence geofence = GeofenceController.createGeofence(latitude, longitude, itemID);
+        addFence(geofence);
+    }
+    /*
     public void addSilentFences() {
         StaticDatabaseHelper db = new StaticDatabaseHelper(this);
-        ArrayList<List> listHolder = ListController.getAllLists(db.getEmail(), SilentGeofenceActivityLogin.this);
+        ArrayList<List> listHolder = ListController.getAllLists(db.getEmail(), GeofenceNotificationAdder.this);
         for (List list : listHolder) {
             for (Item item : list.items) {
                 if (!item.locationName.equals("null")) {
@@ -127,7 +142,7 @@ public class SilentGeofenceActivityLogin extends GeofenceActivity {
         //finish();
     }
 
-    public static SilentGeofenceActivityLogin getInstance(){
+    public static GeofenceNotificationAdder getInstance(){
         return geoActivity;
     }
 
@@ -206,9 +221,9 @@ public class SilentGeofenceActivityLogin extends GeofenceActivity {
         super.onStart();
         if (!checkPermissions()) {
             requestPermissions();
-            addSilentFences();
+            addNotificationFence();
         } else {
-            performPendingGeofenceTask();
+            addNotificationFence();//performPendingGeofenceTask();
         }
     }
 
@@ -408,7 +423,7 @@ public class SilentGeofenceActivityLogin extends GeofenceActivity {
         } else if (mPendingGeofenceTask == PendingGeofenceTask.REMOVE) {
             removeGeofences(itemID);
         }*/
-        addSilentFences();
+        addNotificationFence();//addSilentFences();
     }
 
     /**
@@ -434,7 +449,7 @@ public class SilentGeofenceActivityLogin extends GeofenceActivity {
                         @Override
                         public void onClick(View view) {
                             // Request permission
-                            ActivityCompat.requestPermissions(SilentGeofenceActivityLogin.this,
+                            ActivityCompat.requestPermissions(GeofenceNotificationAdder.this,
                                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                                     REQUEST_PERMISSIONS_REQUEST_CODE);
                         }
@@ -444,7 +459,7 @@ public class SilentGeofenceActivityLogin extends GeofenceActivity {
             // Request permission. It's possible this can be auto answered if device policy
             // sets the permission in a given state or the user denied the permission
             // previously and checked "Never ask again".
-            ActivityCompat.requestPermissions(SilentGeofenceActivityLogin.this,
+            ActivityCompat.requestPermissions(GeofenceNotificationAdder.this,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     REQUEST_PERMISSIONS_REQUEST_CODE);
         }
