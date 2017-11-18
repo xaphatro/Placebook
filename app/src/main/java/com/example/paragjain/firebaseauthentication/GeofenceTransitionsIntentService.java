@@ -28,6 +28,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
@@ -181,6 +182,9 @@ public class GeofenceTransitionsIntentService extends IntentService {
                 .setContentIntent(notificationPendingIntent);
 
         // Dismiss notification once the user touches it.
+
+        //Uri sound = Uri.parse("android:resource://"+getPackageName()+"/"+R.raw.whatsapp_whistle);
+        //builder.setSound(sound);
         builder.setAutoCancel(true);
 
         NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle();

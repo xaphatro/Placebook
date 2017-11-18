@@ -186,6 +186,10 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
 
                 setResult(RESULT_OK, returnGeofenceIntent);
             }
+            else
+            {
+                Toast.makeText(this, "Geofence Failed.", Toast.LENGTH_LONG).show();
+            }
         }
         finish();
     }

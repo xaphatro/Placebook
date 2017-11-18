@@ -1,5 +1,6 @@
 package com.example.paragjain.firebaseauthentication;
 
+import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ public class FcmBackgroundManager extends FirebaseInstanceIdService {
         try {
             String refreshedToken = FirebaseInstanceId.getInstance().getToken();
             Log.w("", "Refreshed token: " + refreshedToken);
+            Log.d("Refreshed token: ", refreshedToken);
             //System.out.println("Refreshed token: " + refreshedToken);
 
             StaticDatabaseHelper db = new StaticDatabaseHelper(Placebook.getInstance());
@@ -35,4 +37,13 @@ public class FcmBackgroundManager extends FirebaseInstanceIdService {
         //sendRegistrationToServer(refreshedToken);
 
     }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent){
+        Log.d("What up", "FcmBackgroundManager");
+        super.onTaskRemoved(rootIntent);
+        this.stopSelf();
+    }
+
+
 }

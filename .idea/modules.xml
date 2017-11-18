@@ -3,9 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://E:\Projects\Placebook\FirebaseAuthentication.iml" filepath="E:\Projects\Placebook\FirebaseAuthentication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Placebook.iml" filepath="$PROJECT_DIR$/Placebook.iml" />
       <module fileurl="file://G:\LocationApp\Location_based_reminder\FirebaseAuthentication\Placebook.iml" filepath="G:\LocationApp\Location_based_reminder\FirebaseAuthentication\Placebook.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/myPlacebook.iml" filepath="$PROJECT_DIR$/myPlacebook.iml" />
+      <module fileurl="file://E:\Projects\Placebook\myPlacebook.iml" filepath="E:\Projects\Placebook\myPlacebook.iml" />
     </modules>
   </component>
 </project>
