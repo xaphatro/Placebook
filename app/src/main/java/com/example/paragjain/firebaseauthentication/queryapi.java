@@ -42,6 +42,7 @@ public class queryapi extends AsyncTask<URL, Integer, String> {
         InputStream stream = null;
         HttpURLConnection urlConnection = null;
         try {
+            Log.d("queryapi", "doInBackground");
             urlString = hm.get("url");
             url = new URL(urlString);
             urlConnection = (HttpURLConnection) url.openConnection();
@@ -76,6 +77,7 @@ public class queryapi extends AsyncTask<URL, Integer, String> {
             e.printStackTrace();
         } finally {
             if (urlConnection != null) {
+                Log.d("ConnectionDisconnected.", "queryapi");
                 urlConnection.disconnect();
             }
         }
@@ -98,5 +100,10 @@ public class queryapi extends AsyncTask<URL, Integer, String> {
     protected void onPostExecute(String result) {
         //Toast.makeText(this,result,Toast.LENGTH_SHORT).show();
         Log.w("query msg rc:", "" + result);
+        if(result!=null) {
+            Log.w("query msg rc:", result);
+        }
+
+
     }
 }

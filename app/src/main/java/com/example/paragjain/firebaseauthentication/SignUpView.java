@@ -15,6 +15,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.concurrent.RunnableFuture;
+import android.os.Handler;
+import java.util.logging.LogRecord;
 
 /**
  * Created by paragjain on 11/10/17.
@@ -30,6 +33,9 @@ public class SignUpView extends Activity {
     private TextView signUp;
     private StaticDatabaseHelper db;
     private Session session;
+    final int interval = 7000; //7 second
+    private Handler handler = new Handler();
+    private Runnable runnable;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -51,6 +57,10 @@ public class SignUpView extends Activity {
     }
 
     public void signUp(View v){
+
+
+        myTimer();
+
         final String nameContent = name.getText().toString().trim();
         final String emailContent = email.getText().toString().trim();
         final String phoneNumberContent = phoneNumber.getText().toString().trim();
@@ -75,14 +85,18 @@ public class SignUpView extends Activity {
             try
             {
                 String res= q.execute().get();
-                Log.w("check: ","val:"+res);
+                Log.d("check: ","val:"+res);
 
                 JSONObject resultJSON = new JSONObject(res);
                 int status = resultJSON.getInt("status");
                 Log.w("status code result : ","val:"+ status);
+                Log.d("status code result : ","val:"+ status);
+
                 if(status==200)//if(db.getUser(getEmail, getPassword))
                 {
                     //session.setLoggedIn(true);
+                    handler.removeCallbacks(runnable);
+                    Log.d("signUp:status", "200 true");
                     Intent it = new Intent(SignUpView.this, ListOfListsView.class);
                     //UserInfo.USER_EMAIL = emailContent;
                     if (db.getEmail() == null) {
@@ -118,6 +132,22 @@ public class SignUpView extends Activity {
         editor.putString(emailContent+passwordContent+"data", emailContent+"\n"+passwordContent);
         editor.commit();
 
+    }
+
+
+    private void myTimer()
+    {
+
+        Log.d("myTimer", "signUp");
+        runnable = new Runnable(){
+            public void run(){
+                Log.d("run", "signUp");
+                Toast.makeText(SignUpView.this, "App could not connect to the server.Retry.", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        handler.postAtTime(runnable, System.currentTimeMillis()+interval);
+        handler.postDelayed(runnable, interval);
     }
 
 }
