@@ -109,7 +109,7 @@ public class SilentGeofenceActivityLogout extends AppCompatActivity implements O
 
     public void addSilentFences() {
         StaticDatabaseHelper db = new StaticDatabaseHelper(this);
-        ArrayList<List> listHolder = ListController.getAllLists(db.getEmail());
+        ArrayList<List> listHolder = ListController.getAllLists(db.getEmail(), SilentGeofenceActivityLogout.this);
         for (List list : listHolder) {
             for (Item item : list.items) {
                 if (!item.locationName.equals("null")) {
