@@ -167,10 +167,10 @@ public class FriendListOfLists extends NavBar {
         TextView listNameView = (TextView) view.findViewById(R.id.list_title);
         String listID = String.valueOf(listIDView.getText());
         String listName = String.valueOf(listNameView.getText());
-        Intent it = new Intent(this, ListOfItemsView.class);
+        Intent it = new Intent(this, FriendListOfItems.class);
         it.putExtra("listID", listID);
         it.putExtra("listName", listName);
-        it.putExtra("friendEmail", getIntent().getStringArrayExtra("friendEmail"));
+        //it.putExtra("friendEmail", getIntent().getStringArrayExtra("friendEmail"));
         it.putExtra("prevActivity", "friendList");
         startActivity(it);
     }

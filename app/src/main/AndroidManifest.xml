@@ -59,6 +59,10 @@
             android:label="List of Friends"
             android:parentActivityName=".ListOfListsView" />
         <activity
+            android:name=".FriendListOfItems"
+            android:label="Friends List Items"
+            android:parentActivityName=".FriendListOfLists" />
+        <activity
             android:name=".GeofenceActivity"
             android:label="Select Location"
             android:parentActivityName=".ListOfItemsView" />

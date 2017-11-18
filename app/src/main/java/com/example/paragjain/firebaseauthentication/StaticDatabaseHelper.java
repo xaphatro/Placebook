@@ -66,8 +66,6 @@ public class StaticDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public String getNotification() {
-        String notif = null;
     public boolean setToken(String token){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -142,8 +140,9 @@ public class StaticDatabaseHelper extends SQLiteOpenHelper {
             return false;
         }
     }
-    public boolean getNotification() {
-        String email = null;
+
+    public String getNotification() {
+        String notif = null;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM static WHERE key = ?", new String[] {"notification"});
         if (cursor != null && cursor.moveToFirst()) {

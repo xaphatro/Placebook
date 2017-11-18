@@ -78,7 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/list_delete"
-            android:src="@drawable/ic_close_black"
+            android:src="@drawable/ic_close_grey"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="0dp"

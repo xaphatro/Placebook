@@ -90,7 +90,7 @@ public class ListController {
                         Item item = new Item(itemID, itemName, locationName, longitude, latitude);
                         itemList.add(item);
                     }
-                    List li = new List(listID, listName, itemList);
+                    li = new List(listID, listName, itemList);
                     switch (items.length()) {
                         case 0:
                             break;
@@ -107,6 +107,7 @@ public class ListController {
                             li.taskThree = itemList.get(2).itemName;
                             break;
                     }
+                    li.isPublic = currList.getBoolean("shareable");
                     listArray.add(li);
                 }
             } else {
