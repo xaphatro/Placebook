@@ -26,26 +26,20 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import com.example.paragjain.firebaseauthentication.ListController;
-import com.google.android.gms.location.Geofence;
 import com.google.firebase.iid.FirebaseInstanceId;
-
-import static com.example.paragjain.firebaseauthentication.R.id.action_notification;
 
 /**
  * Created by paragjain on 11/10/17.
  */
 
-public class ListOfListsView extends NavBar {
+public class FriendListOfLists extends NavBar {
 
     private GridView listOfListsGridView;
-    private ListAdapter listOfListsAdapter;
+    private FriendListAdapter listOfListsAdapter;
     private EditText listEditText;
     private StaticDatabaseHelper db;
-    private Menu menu;
 
     protected void onCreate(Bundle savedInstance){
         //super.onCreate(savedInstance);
@@ -60,31 +54,6 @@ public class ListOfListsView extends NavBar {
         db = new StaticDatabaseHelper(this);
         listOfListsGridView = (GridView) findViewById(R.id.grid_list);
 
-        if (getIntent().getStringExtra("prevActivity") != null && getIntent().getStringExtra("prevActivity").equals("login")) {
-            ArrayList<List> listHolder = ListController.getAllLists(db.getEmail());
-            for (List list: listHolder){
-                for (Item item: list.items){
-                    if (!item.locationName.equals("null")) {
-                        int x=1;
-                        Geofence geofence = GeofenceController.createGeofence(Double.valueOf(item.latitude), Double.valueOf(item.longitude), item.itemID);
-                        if (GeofenceActivity.getInstance() == null){
-                            Intent it = new Intent(this, GeofenceActivity.class);
-                            it.putExtra("end", true);
-                            startActivity(it);
-                        }
-                        GeofenceActivity.getInstance().addFence(geofence);
-                    }
-                }
-            }
-        }
-
-        new Timer().scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                invalidateOptionsMenu();
-            }
-        }, 0, 30000);
-
         //updateUI();
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d("", "Refreshed token: " + refreshedToken);
@@ -94,12 +63,6 @@ public class ListOfListsView extends NavBar {
         db.deleteEmail();
         Intent intent = new Intent(this, LoginView.class);
         startActivity(intent);
-        if (GeofenceActivity.getInstance() == null){
-            Intent it = new Intent(this, GeofenceActivity.class);
-            it.putExtra("end", true);
-            startActivity(it);
-        }
-        GeofenceActivity.getInstance().removeGeofences();
         finish();
     }
 
@@ -117,12 +80,6 @@ public class ListOfListsView extends NavBar {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.add_item, menu);
-        if (db.getNotification()) {
-            getMenuInflater().inflate(R.menu.notification_on, menu);
-        } else {
-            getMenuInflater().inflate(R.menu.notification_off, menu);
-        }
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -163,7 +120,7 @@ public class ListOfListsView extends NavBar {
     }
 
     private void updateUI() {
-        ArrayList<List> listHolder = ListController.getAllLists(db.getEmail());
+        ArrayList<FriendList> listHolder = ListController.getPeerLists(getIntent().getStringExtra("friendEmail"));
         /*SQLiteDatabase db = mHelper.getReadableDatabase();
         Cursor cursor = db.query(Task.TaskEntry.TABLE,
                 new String[] {Task.TaskEntry.COL_TASK_TITLE}, null, null, null, null, null);
@@ -175,7 +132,7 @@ public class ListOfListsView extends NavBar {
         */
         if (listHolder != null) {
             if (listOfListsAdapter == null) {
-                listOfListsAdapter = new ListAdapter(this, listHolder);
+                listOfListsAdapter = new FriendListAdapter(this, listHolder);
                 listOfListsGridView.setAdapter(listOfListsAdapter);
 
             } else {
@@ -185,9 +142,6 @@ public class ListOfListsView extends NavBar {
             }
         } else if(listOfListsAdapter != null){
             listOfListsAdapter.clear();
-        } else {
-            int x=1;
-            //error;
         }
         //cursor.close();
         //db.close();
@@ -218,8 +172,4 @@ public class ListOfListsView extends NavBar {
         updateUI();
     }
 
-    public void changePermission(View view) {
-        CheckBox checkBox = (CheckBox) view;
-        checkBox.setChecked(true);
-    }
 }

@@ -375,13 +375,13 @@ public class ListController {
         return notificationDetails;
     }
 
-    public static ArrayList<List> getPeerLists(String email) {
+    public static ArrayList<FriendList> getPeerLists(String email) {
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("email", email);
         arguments.put("secret", Constants.SERVER_SECRET_KEY);
         arguments.put("url", "http://locationreminder.azurewebsites.net/viewpeerlists");
 
-        ArrayList<List> listArray = null;
+        ArrayList<FriendList> listArray = null;
 
         queryapi q = new queryapi(arguments);
         try {
@@ -393,13 +393,13 @@ public class ListController {
             Log.w("peerlists status code :", "val:" + status);
             if (status == 200)//if(db.getUser(getEmail, getPassword))
             {
-                listArray = new ArrayList<List>();
+                listArray = new ArrayList<FriendList>();
                 JSONArray lists = resultJSON.getJSONArray("lists");
                 for (int i = 0; i < lists.length(); i++) {
                     JSONObject currList = lists.getJSONObject(i);
                     String listID = currList.getString("list_id");
                     String listName = currList.getString("title");
-                    List li = new List(listID, listName);
+                    FriendList li = new FriendList(listID, listName);
                     listArray.add(li);
                 }
             } else {

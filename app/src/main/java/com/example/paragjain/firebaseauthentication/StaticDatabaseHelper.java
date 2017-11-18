@@ -140,4 +140,53 @@ public class StaticDatabaseHelper extends SQLiteOpenHelper {
             return false;
         }
     }
+    public boolean getNotification() {
+        String email = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM static WHERE key = ?", new String[] {"notification"});
+        if (cursor != null && cursor.moveToFirst()) {
+            email = cursor.getString(1);
+            if (email.equals("true")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean setNotificationTrue() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("key", "notification");
+        values.put("value", "true");
+        long err = db.insert("static", null, values);
+        if (err == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean setNotificationFalse() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("key", "notification");
+        values.put("value", "false");
+        long err = db.insert("static", null, values);
+        if (err == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean deleteNotification() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int err = db.delete("static", "key = \"notification\"", null);
+        if (err > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
