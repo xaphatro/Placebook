@@ -72,6 +72,7 @@ public class ListOfListsView extends NavBar {
                             it.putExtra("end", true);
                             startActivity(it);
                         }
+                        Context c = GeofenceActivity.getInstance();
                         GeofenceActivity.getInstance().addFence(geofence);
                     }
                 }
