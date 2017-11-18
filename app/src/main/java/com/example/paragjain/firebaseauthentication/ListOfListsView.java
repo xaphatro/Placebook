@@ -233,12 +233,4 @@ public class ListOfListsView extends NavBar {
         }
     }
 
-    public void toggleBell(View view) {
-        String notif = db.getNotification();
-        if (notif != null && notif.equals("true")) {
-            db.setNotificationFalse();
-        } else {
-            db.setNotificationTrue();
-        }
-    }
 }

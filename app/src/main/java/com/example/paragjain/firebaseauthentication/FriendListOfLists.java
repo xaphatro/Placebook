@@ -50,7 +50,7 @@ public class FriendListOfLists extends NavBar {
         super.onCreate(savedInstance);
         LayoutInflater inflater = (LayoutInflater) this
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View contentView = inflater.inflate(R.layout.activity_list_of_lists_view, null, false);
+        View contentView = inflater.inflate(R.layout.activity_friend_list_of_lists, null, false);
         drawer.addView(contentView, 0);
 
         db = new StaticDatabaseHelper(this);
