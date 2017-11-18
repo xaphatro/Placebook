@@ -75,6 +75,9 @@
             android:name=".GeofenceActivity"
             android:label="Select Location"
             android:parentActivityName=".ListOfItemsView" />
+        <activity
+            android:name=".SilentGeofenceActivityLogin"
+            android:label="Select Location" />
 
         <service android:name=".GeofenceTransitionsIntentService" />
         <service

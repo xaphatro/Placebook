@@ -1,39 +1,26 @@
 package com.example.paragjain.firebaseauthentication;
 
-import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.example.paragjain.firebaseauthentication.ListController;
-import com.google.android.gms.location.Geofence;
 import com.google.firebase.iid.FirebaseInstanceId;
-
-import static com.example.paragjain.firebaseauthentication.R.id.action_notification;
 
 /**
  * Created by paragjain on 11/10/17.
@@ -60,6 +47,11 @@ public class ListOfListsView extends NavBar {
         db = new StaticDatabaseHelper(this);
         listOfListsGridView = (GridView) findViewById(R.id.grid_list);
 
+        Intent it = new Intent(this, SilentGeofenceActivityLogin.class);
+        it.putExtra("end", true);
+        startActivity(it);
+
+        /*
         if (getIntent().getStringExtra("prevActivity") != null && getIntent().getStringExtra("prevActivity").equals("login")) {
             ArrayList<List> listHolder = ListController.getAllLists(db.getEmail());
             for (List list: listHolder){
@@ -67,16 +59,19 @@ public class ListOfListsView extends NavBar {
                     if (!item.locationName.equals("null")) {
                         int x=1;
                         Geofence geofence = GeofenceController.createGeofence(Double.valueOf(item.latitude), Double.valueOf(item.longitude), item.itemID);
-                        if (GeofenceActivity.getInstance() == null){
-                            Intent it = new Intent(this, GeofenceActivity.class);
+                        /*
+                        if (SilentGeofenceActivityLogin.getInstance() == null){
+                            Intent it = new Intent(this, SilentGeofenceActivityLogin.class);
                             it.putExtra("end", true);
                             startActivity(it);
                         }
-                        GeofenceActivity.getInstance().addFence(geofence);
+                        //Context c = SilentGeofenceActivityLogin.getInstance();
+                        //SilentGeofenceActivityLogin.getInstance().addFence(geofence);
+                        //addFence(geofence);
                     }
                 }
             }
-        }
+        }*/
 
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -94,12 +89,12 @@ public class ListOfListsView extends NavBar {
         db.deleteEmail();
         Intent intent = new Intent(this, LoginView.class);
         startActivity(intent);
-        if (GeofenceActivity.getInstance() == null){
-            Intent it = new Intent(this, GeofenceActivity.class);
-            it.putExtra("end", true);
-            startActivity(it);
-        }
-        GeofenceActivity.getInstance().removeGeofences();
+        //if (SilentGeofenceActivityLogin.getInstance() == null){
+        //Intent it = new Intent(this, SilentGeofenceActivityLogout.class);
+        //it.putExtra("end", true);
+        //startActivity(it);
+        //}
+        SilentGeofenceActivityLogin.getInstance().removeGeofences();
         finish();
     }
 

@@ -1,47 +1,5 @@
 package com.example.paragjain.firebaseauthentication;
 
-/*
- * Copyright 2017 Google Inc. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-import android.Manifest;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
-
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
-import android.Manifest;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -57,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -67,15 +26,15 @@ import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.Arrays;
 
-//import static com.example.paragjain.firebaseauthentication.GeofenceController.getGeofencePendingIntent;
+/**
+ * Created by Nikhil Prabhu on 11/18/2017.
+ */
+
+import com.google.android.gms.tasks.OnCompleteListener;
 
 /**
  * Demonstrates how to create and remove geofences using the GeofencingApi. Uses an IntentService
@@ -86,11 +45,11 @@ import java.util.Map;
  * the ACCESS_FINE_LOCATION permission, as specified in AndroidManifest.xml.
  * <p>
  */
-public class GeofenceActivity extends AppCompatActivity implements OnCompleteListener<Void> {
+public class SilentGeofenceActivityLogin extends AppCompatActivity implements OnCompleteListener<Void> {
 
-    static GeofenceActivity geoActivity;
+    static SilentGeofenceActivityLogin geoActivity;
 
-    private static final String TAG = GeofenceActivity.class.getSimpleName();
+    private static final String TAG = SilentGeofenceActivityLogin.class.getSimpleName();
 
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
 
@@ -115,7 +74,7 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
     private PendingIntent mGeofencePendingIntent;
 
     // Buttons for kicking off the process of adding or removing geofences.
-   // private Button mAddGeofencesButton;
+    // private Button mAddGeofencesButton;
     private Button mRemoveGeofencesButton;
 
     private PendingGeofenceTask mPendingGeofenceTask = PendingGeofenceTask.NONE;
@@ -127,6 +86,11 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+        /*if (!checkPermissions()) {
+            requestPermissions();
+        }*/
+
         geoActivity = this;
 
         mGeofencePendingIntent = null;
@@ -135,17 +99,30 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
 
         setContentView(R.layout.activity_geo_fence);
 
-        if(getIntent().getBooleanExtra("end", false)){
-            this.onBackPressed();//finish();
-        }
 
         // Initially set the PendingIntent used in addGeofences() and removeGeofences() to null.
 
 
-        getPlace();
+        //addSilentFences();
+       // getPlace();
     }
 
-    public static GeofenceActivity getInstance(){
+    public void addSilentFences() {
+        StaticDatabaseHelper db = new StaticDatabaseHelper(this);
+        ArrayList<List> listHolder = ListController.getAllLists(db.getEmail());
+        for (List list : listHolder) {
+            for (Item item : list.items) {
+                if (!item.locationName.equals("null")) {
+                    int x = 1;
+                    Geofence geofence = GeofenceController.createGeofence(Double.valueOf(item.latitude), Double.valueOf(item.longitude), item.itemID);
+                    addFence(geofence);
+                }
+            }
+        }
+        finish();
+    }
+
+    public static SilentGeofenceActivityLogin getInstance(){
         return geoActivity;
     }
 
@@ -198,7 +175,7 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
 
     private void addGeofence(Geofence geo){
         this.geo = geo;
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -220,9 +197,9 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
     @Override
     public void onStart() {
         super.onStart();
-
         if (!checkPermissions()) {
             requestPermissions();
+            addSilentFences();
         } else {
             performPendingGeofenceTask();
         }
@@ -293,7 +270,7 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
      * @param task the resulting Task, containing either a result or error.
      */
     @Override
-    public void onComplete(@NonNull Task<Void> task) {
+    public void onComplete(@NonNull com.google.android.gms.tasks.Task<Void> task) {
         mPendingGeofenceTask = PendingGeofenceTask.NONE;
         if (task.isSuccessful()) {
             updateGeofencesAdded(!getGeofencesAdded());
@@ -409,11 +386,12 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
     */
 
     private void performPendingGeofenceTask() {
-        if (mPendingGeofenceTask == PendingGeofenceTask.ADD) {
+        /*if (mPendingGeofenceTask == PendingGeofenceTask.ADD) {
             addGeofence(geo);
         } else if (mPendingGeofenceTask == PendingGeofenceTask.REMOVE) {
             removeGeofences(itemID);
-        }
+        }*/
+        addSilentFences();
     }
 
     /**
@@ -421,14 +399,14 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
      */
     private boolean checkPermissions() {
         int permissionState = ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION);
+                android.Manifest.permission.ACCESS_FINE_LOCATION);
         return permissionState == PackageManager.PERMISSION_GRANTED;
     }
 
     private void requestPermissions() {
         boolean shouldProvideRationale =
                 ActivityCompat.shouldShowRequestPermissionRationale(this,
-                        Manifest.permission.ACCESS_FINE_LOCATION);
+                        android.Manifest.permission.ACCESS_FINE_LOCATION);
 
         // Provide an additional rationale to the user. This would happen if the user denied the
         // request previously, but didn't check the "Don't ask again" checkbox.
@@ -439,8 +417,8 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
                         @Override
                         public void onClick(View view) {
                             // Request permission
-                            ActivityCompat.requestPermissions(GeofenceActivity.this,
-                                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                            ActivityCompat.requestPermissions(SilentGeofenceActivityLogin.this,
+                                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                                     REQUEST_PERMISSIONS_REQUEST_CODE);
                         }
                     });
@@ -449,8 +427,8 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
             // Request permission. It's possible this can be auto answered if device policy
             // sets the permission in a given state or the user denied the permission
             // previously and checked "Never ask again".
-            ActivityCompat.requestPermissions(GeofenceActivity.this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+            ActivityCompat.requestPermissions(SilentGeofenceActivityLogin.this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     REQUEST_PERMISSIONS_REQUEST_CODE);
         }
     }

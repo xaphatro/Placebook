@@ -91,6 +91,8 @@ public class LoginView extends AppCompatActivity {
     }
 
     public void login(View v){
+
+        Log.d("login","called");
         String emailContent = email.getText().toString().trim();
         String passwordContent = password.getText().toString().trim();
         //String secret = "fb943a2432995dc8114f15f868bbec305fac35b82e610286a2155e807cb577d4";
@@ -124,6 +126,7 @@ public class LoginView extends AppCompatActivity {
                     db.addEmail(emailContent);
                 }
                 if(db.getTokenSet().equals("true")) {
+                    Log.d("here","login");
                     ListController.sendToken(db.getToken());
                     db.setTokenSetFalse();
                 }

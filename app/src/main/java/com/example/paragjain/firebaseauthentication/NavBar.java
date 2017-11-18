@@ -107,7 +107,7 @@ public class NavBar extends AppCompatActivity
         } else if (id == R.id.logout) {
             //Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
             int x=1;
-            Context c = LoginView.getInstance();
+            Context c = Placebook.getInstance();
             db = new StaticDatabaseHelper(c);
             db.deleteEmail();
             Intent intent = new Intent(this, LoginView.class);
