@@ -193,12 +193,14 @@ public class FriendListOfItems extends NavBar {
                                 String itemID = ListController.addListItem(db.getEmail(), listID, itemName, placeName, latitude.toString(), longitude.toString(), FriendListOfItems.this);
                                 geofence = GeofenceController.createGeofence(latitude, longitude, itemID);
                                 //geofence.setRequestId(itemID);
+                                /*
                                 if (GeofenceActivity.getInstance() == null){
                                     Intent it = new Intent(ListOfItemsView.getInstance(), GeofenceActivity.class);
                                     it.putExtra("end", true);
                                     startActivity(it);
                                 }
                                 GeofenceActivity.getInstance().addFence(geofence);
+                                */
                             }
                             else{
                                 Log.w("gefoence not found", "");

@@ -288,7 +288,7 @@ public class ListController {
         return itemArray;
     }
 
-    public static String addListItem(String email, String listID, String itemName, String location, String latitude, String longitude,Context c) {
+    public static String addListItem(String email, String listID, String itemName, String location, String latitude, String longitude, Context c) {
         context = c;
         Item it = null;
         String itemID = null;
