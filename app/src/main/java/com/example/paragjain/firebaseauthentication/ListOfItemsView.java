@@ -190,7 +190,7 @@ public class ListOfItemsView extends NavBar {
                             Log.w("adding geofence", "");
                             if (geofenceAdded) {
                                 //String x = item
-                                String itemID = ListController.addListItem(db.getEmail(), listID, itemName, placeName, latitude.toString(), longitude.toString());
+                                String itemID = ListController.addListItem(db.getEmail(), listID, itemName, placeName, latitude.toString(), longitude.toString(), ListOfItemsView.this);
                                 geofence = GeofenceController.createGeofence(latitude, longitude, itemID);
                                 //geofence.setRequestId(itemID);
                                 if (GeofenceActivity.getInstance() == null){
@@ -202,7 +202,7 @@ public class ListOfItemsView extends NavBar {
                             }
                             else{
                                 Log.w("gefoence not found", "");
-                                ListController.addListItem(db.getEmail(), listID, itemName);
+                                ListController.addListItem(db.getEmail(), listID, itemName, ListOfItemsView.this);
                             }
                             updateUI();
                         }catch (Exception e){
@@ -273,7 +273,7 @@ public class ListOfItemsView extends NavBar {
     */
 
     private void updateUI() {
-        ArrayList<Item> taskList = ListController.getListItems(db.getEmail(), listID);
+        ArrayList<Item> taskList = ListController.getListItems(db.getEmail(), listID, ListOfItemsView.this);
         /*SQLiteDatabase db = mHelper.getReadableDatabase();
         Cursor cursor = db.query(Task.TaskEntry.TABLE,
                 new String[] {Task.TaskEntry.COL_TASK_TITLE}, null, null, null, null, null);
@@ -311,7 +311,7 @@ public class ListOfItemsView extends NavBar {
         /*SQLiteDatabase db = mHelper.getWritableDatabase();
         db.delete(Task.TaskEntry.TABLE, Task.TaskEntry.COL_TASK_TITLE + " = ?", new String[] {task});
         db.close();*/
-        ListController.deleteItem(listID, itemID);
+        ListController.deleteItem(listID, itemID, ListOfItemsView.this);
         updateUI();
     }
 }

@@ -154,7 +154,7 @@ public class ListOfListsView extends NavBar {
                         values.put(Task.TaskEntry.COL_TASK_TITLE, task);
                         db.insertWithOnConflict(Task.TaskEntry.TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
                         db.close();*/
-                        List newList = ListController.createList(db.getEmail(), listName);
+                        List newList = ListController.createList(db.getEmail(), listName, ListOfListsView.this);
                         updateUI();
                     }
                 })
@@ -164,7 +164,7 @@ public class ListOfListsView extends NavBar {
     }
 
     private void updateUI() {
-        ArrayList<List> listHolder = ListController.getAllLists(db.getEmail());
+        ArrayList<List> listHolder = ListController.getAllLists(db.getEmail(), ListOfListsView.this);
         /*SQLiteDatabase db = mHelper.getReadableDatabase();
         Cursor cursor = db.query(Task.TaskEntry.TABLE,
                 new String[] {Task.TaskEntry.COL_TASK_TITLE}, null, null, null, null, null);
@@ -215,7 +215,7 @@ public class ListOfListsView extends NavBar {
         db.delete(Task.TaskEntry.TABLE, Task.TaskEntry.COL_TASK_TITLE + " = ?", new String[] {task});
         db.close();*/
         Log.w("dellist id: ", listID);
-        ListController.deleteList(listID, db);
+        ListController.deleteList(listID, db, ListOfListsView.this);
         updateUI();
     }
 
@@ -226,7 +226,7 @@ public class ListOfListsView extends NavBar {
         String listID = String.valueOf(listIDView.getText());
         if (checkBox.isChecked()) {
             //ListController.makeListPrivate(listID);
-            ListController.makeListPublic(listID);
+            ListController.makeListPublic(listID, ListOfListsView.this);
         } else {
             ListController.makeListPrivate(listID);
             //ListController.makeListPublic(listID);

@@ -106,7 +106,7 @@ public class FriendListView extends NavBar{
                         values.put(Task.TaskEntry.COL_TASK_TITLE, task);
                         db.insertWithOnConflict(Task.TaskEntry.TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
                         db.close();*/
-                            List newList = ListController.createList(db.getEmail(), listName);
+                            List newList = ListController.createList(db.getEmail(), listName, FriendListView.this);
                             updateUI();
                         }
                     })
@@ -116,7 +116,7 @@ public class FriendListView extends NavBar{
         }
 
         private void updateUI() {
-            ArrayList<Friend> friendHolder = ListController.getFriends(db.getEmail());
+            ArrayList<Friend> friendHolder = ListController.getFriends(db.getEmail(), FriendListView.this);
         /*SQLiteDatabase db = mHelper.getReadableDatabase();
         Cursor cursor = db.query(Task.TaskEntry.TABLE,
                 new String[] {Task.TaskEntry.COL_TASK_TITLE}, null, null, null, null, null);

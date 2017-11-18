@@ -1,6 +1,8 @@
 package com.example.paragjain.firebaseauthentication;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -17,17 +19,28 @@ import java.util.concurrent.ExecutionException;
  */
 
 public class ListController {
-    public static List createList(String email, String listName) {
+
+    final static int interval = 7000; //7 second
+    private static Handler handler = new Handler();
+    private static Runnable runnable;
+    private static Context context;
+
+    public static List createList(String email, String listName, Context c) {
         List li = null;
+        context = c;
+        Log.d("ListController", "createList");
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("list_name", listName);
         arguments.put("email", email);
         arguments.put("secret", Constants.SERVER_SECRET_KEY);
         arguments.put("url", "http://locationreminder.azurewebsites.net/createlist");
 
+
         queryapi q = new queryapi(arguments);
         try {
             String res = q.execute().get();
+            myTimer();
+
             Log.w("create lists check: ", "val:" + res);
 
             JSONObject resultJSON = new JSONObject(res);
@@ -35,6 +48,7 @@ public class ListController {
             Log.w("crelists status code: ", "val:" + status);
             if (status == 200)//if(db.getUser(getEmail, getPassword))
             {
+                handler.removeCallbacks(runnable);
                 String listID = resultJSON.getString("list_id");
                 li = new List(listID, listName);
             } else {
@@ -52,7 +66,8 @@ public class ListController {
         return li;
     }
 
-    public static ArrayList<List> getAllLists(String email) {
+    public static ArrayList<List> getAllLists(String email, Context c) {
+        context = c;
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("email", email);
         arguments.put("secret", Constants.SERVER_SECRET_KEY);
@@ -63,6 +78,7 @@ public class ListController {
         queryapi q = new queryapi(arguments);
         try {
             String res = q.execute().get();
+            myTimer();
             Log.w("alllists check: ", "val:" + res);
 
             JSONObject resultJSON = new JSONObject(res);
@@ -70,6 +86,7 @@ public class ListController {
             Log.w("alllists status code : ", "val:" + status);
             if (status == 200)//if(db.getUser(getEmail, getPassword))
             {
+                handler.removeCallbacks(runnable);
                 listArray = new ArrayList<List>();
                 JSONArray lists = resultJSON.getJSONArray("lists");
                 for (int i = 0; i < lists.length(); i++) {
@@ -125,7 +142,8 @@ public class ListController {
         return listArray;
     }
 
-    public static void deleteList(String listID, StaticDatabaseHelper db) {
+    public static void deleteList(String listID, StaticDatabaseHelper db, Context c) {
+        context = c;
         List li = null;
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("list_id", listID);
@@ -135,6 +153,7 @@ public class ListController {
         queryapi q = new queryapi(arguments);
         try {
             String res = q.execute().get();
+            myTimer();
             Log.w("check: ", "val:" + res);
 
             JSONObject resultJSON = new JSONObject(res);
@@ -142,9 +161,10 @@ public class ListController {
             Log.w("status code result : ", "val:" + status);
             if (status == 200)//if(db.getUser(getEmail, getPassword))
             {
-                ArrayList<Item> itemList = getListItems(db.getEmail(), listID);
+                handler.removeCallbacks(runnable);
+                ArrayList<Item> itemList = getListItems(db.getEmail(), listID, c);
                 for (Item item : itemList) {
-                    deleteItem(listID, item.itemID);
+                    deleteItem(listID, item.itemID, c);
                 }
             } else {
                 Log.d("deleteList", "statusNot200");
@@ -158,7 +178,8 @@ public class ListController {
         }
     }
 
-    public static void makeListPublic(String listID) {
+    public static void makeListPublic(String listID, Context c) {
+        context = c;
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("list_id", listID);
         arguments.put("secret", Constants.SERVER_SECRET_KEY);
@@ -168,13 +189,15 @@ public class ListController {
         try {
             String res = q.execute().get();
             Log.w("check: ", "val:" + res);
-
+            myTimer();
             JSONObject resultJSON = new JSONObject(res);
             int status = resultJSON.getInt("status");
             Log.w("status code result : ", "val:" + status);
             Log.w("listID: ", listID);
             if (status == 200)//if(db.getUser(getEmail, getPassword))
             {
+                handler.removeCallbacks(runnable);
+
 
             } else {
 
@@ -218,7 +241,8 @@ public class ListController {
         }
     }
 
-    public static ArrayList<Item> getListItems(String email, String listID) {
+    public static ArrayList<Item> getListItems(String email, String listID, Context c) {
+        context = c;
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("email", email);
         arguments.put("list_id", listID);
@@ -230,6 +254,7 @@ public class ListController {
         queryapi q = new queryapi(arguments);
         try {
             String res = q.execute().get();
+            myTimer();
             Log.w("itelists check: ", "val:" + res);
 
             JSONObject resultJSON = new JSONObject(res);
@@ -237,6 +262,7 @@ public class ListController {
             Log.w("itelists status code : ", "val:" + status);
             if (status == 200)//if(db.getUser(getEmail, getPassword))
             {
+                handler.removeCallbacks(runnable);
                 itemArray = new ArrayList<Item>();
                 JSONArray items = resultJSON.getJSONArray("rows");
                 for (int i = 0; i < items.length(); i++) {
@@ -262,7 +288,8 @@ public class ListController {
         return itemArray;
     }
 
-    public static String addListItem(String email, String listID, String itemName, String location, String latitude, String longitude) {
+    public static String addListItem(String email, String listID, String itemName, String location, String latitude, String longitude,Context c) {
+        context = c;
         Item it = null;
         String itemID = null;
         HashMap<String, String> arguments = new HashMap<>();
@@ -279,12 +306,13 @@ public class ListController {
         try {
             String res = q.execute().get();
             Log.w("check: ", "val:" + res);
-
+            myTimer();
             JSONObject resultJSON = new JSONObject(res);
             int status = resultJSON.getInt("status");
             Log.w("status code result : ", "val:" + status);
             if (status == 200)//if(db.getUser(getEmail, getPassword))
             {
+                handler.removeCallbacks(runnable);
                 itemID = resultJSON.getString("item_id");
                 it = new Item(itemID, itemName, location, longitude, latitude);
             } else {
@@ -301,7 +329,8 @@ public class ListController {
         return itemID;
     }
 
-    public static Item addListItem(String email, String listID, String itemName) {
+    public static Item addListItem(String email, String listID, String itemName, Context c) {
+        context = c;
         Item it = null;
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("item_name", itemName);
@@ -316,6 +345,7 @@ public class ListController {
         queryapi q = new queryapi(arguments);
         try {
             String res = q.execute().get();
+            myTimer();
             Log.w("check: ", "val:" + res);
 
             JSONObject resultJSON = new JSONObject(res);
@@ -323,6 +353,8 @@ public class ListController {
             Log.w("status code result : ", "val:" + status);
             if (status == 200)//if(db.getUser(getEmail, getPassword))
             {
+                handler.removeCallbacks(runnable);
+
                 String itemID = resultJSON.getString("item_id");
                 it = new Item(itemID, itemName);
             } else {
@@ -339,7 +371,8 @@ public class ListController {
 
     }
 
-    public static void deleteItem(String listID, String itemID) {
+    public static void deleteItem(String listID, String itemID, Context c) {
+        context = c;
         List li = null;
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("list_id", listID);
@@ -351,12 +384,13 @@ public class ListController {
         try {
             String res = q.execute().get();
             Log.w("check: ", "val:" + res);
-
+            myTimer();
             JSONObject resultJSON = new JSONObject(res);
             int status = resultJSON.getInt("status");
             Log.w("status code result : ", "val:" + status);
             if (status == 200)//if(db.getUser(getEmail, getPassword))
             {
+                handler.removeCallbacks(runnable);
                 GeofenceActivity.getInstance().removeGeofences(itemID);
             } else {
                 Log.w("status code result : ", "val:" + status);
@@ -371,7 +405,8 @@ public class ListController {
     }
 
 
-    public static ArrayList<Friend> getFriends(String email) {
+    public static ArrayList<Friend> getFriends(String email, Context c) {
+        context = c;
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("email", email);
         arguments.put("secret", Constants.SERVER_SECRET_KEY);
@@ -383,12 +418,14 @@ public class ListController {
         try {
             String res = q.execute().get();
             //Log.w("alllists check: ","val:"+res);
-
+            myTimer();
             JSONObject resultJSON = new JSONObject(res);
             int status = resultJSON.getInt("status");
             Log.w("Friends status code : ", "val:" + status);
             if (status == 200)//if(db.getUser(getEmail, getPassword))
             {
+                handler.removeCallbacks(runnable);
+
                 friendArray = new ArrayList<Friend>();
                 JSONArray lists = resultJSON.getJSONArray("friends");
                 for (int i = 0; i < lists.length(); i++) {
@@ -411,7 +448,8 @@ public class ListController {
         return friendArray;
     }
 
-    public static HashMap<String, String> getNotificationDetails(String itemID){
+    public static HashMap<String, String> getNotificationDetails(String itemID, Context c){
+        context = c;
         HashMap<String, String> arguments = new HashMap<>();
         HashMap<String, String> notificationDetails = null;
         arguments.put("item_id", itemID);
@@ -421,10 +459,11 @@ public class ListController {
         try {
             String res = q.execute().get();
             Log.w("notfication", itemID);
-
+            myTimer();
             JSONObject resultJSON = new JSONObject(res);
             int status = resultJSON.getInt("status");
             if(status == 200){
+                handler.removeCallbacks(runnable);
                 notificationDetails = new HashMap<>();
                 notificationDetails.put("location_name", resultJSON.getString("location_name"));
                 notificationDetails.put("item_name", resultJSON.getString("item_name"));
@@ -441,7 +480,8 @@ public class ListController {
         return notificationDetails;
     }
 
-    public static ArrayList<FriendList> getPeerLists(String email) {
+    public static ArrayList<FriendList> getPeerLists(String email, Context c) {
+        context = c;
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("email", email);
         arguments.put("secret", Constants.SERVER_SECRET_KEY);
@@ -453,12 +493,14 @@ public class ListController {
         try {
             String res = q.execute().get();
             Log.w("peerlists check: ", "val:" + res);
-
+            myTimer();
             JSONObject resultJSON = new JSONObject(res);
             int status = resultJSON.getInt("status");
             Log.w("peerlists status code :", "val:" + status);
             if (status == 200)//if(db.getUser(getEmail, getPassword))
             {
+                handler.removeCallbacks(runnable);
+
                 listArray = new ArrayList<FriendList>();
                 JSONArray lists = resultJSON.getJSONArray("lists");
                 for (int i = 0; i < lists.length(); i++) {
@@ -522,6 +564,20 @@ public class ListController {
             e.printStackTrace();
         }
     }
+
+    private static void myTimer()
+    {
+
+        runnable = new Runnable(){
+            public void run(){
+               Toast.makeText(context, "App could not connect to the server.Retry.", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        handler.postAtTime(runnable, System.currentTimeMillis()+interval);
+        handler.postDelayed(runnable, interval);
+    }
+
 
     public static ArrayList<String> getNotifications(String email) {
         HashMap<String, String> arguments = new HashMap<>();

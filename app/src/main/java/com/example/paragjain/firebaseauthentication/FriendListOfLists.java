@@ -129,7 +129,7 @@ public class FriendListOfLists extends NavBar {
                         values.put(Task.TaskEntry.COL_TASK_TITLE, task);
                         db.insertWithOnConflict(Task.TaskEntry.TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
                         db.close();*/
-                        List newList = ListController.createList(db.getEmail(), listName);
+                        List newList = ListController.createList(db.getEmail(), listName, FriendListOfLists.this);
                         updateUI();
                     }
                 })
@@ -139,7 +139,7 @@ public class FriendListOfLists extends NavBar {
     }
 
     private void updateUI() {
-        ArrayList<FriendList> listHolder = ListController.getPeerLists(getIntent().getStringExtra("friendEmail"));
+        ArrayList<FriendList> listHolder = ListController.getPeerLists(getIntent().getStringExtra("friendEmail"), FriendListOfLists.this);
         /*SQLiteDatabase db = mHelper.getReadableDatabase();
         Cursor cursor = db.query(Task.TaskEntry.TABLE,
                 new String[] {Task.TaskEntry.COL_TASK_TITLE}, null, null, null, null, null);

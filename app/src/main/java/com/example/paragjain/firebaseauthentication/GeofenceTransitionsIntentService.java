@@ -133,7 +133,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
         ArrayList<String> triggeringGeofencesIdsList = new ArrayList<>();
         for (Geofence geofence : triggeringGeofences) {
             try {
-                HashMap<String, String> details = ListController.getNotificationDetails(geofence.getRequestId());
+                HashMap<String, String> details = ListController.getNotificationDetails(geofence.getRequestId(), GeofenceTransitionsIntentService.this);
                 triggeringGeofencesIdsList.add(details.get("location_name") + "\nReminder for " + details.get("item_name"));
                 //triggeringGeofencesIdsList.add(geofence.getRequestId());
             } catch (Exception e){
