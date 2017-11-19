@@ -110,6 +110,17 @@ public class ListOfListsView extends NavBar {
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (db.getEmail() == null) {
+            Intent it = new Intent(this, LoginView.class);
+            startActivity(it);
+            finish();
+        };
+        updateUI();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.add_item, menu);
         String notif = db.getNotification();

@@ -54,7 +54,8 @@
         <activity
             android:name=".ListOfListsView"
             android:label="Your Lists"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop" />
         <activity
             android:name=".ListOfItemsView"
             android:label="List Items"

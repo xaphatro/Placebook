@@ -3,6 +3,7 @@ package com.example.paragjain.firebaseauthentication;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -12,11 +13,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import static android.app.PendingIntent.getActivity;
 
 /**
  * Created by rahul on 14/11/17.
@@ -51,9 +55,21 @@ public class NavBar extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+    /*
+        LayoutInflater inflater = getLayoutInflater();
+        View header = inflater.inflate(R.layout.nav_header_main, null, false);
+
+        View nav = (NavigationView) findViewById(R.id.nav_view);
+        View header = (PreferenceActivity.Header) nav.findViewById(R.id)
+        TextView email = (TextView) nav.findViewById(R.id.userEmail);
+        email.setText(db.getEmail());*/
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+        TextView email = (TextView) header.findViewById(R.id.userEmail);
+        email.setText(db.getEmail());
+
     }
     @Override
     public void onBackPressed() {
@@ -104,6 +120,10 @@ public class NavBar extends AppCompatActivity
             Intent it = new Intent(this, FriendListView.class);
             startActivity(it);
 
+        } else if (id == R.id.home) {
+            Intent intent = new Intent(this, ListOfListsView.class);
+            startActivity(intent);
+            finish();
         } else if (id == R.id.logout) {
             //Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
             int x=1;
