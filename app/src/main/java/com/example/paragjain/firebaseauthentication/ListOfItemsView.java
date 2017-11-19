@@ -186,7 +186,7 @@ public class ListOfItemsView extends NavBar {
                     public void onClick(DialogInterface dialogue, int which) {
                         try {
                             String itemName = String.valueOf(itemEditText.getText());
-
+                            itemName = null;
                             Log.w("adding geofence", "");
                             if (geofenceAdded) {
                                 //String x = item

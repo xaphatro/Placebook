@@ -187,6 +187,7 @@ public class FriendListOfItems extends NavBar {
                         try {
                             String itemName = String.valueOf(itemEditText.getText());
 
+                            itemName = null;
                             Log.w("adding geofence", "");
                             if (geofenceAdded) {
                                 //String x = item
