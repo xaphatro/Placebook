@@ -47,6 +47,7 @@ public class FcmForegroundService extends FirebaseMessagingService {
                 it.putExtra("latitude", latitude);
                 it.putExtra("longitude", longitude);
                 it.putExtra("itemID", itemID);
+                //startActivity(it);
                 } catch (JSONException e) {
                 e.printStackTrace();
             }

@@ -290,6 +290,7 @@ public class ListController {
 
     public static String addListItem(String email, String listID, String itemName, String location, String latitude, String longitude, Context c) {
         context = c;
+        Log.d("addListItem","ListController");
         Item it = null;
         String itemID = null;
         HashMap<String, String> arguments = new HashMap<>();
@@ -306,13 +307,13 @@ public class ListController {
         try {
             String res = q.execute().get();
             Log.w("check: ", "val:" + res);
-            myTimer();
+            //myTimer();
             JSONObject resultJSON = new JSONObject(res);
             int status = resultJSON.getInt("status");
             Log.w("status code result : ", "val:" + status);
             if (status == 200)//if(db.getUser(getEmail, getPassword))
             {
-                handler.removeCallbacks(runnable);
+              //  handler.removeCallbacks(runnable);
                 itemID = resultJSON.getString("item_id");
                 it = new Item(itemID, itemName, location, longitude, latitude);
             } else {

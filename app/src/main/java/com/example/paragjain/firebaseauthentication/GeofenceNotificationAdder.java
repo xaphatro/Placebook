@@ -49,45 +49,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 public class GeofenceNotificationAdder extends GeofenceActivity {
 
     static GeofenceNotificationAdder geoActivity;
-    /*
-
-    private static final String TAG = SilentGeofenceActivityLogin.class.getSimpleName();
-
-    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
-
-    /**
-     * Tracks whether the user requested to add or remove geofences, or to do neither.
-     */
-
-    /*
-    private enum PendingGeofenceTask {
-        ADD, REMOVE, NONE
-    }
-
-    /**
-     * Provides access to the Geofencing API.
-     */
-    /*
-    private GeofencingClient mGeofencingClient;
-
-    private Geofence geo;
-
-    private String itemID;
-    /**
-     * Used when requesting to add or remove geofences.
-     */
-    /*
-    private PendingIntent mGeofencePendingIntent;
-
-    // Buttons for kicking off the process of adding or removing geofences.
-    // private Button mAddGeofencesButton;
-    private Button mRemoveGeofencesButton;
-
-    private PendingGeofenceTask mPendingGeofenceTask = PendingGeofenceTask.NONE;
-
-    private EditText geoField;
-    */
-
     double latitude;
     double longitude;
     String itemID;
