@@ -186,9 +186,10 @@ public class ListOfListsView extends NavBar {
     }
 
     public void deleteList(View view) {
-        View parent = (View) view.getParent();
+        View parent = (View) view.getParent().getParent();
         //TextView taskTextView = (TextView) parent.findViewById(R.id.task_title);
-        TextView listIDView = (TextView) parent.findViewById(R.id.list_id);
+        View textViews = (View) parent.findViewById(R.id.textviews);
+        TextView listIDView = (TextView) textViews.findViewById(R.id.list_id);
         String listID = String.valueOf(listIDView.getText());
         /*SQLiteDatabase db = mHelper.getWritableDatabase();
         db.delete(Task.TaskEntry.TABLE, Task.TaskEntry.COL_TASK_TITLE + " = ?", new String[] {task});
@@ -200,8 +201,9 @@ public class ListOfListsView extends NavBar {
 
     public void changePermission(View view) {
         CheckBox checkBox = (CheckBox) view;
-        View parent = (View) view.getParent();
-        TextView listIDView = (TextView) parent.findViewById(R.id.list_id);
+        View parent = (View) view.getParent().getParent();
+        View textViews = (View) parent.findViewById(R.id.textviews);
+        TextView listIDView = (TextView) textViews.findViewById(R.id.list_id);
         String listID = String.valueOf(listIDView.getText());
         if (checkBox.isChecked()) {
             //ListController.makeListPrivate(listID);

@@ -9,6 +9,7 @@
     android:background="@drawable/myrect"
     android:onClick="goToItem">
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/textviews"
         android:orientation="vertical"
         android:layout_weight="0.2"
         android:layout_width="match_parent"

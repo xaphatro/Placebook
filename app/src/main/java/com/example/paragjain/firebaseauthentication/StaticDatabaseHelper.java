@@ -67,6 +67,9 @@ public class StaticDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean setToken(String token){
+        if (getToken() != null) {
+            deleteToken();
+        }
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("key", "token");
@@ -87,6 +90,16 @@ public class StaticDatabaseHelper extends SQLiteOpenHelper {
             token = cursor.getString(1);
         }
         return token;
+    }
+
+    public boolean deleteToken() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int err = db.delete("static", "key = \"token\"", null);
+        if (err > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public String getTokenSet() {
