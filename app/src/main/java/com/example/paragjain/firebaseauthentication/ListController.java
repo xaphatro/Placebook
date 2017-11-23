@@ -290,7 +290,7 @@ public class ListController {
 
     public static String addListItem(String email, String listID, String itemName, String location, String latitude, String longitude, Context c) {
         context = c;
-        Log.d("addListItem","ListController");
+        Log.d("addListItem1","ListController");
         Item it = null;
         String itemID = null;
         HashMap<String, String> arguments = new HashMap<>();
@@ -332,6 +332,7 @@ public class ListController {
 
     public static Item addListItem(String email, String listID, String itemName, Context c) {
         context = c;
+        Log.d("addListItem2","ListController");
         Item it = null;
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("item_name", itemName);
@@ -346,7 +347,7 @@ public class ListController {
         queryapi q = new queryapi(arguments);
         try {
             String res = q.execute().get();
-            myTimer();
+            //myTimer();
             Log.w("check: ", "val:" + res);
 
             JSONObject resultJSON = new JSONObject(res);
@@ -354,7 +355,7 @@ public class ListController {
             Log.w("status code result : ", "val:" + status);
             if (status == 200)//if(db.getUser(getEmail, getPassword))
             {
-                handler.removeCallbacks(runnable);
+               // handler.removeCallbacks(runnable);
 
                 String itemID = resultJSON.getString("item_id");
                 it = new Item(itemID, itemName);
@@ -571,7 +572,8 @@ public class ListController {
 
         runnable = new Runnable(){
             public void run(){
-               Toast.makeText(context, "App could not connect to the server.Retry.", Toast.LENGTH_SHORT).show();
+               Toast.makeText(context, "App could not connect to the server.Retry. "+context, Toast.LENGTH_SHORT).show();
+
             }
         };
 
@@ -581,6 +583,7 @@ public class ListController {
 
 
     public static ArrayList<String> getNotifications(String email) {
+        Log.d("getNotifications", "ListController");
         HashMap<String, String> arguments = new HashMap<>();
         arguments.put("email", email);
         arguments.put("secret", Constants.SERVER_SECRET_KEY);

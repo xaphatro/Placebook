@@ -54,6 +54,7 @@
         <activity
             android:name=".ListOfListsView"
             android:label="Your Lists"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ListOfItemsView"
@@ -88,6 +89,9 @@
 
         <activity
             android:name=".SilentGeofenceActivityLogin"
+            android:label="Select Location" />
+        <activity
+            android:name=".GeofenceNotificationAdder"
             android:label="Select Location" />
 
         <activity

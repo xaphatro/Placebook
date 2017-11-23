@@ -54,6 +54,9 @@ public class NavBar extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+        TextView email = (TextView) header.findViewById(R.id.user_email);
+        email.setText(db.getEmail());
     }
     @Override
     public void onBackPressed() {
@@ -104,6 +107,9 @@ public class NavBar extends AppCompatActivity
             Intent it = new Intent(this, FriendListView.class);
             startActivity(it);
 
+        } else if (id == R.id.home) {
+            Intent it = new Intent(this, ListOfListsView.class);
+            startActivity(it);
         } else if (id == R.id.logout) {
             //Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
             int x=1;

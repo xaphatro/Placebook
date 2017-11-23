@@ -174,6 +174,7 @@ public class FriendListOfItems extends NavBar {
     }
 
     private void createDialog() {
+        Log.d("createDialog","FriendListOfItems");
         Log.w("before get place -2", "");
         itemEditText = new EditText(this);
         itemEditText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
@@ -191,9 +192,10 @@ public class FriendListOfItems extends NavBar {
                             if (geofenceAdded) {
                                 //String x = item
                                 String itemID = ListController.addListItem(db.getEmail(), listID, itemName, placeName, latitude.toString(), longitude.toString(), FriendListOfItems.this);
-                                geofence = GeofenceController.createGeofence(latitude, longitude, itemID);
-                                //geofence.setRequestId(itemID);
+
                                 /*
+                                geofence = GeofenceController.createGeofence(latitude, longitude, itemID);
+
                                 if (GeofenceActivity.getInstance() == null){
                                     Intent it = new Intent(ListOfItemsView.getInstance(), GeofenceActivity.class);
                                     it.putExtra("end", true);

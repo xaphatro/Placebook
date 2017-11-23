@@ -115,12 +115,14 @@ public class SilentGeofenceActivityLogin extends GeofenceActivity {
     public void addSilentFences() {
         StaticDatabaseHelper db = new StaticDatabaseHelper(this);
         ArrayList<List> listHolder = ListController.getAllLists(db.getEmail(), SilentGeofenceActivityLogin.this);
-        for (List list : listHolder) {
-            for (Item item : list.items) {
-                if (!item.locationName.equals("null")) {
-                    int x = 1;
-                    Geofence geofence = GeofenceController.createGeofence(Double.valueOf(item.latitude), Double.valueOf(item.longitude), item.itemID);
-                    addFence(geofence);
+        if (listHolder != null) {
+            for (List list : listHolder) {
+                for (Item item : list.items) {
+                    if (!item.locationName.equals("null")) {
+                        int x = 1;
+                        Geofence geofence = GeofenceController.createGeofence(Double.valueOf(item.latitude), Double.valueOf(item.longitude), item.itemID);
+                        addFence(geofence);
+                    }
                 }
             }
         }

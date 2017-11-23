@@ -11,6 +11,10 @@
             android:icon="@drawable/view_friend"
             android:title="View Friend" />
         <item
+            android:id="@+id/home"
+            android:icon="@drawable/home"
+            android:title="Home" />
+        <item
             android:id="@+id/logout"
             android:icon="@drawable/logout"
             android:title="Logout" />
