@@ -68,11 +68,7 @@ public class ListOfListsView extends NavBar {
         db.deleteEmail();
         Intent intent = new Intent(this, LoginView.class);
         startActivity(intent);
-        //if (SilentGeofenceActivityLogin.getInstance() == null){
-        //Intent it = new Intent(this, SilentGeofenceActivityLogout.class);
-        //it.putExtra("end", true);
-        //startActivity(it);
-        //}
+
         SilentGeofenceActivityLogin.getInstance().removeGeofences();
         finish();
     }

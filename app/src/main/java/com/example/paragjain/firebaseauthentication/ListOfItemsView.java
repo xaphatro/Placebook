@@ -194,7 +194,7 @@ public class ListOfItemsView extends NavBar {
                                 geofence = GeofenceController.createGeofence(latitude, longitude, itemID);
                                 //geofence.setRequestId(itemID);
                                 if (GeofenceActivity.getInstance() == null){
-                                    Intent it = new Intent(ListOfItemsView.getInstance(), GeofenceActivity.class);
+                                    Intent it = new Intent(ListOfItemsView.getInstance(), GeofenceAdder.class);
                                     it.putExtra("end", true);
                                     startActivity(it);
                                 }
@@ -215,7 +215,7 @@ public class ListOfItemsView extends NavBar {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Log.w("before get place -1", "");
-                        Intent intent = new Intent(getBaseContext(), GeofenceActivity.class);
+                        Intent intent = new Intent(getBaseContext(), GeofenceAdder.class);
                         startActivityForResult(intent, 1);
                     }
                 })

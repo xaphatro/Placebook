@@ -360,6 +360,7 @@ public class SilentGeofenceActivityLogin extends GeofenceActivity {
     /**
      * Return the current state of the permissions needed.
      */
+    /*
     private boolean checkPermissions() {
         int permissionState = ActivityCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION);
@@ -395,6 +396,7 @@ public class SilentGeofenceActivityLogin extends GeofenceActivity {
                     REQUEST_PERMISSIONS_REQUEST_CODE);
         }
     }
+    */
 
     /**
      * Callback received when a permissions request has been completed.

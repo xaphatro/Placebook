@@ -142,7 +142,7 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
         // Initially set the PendingIntent used in addGeofences() and removeGeofences() to null.
 
 
-        getPlace();
+        //getPlace();
     }
 
     public static GeofenceActivity getInstance(){
@@ -168,6 +168,7 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
         addGeofence(g);
     }
 
+    /*
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         int PLACE_PICKER_REQUEST = 1;
         if (requestCode == PLACE_PICKER_REQUEST) {
@@ -195,6 +196,7 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
         }
         finish();
     }
+    */
 
     private void addGeofence(Geofence geo){
         this.geo = geo;
@@ -419,13 +421,13 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
     /**
      * Return the current state of the permissions needed.
      */
-    private boolean checkPermissions() {
+    protected boolean checkPermissions() {
         int permissionState = ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
         return permissionState == PackageManager.PERMISSION_GRANTED;
     }
 
-    private void requestPermissions() {
+    protected void requestPermissions() {
         boolean shouldProvideRationale =
                 ActivityCompat.shouldShowRequestPermissionRationale(this,
                         Manifest.permission.ACCESS_FINE_LOCATION);

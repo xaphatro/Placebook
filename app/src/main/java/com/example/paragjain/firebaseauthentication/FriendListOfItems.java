@@ -219,7 +219,7 @@ public class FriendListOfItems extends NavBar {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Log.w("before get place -1", "");
-                        Intent intent = new Intent(getBaseContext(), GeofenceActivity.class);
+                        Intent intent = new Intent(getBaseContext(), GeofenceAdder.class);
                         startActivityForResult(intent, 1);
                     }
                 })

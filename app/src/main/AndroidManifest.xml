@@ -93,7 +93,9 @@
         <activity
             android:name=".GeofenceNotificationAdder"
             android:label="Select Location" />
-
+        <activity
+            android:name=".GeofenceAdder"
+            android:label="Select Location" />
         <activity
             android:name=".NotificationView"
             android:label="Notifications" />
