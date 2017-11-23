@@ -184,7 +184,7 @@ public class LoginView extends AppCompatActivity {
                 if(db.getTokenSet().equals("true")) {
                     Log.d("here","login");
                     ListController.sendToken(db.getToken());
-                    db.setTokenSetFalse();
+                    //db.setTokenSetFalse();
                 }
                 it.putExtra("prevActivity", "login");
                 startActivity(it);

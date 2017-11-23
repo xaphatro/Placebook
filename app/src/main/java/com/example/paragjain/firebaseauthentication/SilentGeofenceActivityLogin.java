@@ -48,68 +48,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 public class SilentGeofenceActivityLogin extends GeofenceActivity {
 
     static SilentGeofenceActivityLogin geoActivity;
-    /*
-
-    private static final String TAG = SilentGeofenceActivityLogin.class.getSimpleName();
-
-    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
-
-    /**
-     * Tracks whether the user requested to add or remove geofences, or to do neither.
-     */
-
-    /*
-    private enum PendingGeofenceTask {
-        ADD, REMOVE, NONE
-    }
-
-    /**
-     * Provides access to the Geofencing API.
-     */
-    /*
-    private GeofencingClient mGeofencingClient;
-
-    private Geofence geo;
-
-    private String itemID;
-    /**
-     * Used when requesting to add or remove geofences.
-     */
-    /*
-    private PendingIntent mGeofencePendingIntent;
-
-    // Buttons for kicking off the process of adding or removing geofences.
-    // private Button mAddGeofencesButton;
-    private Button mRemoveGeofencesButton;
-
-    private PendingGeofenceTask mPendingGeofenceTask = PendingGeofenceTask.NONE;
-
-    private EditText geoField;
-    */
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         addSilentFences();
-        /*if (!checkPermissions()) {
-            requestPermissions();
-        }*/
-
-        //geoActivity = this;
-
-        //mGeofencePendingIntent = null;
-
-        //mGeofencingClient = LocationServices.getGeofencingClient(this);
-
-        //setContentView(R.layout.activity_geo_fence);
-
-
-        // Initially set the PendingIntent used in addGeofences() and removeGeofences() to null.
-
-
-        //addSilentFences();
-       // getPlace();
     }
 
     public void addSilentFences() {

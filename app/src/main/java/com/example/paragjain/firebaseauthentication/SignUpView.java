@@ -95,7 +95,7 @@ public class SignUpView extends Activity {
                 if(status==200)//if(db.getUser(getEmail, getPassword))
                 {
                     //session.setLoggedIn(true);
-                    handler.removeCallbacks(runnable);
+                    //handler.removeCallbacks(runnable);
                     Log.d("signUp:status", "200 true");
                     Intent it = new Intent(SignUpView.this, ListOfListsView.class);
                     //UserInfo.USER_EMAIL = emailContent;
@@ -105,6 +105,12 @@ public class SignUpView extends Activity {
                     else {
                         db.deleteEmail();
                         db.addEmail(emailContent);
+                    }
+                    boolean val = db.getTokenSet().equals("true");
+                    if(db.getTokenSet().equals("true")) {
+                        Log.d("here","login");
+                        ListController.sendToken(db.getToken());
+                        //db.setTokenSetFalse();
                     }
                     startActivity(it);
                     finish();

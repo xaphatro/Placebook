@@ -213,7 +213,7 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
         mGeofencingClient.addGeofences(getGeofencingRequest(geo), getGeofencePendingIntent()).addOnCompleteListener(this);
         String toastMsg = String.format("Geofence added");
         Log.w("Geofence added", "");
-        //Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
 
     }
 

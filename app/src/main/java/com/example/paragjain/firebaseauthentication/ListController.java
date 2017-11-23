@@ -259,7 +259,7 @@ public class ListController {
 
             JSONObject resultJSON = new JSONObject(res);
             int status = resultJSON.getInt("status");
-            Log.w("itelists status code : ", "val:" + status);
+            Log.w("itemlists status code : ", "val:" + status);
             if (status == 200)//if(db.getUser(getEmail, getPassword))
             {
                 handler.removeCallbacks(runnable);
