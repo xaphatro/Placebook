@@ -141,7 +141,6 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
 
         // Initially set the PendingIntent used in addGeofences() and removeGeofences() to null.
 
-
         getPlace();
     }
 
@@ -190,7 +189,7 @@ public class GeofenceActivity extends AppCompatActivity implements OnCompleteLis
             }
             else
             {
-                Toast.makeText(this, "Geofence Failed.", Toast.LENGTH_LONG).show();
+                int x = 1;//Toast.makeText(this, "Geofence Failed.", Toast.LENGTH_LONG).show();
             }
         }
         finish();

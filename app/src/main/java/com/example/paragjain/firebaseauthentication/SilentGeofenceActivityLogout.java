@@ -167,7 +167,7 @@ public class SilentGeofenceActivityLogout extends AppCompatActivity implements O
             }
             else
             {
-                Toast.makeText(this, "Geofence Failed.", Toast.LENGTH_LONG).show();
+                int x=1;//Toast.makeText(this, "Geofence Failed.", Toast.LENGTH_LONG).show();
             }
         }
         finish();
@@ -190,7 +190,7 @@ public class SilentGeofenceActivityLogout extends AppCompatActivity implements O
         mGeofencingClient.addGeofences(getGeofencingRequest(geo), getGeofencePendingIntent()).addOnCompleteListener(this);
         String toastMsg = String.format("Geofence added");
         Log.w("Geofence added", "");
-        Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
 
     }
 
