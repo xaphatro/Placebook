@@ -42,6 +42,7 @@ public class queryapi extends AsyncTask<URL, Integer, String> {
         InputStream stream = null;
         HttpURLConnection urlConnection = null;
         try {
+            Log.d("queryapi", "doInBackground");
             urlString = hm.get("url");
             url = new URL(urlString);
             urlConnection = (HttpURLConnection) url.openConnection();
@@ -50,7 +51,11 @@ public class queryapi extends AsyncTask<URL, Integer, String> {
             for(Map.Entry<String, String> e:hm.entrySet())
             {
                 if (!(e.getKey().equals("url"))){
-                    data += URLEncoder.encode(e.getKey(), "UTF-8") + "=" + URLEncoder.encode(e.getValue(), "UTF-8") + "&";
+                    String key = URLEncoder.encode(e.getKey(), "UTF-8");
+                    Log.w("key", key);
+                    String val = URLEncoder.encode(e.getValue(), "UTF-8");
+                    Log.w("val", val);
+                    data += key + "=" + val + "&";
                 }
             }
             //StringBuilder sb = new StringBuilder(data);
@@ -72,6 +77,7 @@ public class queryapi extends AsyncTask<URL, Integer, String> {
             e.printStackTrace();
         } finally {
             if (urlConnection != null) {
+                Log.d("ConnectionDisconnected.", "queryapi");
                 urlConnection.disconnect();
             }
         }
@@ -93,6 +99,11 @@ public class queryapi extends AsyncTask<URL, Integer, String> {
     // This is called when doInBackground() is finished
     protected void onPostExecute(String result) {
         //Toast.makeText(this,result,Toast.LENGTH_SHORT).show();
-        Log.w("query msg rc:",result);
+        Log.w("query msg rc:", "" + result);
+        if(result!=null) {
+            Log.w("query msg rc:", result);
+        }
+
+
     }
 }

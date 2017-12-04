@@ -3,24 +3,133 @@
     package="com.example.paragjain.firebaseauthentication">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/icon_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".LoginView">
+        android:theme="@style/AppTheme"
+        android:name=".App"
+        >
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCJbUB4z7F4s1w0b-FJYi6WDx46Rhpw2pM" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/msg_notification_one" />
+
+
+        <activity
+            android:name=".Placebook"
+            android:label="Placebook"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignUpView" />
-        <activity android:name=".ListOfListsView" />
-        <activity android:name=".ListOfItemsView" />
+
+        <activity
+            android:name=".LoginView"
+            android:label="Login"
+            android:screenOrientation="portrait">
+            <!--intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter-->
+        </activity>
+        <activity
+            android:name=".SignUpView"
+            android:label="Sign Up"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ListOfListsView"
+            android:label="Your Lists"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ListOfItemsView"
+            android:label="List Items"
+            android:parentActivityName=".ListOfListsView"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".AddFriend"
+            android:label="Add Friend"
+            android:parentActivityName=".ListOfListsView"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".FriendListView"
+            android:label="List of Friends"
+            android:parentActivityName=".ListOfListsView"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".FriendListOfLists"
+            android:label="@string/title_activity_friend_list_of_lists"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".FriendListOfItems"
+            android:label="Friends List Items"
+            android:parentActivityName=".FriendListOfLists"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".GeofenceActivity"
+            android:label="Select Location"
+            android:parentActivityName=".ListOfItemsView"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".SilentGeofenceActivityLogin"
+            android:label="Select Location" />
+        <activity
+            android:name=".GeofenceNotificationAdder"
+            android:label="Select Location" />
+
+        <activity
+            android:name=".NotificationView"
+            android:label="Notifications" />
+
+        <service android:name=".GeofenceTransitionsIntentService" />
+        <service
+            android:name=".FcmBackgroundManager"
+            android:exported="false"
+            android:stopWithTask="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <!--
+        <service
+            android:name=".FcmForegroundService"
+            android:enabled="true"
+            android:exported="true">
+
+        </service>
+        -->
+
+        <service android:name=".FcmForegroundService"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".KeepRunning"
+            android:enabled="true"
+        android:exported="false"
+        android:stopWithTask="false"/>
+
     </application>
+
+
 
 </manifest>
